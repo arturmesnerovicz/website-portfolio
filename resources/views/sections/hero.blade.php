@@ -16,7 +16,7 @@
 
         <!-- Main Headline -->
         <div class="max-w-5xl">
-            <h1 class="font-display font-extrabold text-[clamp(2.25rem,6vw,4.75rem)] leading-[1.05] tracking-tight text-white">
+            <h1 class="font-display font-extrabold text-[clamp(1.75rem,5.5vw,4.75rem)] leading-[1.05] tracking-tight text-white hyphens-none">
                 {{ $settings['hero_title'] ?? 'Criamos experiências que tornam a sua marca irresistível' }}
             </h1>
         </div>

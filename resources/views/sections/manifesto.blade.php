@@ -12,7 +12,7 @@
                         <span>Manifesto & Essência</span>
                     </div>
 
-                    <h2 class="font-display font-extrabold text-[clamp(1.75rem,3.5vw,3rem)] leading-[1.15] text-white tracking-tight">
+                    <h2 class="font-display font-extrabold text-[clamp(1.5rem,3.5vw,3rem)] leading-[1.15] text-white tracking-tight hyphens-none">
                         {{ $settings['manifesto_headline'] ?? 'Entendemos que grandes fundadores merecem uma presença digital à altura do que estão construindo.' }}
                     </h2>
 
