@@ -1,8 +1,13 @@
 // Estúdio Norra - Frontend Interactions & GSAP Animations
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { CustomEase } from 'gsap/CustomEase';
+import { SplitText } from 'gsap/SplitText';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, CustomEase, SplitText);
+
+// Authentic Norra cubic-bezier ease matching Nog Arquitetura
+CustomEase.create('norra-out', 'M0,0 C0.16,1 0.3,1 1,1');
 
 document.addEventListener('DOMContentLoaded', () => {
     initHeaderScroll();
@@ -12,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeroParallax();
     initJourneyScroll();
     initTextReveals();
+    init3DTextSplit();
+    initManifestoBeamCycle();
 });
 
 
@@ -362,6 +369,101 @@ function initTextReveals() {
             onEnter: () => el.classList.add('is-revealed'),
             once: true,
         });
+    });
+}
+
+// 9. 3D Masked Text Reveal (Nog Arquitetura project.blade.php & nog-orchestrator.js formula)
+function init3DTextSplit() {
+    const elements = document.querySelectorAll('[data-split]');
+    if (!elements.length) return;
+
+    elements.forEach((element) => {
+        try {
+            const split = SplitText.create(element, {
+                type: 'lines,words',
+                mask: 'lines',
+                autoSplit: true,
+                aria: 'auto',
+            });
+
+            if (!split.words || !split.words.length) return;
+
+            gsap.from(split.words, {
+                yPercent: 118,
+                rotateX: -42,
+                transformOrigin: '50% 100%',
+                duration: 1.05,
+                stagger: { each: 0.035, from: 'start' },
+                ease: 'norra-out',
+                scrollTrigger: {
+                    trigger: element,
+                    start: 'top 85%',
+                    once: true,
+                },
+                onComplete: () => {
+                    gsap.set(split.words, { clearProps: 'transform,opacity,willChange' });
+                    split.revert();
+                },
+            });
+        } catch (e) {
+            console.warn('SplitText initialization fallback:', e);
+        }
+    });
+}
+
+// 10. Manifesto Dynamic Stat Cycling & Beam Interaction
+window.cycleManifestoStat = function() {
+    const block = document.getElementById('manifesto-stat-block');
+    const num = document.getElementById('manifesto-stat-num');
+    const label = document.getElementById('manifesto-stat-label');
+    if (!block || !num || !label) return;
+
+    const stats = JSON.parse(block.getAttribute('data-stats') || '[]');
+    if (!stats.length) return;
+
+    let idx = parseInt(block.getAttribute('data-index') || '0', 10);
+    idx = (idx + 1) % stats.length;
+    block.setAttribute('data-index', idx);
+
+    gsap.to([num, label], {
+        y: -16,
+        opacity: 0,
+        duration: 0.28,
+        ease: 'power2.in',
+        onComplete: () => {
+            num.textContent = stats[idx].num;
+            label.textContent = stats[idx].label;
+            gsap.fromTo([num, label], {
+                y: 16,
+                opacity: 0,
+            }, {
+                y: 0,
+                opacity: 1,
+                duration: 0.42,
+                ease: 'norra-out',
+            });
+        },
+    });
+};
+
+function initManifestoBeamCycle() {
+    // Automatically cycle the manifesto stat every 7.2 seconds (matching beam cycle)
+    const block = document.getElementById('manifesto-stat-block');
+    if (!block) return;
+
+    let timer = setInterval(() => {
+        if (document.visibilityState === 'visible') {
+            window.cycleManifestoStat();
+        }
+    }, 7200);
+
+    block.addEventListener('mouseenter', () => clearInterval(timer));
+    block.addEventListener('mouseleave', () => {
+        timer = setInterval(() => {
+            if (document.visibilityState === 'visible') {
+                window.cycleManifestoStat();
+            }
+        }, 7200);
     });
 }
 
