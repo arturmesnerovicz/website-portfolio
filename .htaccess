@@ -1,0 +1,7 @@
+# Hostinger Shared Hosting Root Redirect
+# If your domain points to the root directory instead of /public, this automatically routes requests to /public safely.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ /public/$1 [L,QSA]
+</IfModule>
