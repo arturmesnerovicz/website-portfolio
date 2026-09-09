@@ -1,67 +1,60 @@
-<section id="faq" class="py-24 md:py-36 bg-[#101010] text-white relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-            <!-- Left Column: Title & Callout Card -->
-            <div class="lg:col-span-5 space-y-8">
-                <div class="space-y-4">
-                    <div class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#b70606] font-bold">
-                        <span class="w-1.5 h-1.5 rounded-full bg-[#b70606]"></span>
-                        <span>Perguntas Frequentes</span>
-                    </div>
-
-                    <h2 class="font-display font-extrabold text-[clamp(1.85rem,3.5vw,3rem)] leading-tight tracking-tight text-white">
-                        Tudo o que você precisa saber para iniciarmos um projeto.
-                    </h2>
-
-                    <p class="text-sm sm:text-base text-[#888888] leading-relaxed font-normal">
-                        Transparência do primeiro contato até o deploy. Se não encontrar o que procura, nosso time está à disposição para conversar diretamente.
-                    </p>
-                </div>
-
-                <!-- Callout Box -->
-                <div class="p-6 sm:p-8 rounded-3xl bg-[#151515] border border-white/10 space-y-4">
-                    <div class="w-10 h-10 rounded-full bg-[#b70606]/20 border border-[#b70606]/40 flex items-center justify-center text-[#ff4d4d]">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    </div>
-                    <div>
-                        <h3 class="font-display font-bold text-white text-lg">Ficou com alguma dúvida específica?</h3>
-                        <p class="text-xs sm:text-sm text-[#888888] mt-1">Converse diretamente conosco agora mesmo pelo WhatsApp.</p>
-                    </div>
-                    <div>
-                        <a href="https://wa.me/{{ $settings['contact_whatsapp'] ?? '5567981530042' }}"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#ddddd5] text-[#101010] font-bold text-xs uppercase tracking-wider hover:bg-white transition-colors shadow-lg">
-                            <span>Chamar no WhatsApp</span>
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
-                        </a>
-                    </div>
+<section id="faq" class="py-24 sm:py-32 md:py-40 bg-[#101010] text-[#ddddd5] relative border-t border-white/10">
+    <div class="w-full px-[clamp(1.5rem,3.125vw,3.5rem)]">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            
+            <!-- Left Column: 'Ficou com dúvida?' & CTA button -->
+            <div class="lg:col-span-4 space-y-6 lg:sticky lg:top-32 order-2 lg:order-1 pt-6 lg:pt-0 norra-reveal">
+                <span class="text-xs uppercase tracking-widest text-[#b70606] font-bold block">Perguntas Frequentes</span>
+                <h3 class="font-sans font-normal text-3xl sm:text-4xl text-[#ddddd5] tracking-tight leading-tight">
+                    Ficou com<br class="hidden sm:inline" /> dúvida?
+                </h3>
+                
+                <div>
+                    <button type="button"
+                            onclick="openContactModal()"
+                            class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-[#ddddd5] text-[#101010] font-sans font-bold text-xs uppercase tracking-wider hover:bg-[#b70606] hover:text-white transition-all duration-300 shadow-md">
+                        <span>Fale Conosco</span>
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="stroke-current stroke-2">
+                            <path d="M2 10L10 2M10 2H4M10 2V8" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
 
-            <!-- Right Column: Accordion Items -->
-            <div class="lg:col-span-7 divide-y divide-white/10 border-t border-b border-white/10">
-                @foreach($faqs as $index => $faq)
-                    <div class="faq-item group py-6 cursor-pointer" onclick="toggleFaqAccordion(this)">
-                        <div class="flex items-center justify-between gap-4">
-                            <h3 class="font-display font-semibold text-base sm:text-lg text-white group-hover:text-[#ddddd5] transition-colors pr-4">
-                                {{ $faq->question }}
-                            </h3>
-                            <div class="faq-chevron w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/60 group-hover:text-white group-hover:border-white/30 flex-shrink-0 transition-transform duration-300">
-                                <svg class="w-3.5 h-3.5 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                                </svg>
+            <!-- Right Column: Big Title & Question List -->
+            <div class="lg:col-span-8 order-1 lg:order-2 space-y-12 sm:space-y-16">
+                <!-- Section Headline: 70px Penpot -->
+                <h2 class="font-sans font-normal text-[clamp(2rem,4.2vw,4.375rem)] leading-[1.15] text-[#ddddd5] tracking-tight norra-reveal">
+                    Tudo que você precisa saber para iniciarmos um projeto.
+                </h2>
+
+                <!-- Questions List -->
+                <div class="border-t border-white/20 divide-y divide-white/20">
+                    @foreach($faqs as $index => $faq)
+                        <div class="faq-item group py-6 sm:py-8 cursor-pointer transition-colors hover:bg-white/[0.015] norra-reveal" onclick="toggleFaqAccordion(this)">
+                            <div class="flex items-center justify-between gap-6">
+                                <h3 class="font-sans font-normal text-lg sm:text-xl md:text-2xl text-[#ddddd5] group-hover:text-white transition-colors flex-1">
+                                    {{ $faq->question }}
+                                </h3>
+
+                                <!-- Diagonal Arrow ↗ / rotate on expand -->
+                                <div class="faq-chevron w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-[#ddddd5] group-hover:border-white group-hover:text-white flex-shrink-0 transition-all duration-300">
+                                    <svg class="w-3.5 h-3.5 transform transition-transform duration-300" viewBox="0 0 12 12" fill="none" class="stroke-current stroke-2">
+                                        <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div class="faq-body overflow-hidden transition-all duration-400 ease-in-out {{ $index === 0 ? 'max-h-80 opacity-100 mt-4' : 'max-h-0 opacity-0' }}">
+                                <p class="font-sans font-normal text-base text-[#999999] leading-relaxed max-w-2xl pr-6">
+                                    {{ $faq->answer }}
+                                </p>
                             </div>
                         </div>
-
-                        <div class="faq-body overflow-hidden transition-all duration-300 ease-in-out {{ $index === 0 ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0' }}">
-                            <p class="text-xs sm:text-sm text-[#aaaaaa] leading-relaxed pr-6">
-                                {{ $faq->answer }}
-                            </p>
-                        </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
+
         </div>
     </div>
 </section>
@@ -76,16 +69,19 @@ function toggleFaqAccordion(element) {
     document.querySelectorAll('.faq-item').forEach(item => {
         const b = item.querySelector('.faq-body');
         const c = item.querySelector('.faq-chevron svg');
-        b.classList.remove('opacity-100');
-        b.classList.add('max-h-0', 'opacity-0');
-        b.classList.remove('max-h-60', 'mt-4');
-        c.style.transform = 'rotate(0deg)';
+        if (b && c) {
+            b.classList.remove('opacity-100');
+            b.classList.add('max-h-0', 'opacity-0');
+            b.classList.remove('max-h-80', 'mt-4');
+            c.style.transform = 'rotate(0deg)';
+        }
     });
 
     if (!isOpen) {
         body.classList.remove('max-h-0', 'opacity-0');
-        body.classList.add('max-h-60', 'opacity-100', 'mt-4');
+        body.classList.add('max-h-80', 'opacity-100', 'mt-4');
         chevron.style.transform = 'rotate(45deg)';
     }
 }
 </script>
+

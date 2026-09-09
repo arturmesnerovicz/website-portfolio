@@ -1,11 +1,19 @@
-// Estúdio Norra - Frontend Interactions
+// Estúdio Norra - Frontend Interactions & GSAP Animations
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', () => {
     initHeaderScroll();
     initMobileMenu();
     initContactForm();
     initModalKeyHandlers();
+    initHeroParallax();
+    initJourneyScroll();
+    initTextReveals();
 });
+
 
 // 1. Header scroll effect
 function initHeaderScroll() {
@@ -239,3 +247,122 @@ function initContactForm() {
         }
     });
 }
+
+// 6. GSAP Hero Floating Mockups Parallax
+function initHeroParallax() {
+    const floatLeft = document.querySelector('.hero-float-left');
+    const floatRight = document.querySelector('.hero-float-right');
+    const floatBottomRight = document.querySelector('.hero-float-bottom-right');
+
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 768px)', () => {
+        if (floatLeft) {
+            gsap.to(floatLeft, {
+                y: -30,
+                rotation: -2,
+                ease: 'power1.out',
+                scrollTrigger: {
+                    trigger: '#hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: 1.5,
+                },
+            });
+        }
+
+        if (floatRight) {
+            gsap.to(floatRight, {
+                y: 40,
+                rotation: -8,
+                ease: 'power1.out',
+                scrollTrigger: {
+                    trigger: '#hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: 1.5,
+                },
+            });
+        }
+
+        if (floatBottomRight) {
+            gsap.to(floatBottomRight, {
+                y: -25,
+                rotation: 4,
+                ease: 'power1.out',
+                scrollTrigger: {
+                    trigger: '#hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: 1.5,
+                },
+            });
+        }
+    });
+}
+
+// 7. GSAP ScrollTrigger Pinned Horizontal Scroll for Jornada do Projeto
+function initJourneyScroll() {
+    const section = document.querySelector('.journey-section');
+    const container = document.querySelector('.journey-horizontal-container');
+    const track = document.querySelector('.journey-track');
+
+    if (!section || !container || !track) return;
+
+    const mm = gsap.matchMedia();
+
+    mm.add('(min-width: 1024px)', () => {
+        const getScrollDistance = () => {
+            return track.scrollWidth - window.innerWidth;
+        };
+
+        const horizontalTween = gsap.to(track, {
+            x: () => -getScrollDistance(),
+            ease: 'none',
+        });
+
+        ScrollTrigger.create({
+            trigger: section,
+            start: 'top top',
+            end: () => `+=${getScrollDistance()}`,
+            pin: true,
+            animation: horizontalTween,
+            scrub: 1,
+            invalidateOnRefresh: true,
+            anticipatePin: 1,
+        });
+    });
+}
+
+// 8. Editorial Blur-and-Rise Reveal Animations (estudionorra.com signature)
+function initTextReveals() {
+    const reveals = document.querySelectorAll('.norra-reveal');
+    if (!reveals.length) return;
+
+    const revealVisible = () => {
+        reveals.forEach((el) => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight * 0.92) {
+                el.classList.add('is-revealed');
+            }
+        });
+    };
+
+    window.addEventListener('norra-preloader-done', () => {
+        setTimeout(revealVisible, 150);
+    });
+
+    // Fallback if preloader already finished or not present
+    setTimeout(revealVisible, 1200);
+
+    // ScrollTrigger for all elements
+    reveals.forEach((el) => {
+        ScrollTrigger.create({
+            trigger: el,
+            start: 'top 88%',
+            onEnter: () => el.classList.add('is-revealed'),
+            once: true,
+        });
+    });
+}
+
+

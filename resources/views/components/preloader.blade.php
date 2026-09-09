@@ -102,6 +102,7 @@
             setTimeout(() => {
                 preloader.style.opacity = '0';
                 preloader.style.pointerEvents = 'none';
+                window.dispatchEvent(new CustomEvent('norra-preloader-done'));
                 setTimeout(() => {
                     cancelAnimationFrame(animId);
                     preloader.remove();
