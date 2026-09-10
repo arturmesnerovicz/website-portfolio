@@ -13,7 +13,7 @@
     font-style: normal;
     font-weight: 700;
     font-display: swap;
-    src: url('/fonts/tex-gyre-heros-400.woff') format('woff');
+    src: url('/fonts/tex-gyre-heros-700.woff2') format('woff2');
 }
 
 @font-face {
@@ -128,9 +128,9 @@ html {
     perspective: 1200px;
 }
 
-/* Active state for Services accordion - Invert with max 4px radius */
+/* Active & Hover states for Services accordion - Invert with max 4px radius */
 .service-item {
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     border-radius: 4px;
 }
 
@@ -138,47 +138,59 @@ html {
     border-radius: 4px !important;
 }
 
+.service-item .service-bg {
+    opacity: 0;
+    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 .service-item.is-active .service-bg {
     opacity: 1 !important;
 }
 
-.service-item .service-title-default {
-    transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
-    transform: translateY(0%);
+/* Hover effect on non-touch devices for closed items */
+@media (hover: hover) and (pointer: fine) {
+    .service-item:not(.is-active):hover .service-bg {
+        opacity: 1;
+    }
+
+    .service-item:not(.is-active):hover .service-number {
+        color: #777777 !important;
+    }
+
+    .service-item:not(.is-active):hover .service-title {
+        color: #101010 !important;
+    }
+
+    .service-item:not(.is-active):hover .service-category {
+        color: #666666 !important;
+    }
+
+    .service-item:not(.is-active):hover .service-arrow-icon {
+        color: #101010 !important;
+    }
 }
 
-.service-item.is-active .service-title-default {
-    transform: translateY(-135%);
+/* Service Title: Default & Active state */
+.service-item .service-title {
+    color: #ddddd5;
+    transition: color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.service-item .service-title-active {
-    transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
-    transform: translateY(135%);
-    color: #101010 !important;
+/* Active: Red title when opened */
+.service-item.is-active .service-title {
+    color: #b70606 !important;
 }
 
-.service-item.is-active .service-title-active {
-    transform: translateY(0%);
-}
-
-.service-item .reveal-word {
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-    transform: translateY(100%);
-    opacity: 0;
-}
-
-.service-item.is-active .reveal-word {
-    transform: translateY(0%);
-    opacity: 1;
-}
-
-.service-item .service-chevron svg {
-    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+/* Arrow: rotates from pointing right (0deg) to pointing down (90deg) */
+.service-item .service-arrow-icon {
+    color: #ddddd5;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
     transform: rotate(0deg);
 }
 
-.service-item.is-active .service-chevron svg {
-    transform: rotate(135deg);
+.service-item.is-active .service-arrow-icon {
+    transform: rotate(90deg);
+    color: #101010 !important;
 }
 
 .service-item.is-active .service-number {
@@ -189,28 +201,100 @@ html {
     color: #666666 !important;
 }
 
-.service-item.is-active .service-chevron {
-    border-color: rgba(16, 16, 16, 0.3) !important;
-    color: #101010 !important;
-    background-color: rgba(16, 16, 16, 0.05);
-}
-
-.service-item.is-active .service-chevron svg {
-    color: #101010 !important;
-}
-
 .service-item.is-active .service-desc {
-    color: #333333 !important;
+    color: #222222 !important;
 }
 
 .service-item.is-active .service-chip {
-    background-color: rgba(16, 16, 16, 0.06) !important;
+    background-color: transparent !important;
     border-color: rgba(16, 16, 16, 0.15) !important;
-    color: #101010 !important;
+    color: #555555 !important;
 }
 
-.service-item.is-active .service-link {
-    color: #e33702 !important;
+/* CTA Button in Services */
+.service-cta-btn {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #ddddd5;
+    background-color: transparent;
+}
+
+.service-cta-ink {
+    position: absolute;
+    inset: 0;
+    background-color: #b70606;
+    border-radius: 9999px;
+    transform-origin: 50% 100%;
+    clip-path: ellipse(0% 0% at 50% 100%);
+    transition: clip-path 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    pointer-events: none;
+}
+
+.service-cta-btn:hover {
+    border-color: #b70606 !important;
+}
+
+.service-cta-btn:hover .service-cta-ink {
+    clip-path: ellipse(160% 160% at 50% 100%);
+}
+
+.service-cta-btn:hover .service-cta-text {
+    color: #ffffff !important;
+}
+
+.service-item.is-active .service-cta-btn {
+    border-color: rgba(16, 16, 16, 0.25) !important;
+    color: #333333 !important;
+    background-color: transparent !important;
+}
+
+.service-item.is-active .service-cta-btn:hover {
+    border-color: #b70606 !important;
+}
+
+.service-item.is-active .service-cta-btn:hover .service-cta-text {
+    color: #ffffff !important;
+}
+
+/* Service Accordion Grid Collapse & Expand */
+.service-accordion-grid {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.service-item.is-active .service-accordion-grid {
+    grid-template-rows: 1fr;
+}
+
+/* Service Accordion Internal Content Appearance (Replicating Framer Motion from OLD_NORRA ServicesExperience.tsx) */
+.service-accordion-content {
+    opacity: 1;
+}
+
+/* RevealParagraph: Word-by-word reveal (y: 100% -> 0%, opacity: 0 -> 1, duration: 0.7s, ease: [0.25, 1, 0.5, 1], delay: 0.08s + i * 0.015s) */
+.reveal-word {
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform, opacity;
+}
+
+.service-item.is-active .reveal-word {
+    transform: translateY(0%);
+    opacity: 1;
+}
+
+/* Bottom Row (Chips & CTA): y: 20px -> 0px, opacity: 0 -> 1, duration: 0.6s, ease: [0.25, 1, 0.5, 1], delay: 0.1s */
+.service-bottom-row {
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.1s, opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.1s;
+    will-change: transform, opacity;
+}
+
+.service-item.is-active .service-bottom-row {
+    transform: translateY(0px);
+    opacity: 1;
 }
 
 /* Production Text Reveal State */
