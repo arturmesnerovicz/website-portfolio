@@ -19,7 +19,7 @@
 @font-face {
     font-family: 'Alte Haas Grotesk';
     font-style: normal;
-    font-weight: 700;
+    font-weight: 900;
     font-display: swap;
     src: url('/fonts/alte-haas-grotesk-700.woff') format('woff');
 }
@@ -38,9 +38,7 @@
     --color-norra-surface: #1a1a1a;
     --color-norra-stone: #ddddd5;
     --color-norra-stone-dark: #121212;
-    --color-norra-red: #b70606;
-    --color-norra-red-bright: #c20000;
-    --color-norra-red-dark: #7a0000;
+    --color-norra-red: #b60e0e;
     --color-norra-gray: #888888;
     --color-norra-border: #222222;
 }
@@ -52,7 +50,7 @@ html {
 }
 
 ::selection {
-    background-color: #b70606;
+    background-color: #b60e0e;
     color: #ffffff;
 }
 
@@ -68,7 +66,7 @@ html {
     border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #b70606;
+    background: #b60e0e;
 }
 
 /* Preloader canvas style */
@@ -100,27 +98,23 @@ html {
     flex-shrink: 0;
 }
 
-/* Manifesto Vertical Traveling Dynamic Beam */
-@keyframes manifestoBeamTravel {
-    0% {
-        top: -96px;
-        opacity: 0;
-    }
-    15% {
-        opacity: 1;
-    }
-    85% {
-        opacity: 1;
-    }
-    100% {
-        top: 100%;
-        opacity: 0;
-    }
+/* Manifesto Vertical Loading Progress Bar & Navigation */
+.manifesto-progress-track {
+    border-radius: 9999px;
 }
 
-.manifesto-beam {
-    animation: manifestoBeamTravel 3.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    will-change: top, opacity;
+.manifesto-progress-fill {
+    border-radius: 9999px;
+    background-color: #b60e0e;
+    box-shadow: 0 0 8px rgba(182, 14, 14, 0.7);
+    transition: none;
+}
+
+.manifesto-nav-arrow {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 0;
 }
 
 /* 3D Perspective and Line Mask for SplitText Nog Formula */

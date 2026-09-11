@@ -45,8 +45,8 @@ class ContentSeeder extends Seeder
             ['key' => 'hero_badge_label', 'value' => 'marcas ajudadas', 'group' => 'hero', 'type' => 'text', 'label' => 'Legenda da Métrica Hero'],
 
             // Manifesto Section
-            ['key' => 'manifesto_headline', 'value' => 'Entendemos que grandes fundadores merecem uma presença digital à altura do que estão construindo.', 'group' => 'manifesto', 'type' => 'textarea', 'label' => 'Manchete do Manifesto'],
-            ['key' => 'manifesto_p1', 'value' => 'Surgimos do incômodo com soluções genéricas e designs previsíveis. Acreditamos que estética refinada e engenharia rigorosa não se excluem: juntas, geram valor duradouro e aceleram o crescimento de marcas memoráveis.', 'group' => 'manifesto', 'type' => 'textarea', 'label' => 'Primeiro Parágrafo do Manifesto'],
+            ['key' => 'manifesto_headline', 'value' => 'Entendemos que grandes fundadores merecem uma presença digital a altura do que estão construindo.', 'group' => 'manifesto', 'type' => 'textarea', 'label' => 'Manchete do Manifesto'],
+            ['key' => 'manifesto_p1', 'value' => 'Muitas empresas desenvolveram marcas incríveis, mas seu website não reflete isso ainda.', 'group' => 'manifesto', 'type' => 'textarea', 'label' => 'Primeiro Parágrafo do Manifesto'],
             ['key' => 'manifesto_metric_number', 'value' => '1k+', 'group' => 'manifesto', 'type' => 'text', 'label' => 'Métrica do Manifesto'],
             ['key' => 'manifesto_metric_label', 'value' => 'designs entregues', 'group' => 'manifesto', 'type' => 'text', 'label' => 'Legenda do Manifesto'],
 

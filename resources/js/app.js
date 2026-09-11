@@ -422,8 +422,11 @@ function init3DTextSplit() {
     });
 }
 
-// 10. Manifesto Dynamic Stat Cycling & Beam Interaction
-window.cycleManifestoStat = function() {
+// 10. Manifesto Synchronized Slow Progress Bar & Stat Cycling
+let manifestoProgressTween = null;
+const MANIFESTO_CYCLE_DURATION = 5.5; // Duração lenta do carregamento em segundos
+
+window.updateManifestoStatToIndex = function(newIndex) {
     const block = document.getElementById('manifesto-stat-block');
     const num = document.getElementById('manifesto-stat-num');
     const label = document.getElementById('manifesto-stat-label');
@@ -432,49 +435,91 @@ window.cycleManifestoStat = function() {
     const stats = JSON.parse(block.getAttribute('data-stats') || '[]');
     if (!stats.length) return;
 
-    let idx = parseInt(block.getAttribute('data-index') || '0', 10);
-    idx = (idx + 1) % stats.length;
+    const idx = (newIndex + stats.length) % stats.length;
     block.setAttribute('data-index', idx);
 
     gsap.to([num, label], {
-        y: -16,
+        y: -12,
         opacity: 0,
-        duration: 0.28,
+        duration: 0.22,
         ease: 'power2.in',
         onComplete: () => {
             num.textContent = stats[idx].num;
             label.textContent = stats[idx].label;
             gsap.fromTo([num, label], {
-                y: 16,
+                y: 12,
                 opacity: 0,
             }, {
                 y: 0,
                 opacity: 1,
-                duration: 0.42,
+                duration: 0.35,
                 ease: 'norra-out',
             });
         },
     });
 };
 
-function initManifestoBeamCycle() {
-    // Automatically cycle the manifesto stat every 7.2 seconds (matching beam cycle)
+function startManifestoLoadingCycle() {
+    const fill = document.getElementById('manifesto-progress-fill');
+    const block = document.getElementById('manifesto-stat-block');
+    if (!fill || !block) return;
+
+    if (manifestoProgressTween) {
+        manifestoProgressTween.kill();
+    }
+
+    // Reset fill height to 0%
+    gsap.set(fill, { height: '0%' });
+
+    // Slow, progressive, continuous fill from top to bottom
+    manifestoProgressTween = gsap.to(fill, {
+        height: '100%',
+        duration: MANIFESTO_CYCLE_DURATION,
+        ease: 'none',
+        onComplete: () => {
+            // ONLY after loading completes 100%, switch to the next stat
+            const currentIdx = parseInt(block.getAttribute('data-index') || '0', 10);
+            window.updateManifestoStatToIndex(currentIdx + 1);
+
+            // Subtle delay before next cycle begins
+            gsap.delayedCall(0.2, () => {
+                startManifestoLoadingCycle();
+            });
+        },
+    });
+}
+
+window.cycleManifestoStatNext = function() {
     const block = document.getElementById('manifesto-stat-block');
     if (!block) return;
+    const currentIdx = parseInt(block.getAttribute('data-index') || '0', 10);
+    window.updateManifestoStatToIndex(currentIdx + 1);
+    startManifestoLoadingCycle();
+};
 
-    let timer = setInterval(() => {
-        if (document.visibilityState === 'visible') {
-            window.cycleManifestoStat();
+window.cycleManifestoStatPrev = function() {
+    const block = document.getElementById('manifesto-stat-block');
+    if (!block) return;
+    const currentIdx = parseInt(block.getAttribute('data-index') || '0', 10);
+    window.updateManifestoStatToIndex(currentIdx - 1);
+    startManifestoLoadingCycle();
+};
+
+function initManifestoBeamCycle() {
+    const section = document.getElementById('manifesto');
+    const fill = document.getElementById('manifesto-progress-fill');
+    if (!section || !fill) return;
+
+    // Start cycle when section is visible or DOM is ready
+    startManifestoLoadingCycle();
+
+    // Pause / resume on tab visibility change
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            manifestoProgressTween?.pause();
+        } else {
+            manifestoProgressTween?.resume();
         }
-    }, 7200);
-
-    block.addEventListener('mouseenter', () => clearInterval(timer));
-    block.addEventListener('mouseleave', () => {
-        timer = setInterval(() => {
-            if (document.visibilityState === 'visible') {
-                window.cycleManifestoStat();
-            }
-        }, 7200);
     });
 }
 
