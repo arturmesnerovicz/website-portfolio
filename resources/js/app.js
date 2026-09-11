@@ -370,6 +370,17 @@ function initTextReveals() {
             once: true,
         });
     });
+
+    // ScrollTrigger for Service Separator Lines (corygrossman.co style left-to-right entrance)
+    const servicesList = document.querySelector('.services-list');
+    if (servicesList) {
+        ScrollTrigger.create({
+            trigger: servicesList,
+            start: 'top 85%',
+            onEnter: () => servicesList.classList.add('is-revealed'),
+            once: true,
+        });
+    }
 }
 
 // 9. 3D Masked Text Reveal (Nog Arquitetura project.blade.php & nog-orchestrator.js formula)

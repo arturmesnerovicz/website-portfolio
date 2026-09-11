@@ -1,7 +1,7 @@
 <section id="manifesto" class="py-24 sm:py-32 md:py-40 bg-[#101010] relative text-[#ddddd5] border-t border-white/10">
     <div class="w-full px-[clamp(1.5rem,3.125vw,3.5rem)]">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            
+
             <!-- Left Column: Metric & Dynamic Interactive Light-Pulse Bar & Arrow -->
             <div class="lg:col-span-4 flex flex-col items-start order-2 lg:order-1 pt-2">
                 <div class="space-y-4">
@@ -41,11 +41,11 @@
             <!-- Right Column: Big Manifesto Statement & Studio Signature with Nog 3D split text -->
             <div class="lg:col-span-8 order-1 lg:order-2 space-y-10 lg:space-y-14">
                 <div class="space-y-8">
-                    <h2 data-split class="font-sans font-normal text-[clamp(1.75rem,3.2vw,3.125rem)] leading-[1.25] text-[#ddddd5] tracking-tight hyphens-none">
+                    <h2 data-split class="font-sans font-bold text-[clamp(1.75rem,3.2vw,3.125rem)] leading-[1.25] text-[#ddddd5] tracking-tight hyphens-none">
                         {{ $settings['manifesto_headline'] ?? 'Entendemos que grandes fundadores merecem uma presença digital a altura do que estão construindo.' }}
                     </h2>
 
-                    <p data-split class="font-sans font-normal text-[clamp(1.5rem,2.8vw,2.75rem)] leading-[1.25] text-[#888888] tracking-tight">
+                    <p data-split class="font-sans font-bold text-[clamp(1.5rem,2.8vw,2.75rem)] leading-[1.25] text-[#888888] tracking-tight">
                         {{ $settings['manifesto_p1'] ?? 'Muitas empresas desenvolveram marcas incríveis, mas seu website não reflete isso ainda.' }}
                     </p>
                 </div>

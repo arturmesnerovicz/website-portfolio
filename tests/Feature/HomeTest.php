@@ -21,7 +21,7 @@ class HomeTest extends TestCase
         $response->assertSee('Projetos Selecionados');
         $response->assertSee('Expertise');
         $response->assertSee('Jornada do Projeto');
-        $response->assertSee('Perguntas Frequentes');
+        $response->assertSee('Ficou com');
         $response->assertSee('Hub Arquitetura');
         $response->assertSee('Web Design');
     }
