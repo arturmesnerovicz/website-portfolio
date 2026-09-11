@@ -329,6 +329,26 @@ function initJourneyScroll() {
             return track.scrollWidth - window.innerWidth;
         };
 
+        // Synchronize stage description heights to align titles and media to identical bottom baseline
+        const syncStageBaselines = () => {
+            const descs = Array.from(track.querySelectorAll('.journey-desc-text'));
+            if (!descs.length) return;
+            descs.forEach((d) => { d.style.minHeight = ''; });
+            let maxHeight = 0;
+            descs.forEach((d) => {
+                const h = d.getBoundingClientRect().height;
+                if (h > maxHeight) maxHeight = h;
+            });
+            if (maxHeight > 0) {
+                descs.forEach((d) => {
+                    d.style.minHeight = `${maxHeight}px`;
+                });
+            }
+        };
+
+        syncStageBaselines();
+        window.addEventListener('resize', syncStageBaselines);
+
         // Fluid continuous transition without jerk/click
         const tl = gsap.timeline({
             scrollTrigger: {
@@ -346,6 +366,12 @@ function initJourneyScroll() {
             x: () => -getScrollDistance(),
             ease: 'power1.inOut',
         });
+
+        return () => {
+            window.removeEventListener('resize', syncStageBaselines);
+            const descs = track.querySelectorAll('.journey-desc-text');
+            descs.forEach((d) => { d.style.minHeight = ''; });
+        };
     });
 }
 

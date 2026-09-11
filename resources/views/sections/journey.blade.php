@@ -49,7 +49,7 @@
                         <!-- Right: Stage Description above Video & Video Container -->
                         <div class="w-full max-w-[964px] flex-shrink-0 flex flex-col justify-end space-y-4 xl:space-y-6 pb-1">
                             <!-- Descriptive Text corresponding to stage -->
-                            <p class="font-sans font-normal text-[clamp(1.125rem,1.8vw,2.15rem)] leading-[1.25] tracking-[-0.035em] text-[#ddddd5] max-w-[782px]">
+                            <p class="journey-desc-text font-sans font-normal text-[clamp(1.125rem,1.8vw,2.15rem)] leading-[1.25] tracking-[-0.035em] text-[#ddddd5] max-w-[782px]">
                                 {{ $step->description }}
                             </p>
 
