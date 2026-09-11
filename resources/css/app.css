@@ -535,6 +535,27 @@ html {
     opacity: 1;
 }
 
+/* CTA Button Large Modifier (Penpot Seção CTA Final) */
+.faq-cta-btn--lg {
+    gap: 16px;
+    padding: 7px 12px 7px 16px;
+}
+
+.faq-cta-btn--lg .faq-cta-text {
+    font-size: clamp(1.125rem, 1.67vw, 1.51rem);
+    line-height: 1.2;
+}
+
+.faq-cta-btn--lg .faq-cta-aside {
+    width: 26px;
+    height: 26px;
+}
+
+.faq-cta-btn--lg .faq-cta-svg {
+    width: 13px;
+    height: 13px;
+}
+
 /* Production Text Reveal State */
 .norra-reveal {
     opacity: 0;

@@ -1,32 +1,24 @@
-<section id="contato" class="relative w-full min-h-[650px] lg:min-h-[850px] flex items-center justify-center overflow-hidden border-t border-white/10">
-    <!-- Full-width Photographic Studio Background from Penpot -->
-    <div class="absolute inset-0 z-0">
+<section id="contato" class="cta-section relative z-20 w-full min-h-screen lg:h-screen lg:min-h-[100svh] -mt-[100vh] flex items-center justify-center overflow-hidden will-change-transform">
+    <!-- Full-width Photographic Studio Background from Penpot (Static) -->
+    <div class="cta-bg-wrap absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <img src="{{ asset('storage/cta-bg.png') }}"
              alt="Estúdio Norra Studio Atmosphere"
-             class="w-full h-full object-cover object-center filter brightness-60 contrast-110">
+             class="cta-bg-img w-full h-full object-cover object-center filter brightness-60 contrast-110">
         <div class="absolute inset-0 bg-[#101010]/50 backdrop-blur-[2px]"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-[#101010] via-transparent to-[#101010]/80"></div>
     </div>
 
     <!-- Centered Content Matching Penpot 'Seção CTA Final' -->
-    <div class="relative z-10 max-w-[1100px] mx-auto px-6 sm:px-8 py-24 text-center space-y-10 lg:space-y-14">
-        <h2 class="font-display font-bold text-[clamp(2.5rem,6.5vw,6.25rem)] leading-[1.05] uppercase tracking-tight text-[#ddddd5] drop-shadow-lg">
-            {{ $settings['cta_title'] ?? "VAMOS CRIAR\nUMA EXPERIÊNCIA QUE MOVE\nSUA MARCA" }}
+    <div class="cta-content-wrap relative z-10 w-full max-w-[930px] mx-auto px-6 sm:px-8 py-20 lg:py-24 text-center space-y-6 sm:space-y-8">
+        <h2 class="font-display font-bold text-[clamp(2.15rem,6.94vw,6.25rem)] leading-[1.08] uppercase tracking-[-0.0485em] text-[#ddddd5] text-center max-w-[930px] mx-auto select-none">
+            VAMOS CRIAR<br />
+            UMA EXPERIÊNCIA<br />
+            QUE MOVE<br />
+            SUA MARCA
         </h2>
 
-        <div class="pt-4 flex justify-center">
-            <button type="button"
-                    onclick="openContactModal()"
-                    class="group inline-flex items-center gap-4 px-8 sm:px-10 py-4 sm:py-5 rounded-full bg-[#ddddd5] text-[#101010] hover:bg-[#b70606] hover:text-white transition-all duration-300 shadow-2xl hover:scale-105 active:scale-95 focus:outline-none">
-                <span class="font-sans font-bold text-base sm:text-xl tracking-tight">
-                    {{ $settings['cta_button_text'] ?? 'Nos conte a sua história' }}
-                </span>
-                <span class="w-7 h-7 rounded-full bg-[#101010] text-[#ddddd5] group-hover:bg-white group-hover:text-[#101010] flex items-center justify-center transition-colors">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="stroke-current stroke-2">
-                        <path d="M2 10L10 2M10 2H4M10 2V8" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </span>
-            </button>
+        <div class="pt-2 sm:pt-4 flex justify-center">
+            <x-btn-cta :text="$settings['cta_button_text'] ?? 'Nos conte a sua história'" size="lg" />
         </div>
     </div>
 </section>

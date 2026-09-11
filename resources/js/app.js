@@ -5,6 +5,8 @@ import { CustomEase } from 'gsap/CustomEase';
 import { SplitText } from 'gsap/SplitText';
 
 gsap.registerPlugin(ScrollTrigger, CustomEase, SplitText);
+window.gsap = gsap;
+window.ScrollTrigger = ScrollTrigger;
 
 // Authentic Norra cubic-bezier ease matching Nog Arquitetura
 CustomEase.create('norra-out', 'M0,0 C0.16,1 0.3,1 1,1');
@@ -16,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initModalKeyHandlers();
     initHeroParallax();
     initJourneyScroll();
+    initFaqCtaTransition();
     initTextReveals();
     init3DTextSplit();
     initManifestoBeamCycle();
@@ -319,23 +322,29 @@ function initJourneyScroll() {
 
     mm.add('(min-width: 1024px)', () => {
         const getScrollDistance = () => {
+            const stages = track.querySelectorAll('.journey-stage-item');
+            if (stages.length >= 2) {
+                return stages[stages.length - 1].offsetLeft - stages[0].offsetLeft;
+            }
             return track.scrollWidth - window.innerWidth;
         };
 
-        const horizontalTween = gsap.to(track, {
-            x: () => -getScrollDistance(),
-            ease: 'none',
+        // Fluid continuous transition without jerk/click
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: section,
+                start: 'top top',
+                end: () => `+=${getScrollDistance() * 1.25}`,
+                pin: true,
+                scrub: 0.8,
+                invalidateOnRefresh: true,
+                anticipatePin: 0,
+            },
         });
 
-        ScrollTrigger.create({
-            trigger: section,
-            start: 'top top',
-            end: () => `+=${getScrollDistance()}`,
-            pin: true,
-            animation: horizontalTween,
-            scrub: 1,
-            invalidateOnRefresh: true,
-            anticipatePin: 1,
+        tl.to(track, {
+            x: () => -getScrollDistance(),
+            ease: 'power1.inOut',
         });
     });
 }
@@ -519,6 +528,79 @@ function initManifestoBeamCycle() {
             manifestoProgressTween?.pause();
         } else {
             manifestoProgressTween?.resume();
+        }
+    });
+}
+
+// 12. Fluid FAQ to CTA Scroll Transition (Storey Architecture style)
+function initFaqCtaTransition() {
+    const faqSection = document.getElementById('faq');
+    const ctaSection = document.getElementById('contato');
+
+    if (!faqSection || !ctaSection) return;
+
+    const faqInner = faqSection.querySelector('.faq-inner-container') || faqSection;
+    const faqOverlay = faqSection.querySelector('.faq-dim-overlay');
+
+    const mm = gsap.matchMedia();
+
+    // Desktop and Tablet transition
+    mm.add('(min-width: 768px)', () => {
+        // Pin FAQ at bottom of viewport so CTA smoothly ascends over it
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: faqSection,
+                start: 'bottom bottom',
+                end: '+=100%',
+                pin: true,
+                pinSpacing: true,
+                scrub: 0.8,
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
+            },
+        });
+
+        // 1. FAQ recedes: translates slightly upward, subtle scale down, and atmospheric dim
+        tl.to(faqInner, {
+            y: -100,
+            scale: 0.96,
+            ease: 'none',
+        }, 0);
+
+        if (faqOverlay) {
+            tl.to(faqOverlay, {
+                opacity: 0.65,
+                ease: 'none',
+            }, 0);
+        }
+    });
+
+    // Mobile transition (< 768px)
+    mm.add('(max-width: 767px)', () => {
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: faqSection,
+                start: 'bottom bottom',
+                end: '+=100%',
+                pin: true,
+                pinSpacing: true,
+                scrub: 0.6,
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
+            },
+        });
+
+        tl.to(faqInner, {
+            y: -40,
+            scale: 0.98,
+            ease: 'none',
+        }, 0);
+
+        if (faqOverlay) {
+            tl.to(faqOverlay, {
+                opacity: 0.5,
+                ease: 'none',
+            }, 0);
         }
     });
 }

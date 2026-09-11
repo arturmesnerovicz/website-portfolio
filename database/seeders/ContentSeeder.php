@@ -266,65 +266,37 @@ class ContentSeeder extends Seeder
         $steps = [
             [
                 'step_num' => '01',
-                'title' => 'IMERSÃO & ESTRATÉGIA',
-                'subtitle' => 'Compreensão profunda do seu negócio e mercado',
-                'description' => 'Mergulhamos na essência da sua marca, compreendemos seu público-alvo, analisamos concorrentes e traçamos os pilares de design e posicionamento que vão orientar cada decisão do projeto.',
-                'deliverables' => [
-                    'Entrevista de briefing detalhada',
-                    'Análise de referências e benchmark',
-                    'Definição da arquitetura de informação',
-                    'Cronograma e escopo refinados',
-                ],
-                'image_path' => 'about/1775587035387-SITE-HUB.webp',
+                'title' => 'Etapa 1',
+                'subtitle' => null,
+                'description' => 'Começamos o projeto mergulhando profundamento na marca, entendendo seu posicionamento e o que faz ela única, criando uma narrativa estratégica que conecta o usuário.',
+                'deliverables' => null,
+                'image_path' => 'storage/journey-stage-1.jpg',
                 'sort_order' => 1,
                 'is_active' => true,
             ],
             [
                 'step_num' => '02',
-                'title' => 'PROTOTIPAGEM & DIREÇÃO VISUAL',
-                'subtitle' => 'Concepção criativa e validação interativa',
-                'description' => 'Desenhamos a interface gráfica completa no Penpot/Figma, estruturando tipografia, paleta autoral, espaçamentos e ritmo visual. Criamos protótipos funcionais para validação em conjunto antes de qualquer linha de código.',
-                'deliverables' => [
-                    'Layouts responsivos (Desktop & Mobile)',
-                    'Prototipagem de fluxos interativos',
-                    'Diretrizes de motion e microinterações',
-                    'Alinhamento e refinamento colaborativo',
-                ],
+                'title' => 'Etapa 2',
+                'subtitle' => null,
+                'description' => 'Com a narrativa estratégica definida iniciamos o desenvolvimento par criar um website premium, que engaja o usuário a se conectar com a marca e agir.',
+                'deliverables' => null,
                 'image_path' => 'about/1784131478057-NOG-ARQUITETURA.webp',
                 'sort_order' => 2,
                 'is_active' => true,
             ],
             [
                 'step_num' => '03',
-                'title' => 'ENGENHARIA & DESENVOLVIMENTO',
-                'subtitle' => 'Construção robusta, ágil e sem excessos',
-                'description' => 'Implementamos seu projeto com Tailwind CSS e Laravel, garantindo carregamento ultrarrápido, compatibilidade entre navegadores, fidelidade milimétrica ao design e total segurança em ambiente de hospedagem.',
-                'deliverables' => [
-                    'Código limpo, acessível e modular',
-                    'Otimização de imagens WebP e fontes',
-                    'Painel Filament para gestão de conteúdo',
-                    'Testes de estabilidade e responsividade',
-                ],
+                'title' => 'Etapa 3',
+                'subtitle' => null,
+                'description' => 'Seu website é lançado na web, unindo estratégia e sofisticação, atraindo os clientes ideais, posicionando a sua marca e crescendo com você.',
+                'deliverables' => null,
                 'image_path' => 'about/1775587045202-SITE-BHLA.webp',
                 'sort_order' => 3,
                 'is_active' => true,
             ],
-            [
-                'step_num' => '04',
-                'title' => 'LANÇAMENTO & EVOLUÇÃO',
-                'subtitle' => 'Publicação impecável e acompanhamento',
-                'description' => 'Realizamos o checklist rigoroso de lançamento: configuração de domínio, certificado SSL, metatags de SEO, sitemap e monitoramento, entregando uma presença digital pronta para impressionar e gerar resultados.',
-                'deliverables' => [
-                    'Deploy em ambiente de produção',
-                    'Configuração de SEO, OpenGraph e sitemap',
-                    'Treinamento para uso do painel',
-                    'Suporte técnico e acompanhamento',
-                ],
-                'image_path' => 'about/1784131459250-SITE-PROJETO-META.webp',
-                'sort_order' => 4,
-                'is_active' => true,
-            ],
         ];
+
+        JourneyStep::whereNotIn('step_num', ['01', '02', '03'])->delete();
 
         foreach ($steps as $step) {
             JourneyStep::updateOrCreate(['step_num' => $step['step_num']], $step);
