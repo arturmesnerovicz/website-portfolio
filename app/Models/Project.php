@@ -19,6 +19,7 @@ class Project extends Model
         'full_description',
         'cover_image',
         'mockup_image',
+        'highlight_video',
         'gallery',
         'tags',
         'link_url',

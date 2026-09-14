@@ -37,6 +37,11 @@ class ProjectResource extends Resource
                     ->required(),
                 Forms\Components\FileUpload::make('mockup_image')
                     ->image(),
+                Forms\Components\FileUpload::make('highlight_video')
+                    ->label('Vídeo de Highlights')
+                    ->acceptedFileTypes(['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime'])
+                    ->directory('projects/videos')
+                    ->maxSize(51200),
                 Forms\Components\Textarea::make('gallery')
                     ->columnSpanFull(),
                 Forms\Components\Textarea::make('tags')

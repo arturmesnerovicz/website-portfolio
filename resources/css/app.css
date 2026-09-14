@@ -1,37 +1,13 @@
 @import 'tailwindcss';
 
-@font-face {
-    font-family: 'TeX Gyre Heros';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url('/fonts/tex-gyre-heros-400.woff') format('woff');
-}
-
-@font-face {
-    font-family: 'TeX Gyre Heros';
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-    src: url('/fonts/tex-gyre-heros-700.woff2') format('woff2');
-}
-
-@font-face {
-    font-family: 'Alte Haas Grotesk';
-    font-style: normal;
-    font-weight: 900;
-    font-display: swap;
-    src: url('/fonts/alte-haas-grotesk-700.woff') format('woff');
-}
-
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../views/**/*.blade.php';
 @source '../js/**/*.js';
 
 @theme {
-    --font-display: 'Alte Haas Grotesk', 'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-sans: 'TeX Gyre Heros', 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-display: 'Syne', 'Alte Haas Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', 'Inter', 'TeX Gyre Heros', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
     --color-norra-black: #101010;
     --color-norra-card: #151515;
@@ -472,7 +448,7 @@ html {
 
 .faq-cta-text {
     display: block;
-    font-family: 'TeX Gyre Heros', sans-serif;
+    font-family: var(--font-sans);
     font-size: 18px;
     font-weight: 700;
     line-height: 1;
@@ -583,6 +559,12 @@ html {
 
 .animate-spin-slow {
     animation: spin-slow 20s linear infinite;
+}
+
+/* Project Card Layer Depth Stacking */
+.project-card {
+    transform-origin: center top;
+    will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
