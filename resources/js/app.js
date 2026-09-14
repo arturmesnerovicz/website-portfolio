@@ -211,8 +211,7 @@ function initProjectsSection() {
             const card0Dim = cards[0].querySelector('.project-dim-overlay');
 
             gsap.to(cards[0], {
-                scale: 0.94,
-                y: 20,
+                y: 15,
                 ease: 'none',
                 scrollTrigger: {
                     trigger: cards[1],
@@ -225,7 +224,7 @@ function initProjectsSection() {
 
             if (card0Dim) {
                 gsap.to(card0Dim, {
-                    opacity: 0.45,
+                    opacity: 0.22,
                     ease: 'none',
                     scrollTrigger: {
                         trigger: cards[1],
@@ -241,8 +240,7 @@ function initProjectsSection() {
             // Project 01 recedes further into the background
             if (cards[2]) {
                 gsap.to(cards[0], {
-                    scale: 0.88,
-                    y: 40,
+                    y: 30,
                     ease: 'none',
                     scrollTrigger: {
                         trigger: cards[2],
@@ -255,7 +253,7 @@ function initProjectsSection() {
 
                 if (card0Dim) {
                     gsap.to(card0Dim, {
-                        opacity: 0.70,
+                        opacity: 0.38,
                         ease: 'none',
                         scrollTrigger: {
                             trigger: cards[2],
@@ -274,8 +272,7 @@ function initProjectsSection() {
             const card1Dim = cards[1].querySelector('.project-dim-overlay');
 
             gsap.to(cards[1], {
-                scale: 0.94,
-                y: 20,
+                y: 15,
                 ease: 'none',
                 scrollTrigger: {
                     trigger: cards[2],
@@ -288,7 +285,7 @@ function initProjectsSection() {
 
             if (card1Dim) {
                 gsap.to(card1Dim, {
-                    opacity: 0.45,
+                    opacity: 0.22,
                     ease: 'none',
                     scrollTrigger: {
                         trigger: cards[2],
