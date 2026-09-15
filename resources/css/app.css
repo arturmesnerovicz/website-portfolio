@@ -1,13 +1,37 @@
 @import 'tailwindcss';
 
+@font-face {
+    font-family: 'TeX Gyre Heros';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/tex-gyre-heros-400.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'TeX Gyre Heros';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/fonts/tex-gyre-heros-700.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Alte Haas Grotesk';
+    font-style: normal;
+    font-weight: 700 900;
+    font-display: swap;
+    src: url('/fonts/alte-haas-grotesk-700.woff') format('woff');
+}
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../views/**/*.blade.php';
 @source '../js/**/*.js';
 
 @theme {
-    --font-display: 'Syne', 'Alte Haas Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-sans: 'Plus Jakarta Sans', 'Inter', 'TeX Gyre Heros', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-display: 'Alte Haas Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-sans: 'TeX Gyre Heros', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
     --color-norra-black: #101010;
     --color-norra-card: #151515;
@@ -452,6 +476,7 @@ html {
     font-size: 18px;
     font-weight: 700;
     line-height: 1;
+    letter-spacing: -1px;
     color: #101010;
     white-space: nowrap;
     text-shadow: 0 1.2em 0 #101010;
@@ -518,8 +543,10 @@ html {
 }
 
 .faq-cta-btn--lg .faq-cta-text {
-    font-size: clamp(1.125rem, 1.67vw, 1.51rem);
+    font-size: clamp(1.25rem, 1.67vw, 1.51rem);
     line-height: 1.2;
+    letter-spacing: -2.01px;
+    font-weight: 700;
 }
 
 .faq-cta-btn--lg .faq-cta-aside {
@@ -559,12 +586,6 @@ html {
 
 .animate-spin-slow {
     animation: spin-slow 20s linear infinite;
-}
-
-/* Project Card Layer Depth Stacking */
-.project-card {
-    transform-origin: center top;
-    will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -3,7 +3,7 @@
 
         <!-- Section Header: Penpot EXPERTISE 78px - Aligned with Service Titles -->
         <div class="mb-12 sm:mb-16 px-4 sm:px-8">
-            <h2 class="norra-reveal font-display font-bold text-[clamp(2.5rem,5.5vw,4.875rem)] leading-none uppercase tracking-tight text-[#ddddd5]">
+            <h2 class="norra-reveal font-display font-bold text-[clamp(2.5rem,5.5vw,4.875rem)] leading-none uppercase tracking-[-4.85px] text-[#ddddd5]">
                 EXPERTISE
             </h2>
         </div>
@@ -27,14 +27,14 @@
                         <div class="flex items-center justify-between gap-6">
                             <!-- Left: Title -->
                             <div class="service-title-wrap min-w-0 flex-1">
-                                <span class="service-title block font-sans font-bold tracking-[-4px] text-[clamp(1.75rem,4.2vw,4.375rem)] leading-tight">
+                                <span class="service-title block font-sans font-bold tracking-[-3px] text-[clamp(1.75rem,4.86vw,4.375rem)] leading-tight">
                                     {{ $service->title }}
                                 </span>
                             </div>
 
                             <!-- Right: Category Tag + Short Minimalist Arrow (↗ rotates to ↘) -->
                             <div class="flex items-center gap-6 sm:gap-10 flex-shrink-0">
-                                <span class="service-category hidden md:inline-block font-sans text-xs uppercase tracking-widest text-[#888888] font-normal transition-colors duration-500">
+                                <span class="service-category hidden md:inline-block font-sans text-[12px] tracking-normal text-[#888888] font-normal transition-colors duration-500">
                                     {{ $service->category ?? 'Interface e experiência' }}
                                 </span>
 

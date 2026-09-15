@@ -14,19 +14,19 @@
 
         <!-- Desktop Navigation Links (Penpot Minimalist Menu) -->
         <nav class="hidden md:flex items-center space-x-8 lg:space-x-12">
-            <a href="#expertise" class="text-xs uppercase tracking-widest text-[#ddddd5] hover:text-white font-bold transition-colors duration-200">
+            <a href="#expertise" class="font-sans font-bold text-[16px] lg:text-[18px] tracking-[-1px] leading-[1.2] text-[#ddddd5] hover:text-white transition-colors duration-200">
                 Expertise
             </a>
-            <a href="#projetos" class="text-xs uppercase tracking-widest text-[#ddddd5] hover:text-white font-bold transition-colors duration-200">
+            <a href="#projetos" class="font-sans font-bold text-[16px] lg:text-[18px] tracking-[-1px] leading-[1.2] text-[#ddddd5] hover:text-white transition-colors duration-200">
                 Galeria
             </a>
-            <a href="#manifesto" class="text-xs uppercase tracking-widest text-[#ddddd5] hover:text-white font-bold transition-colors duration-200">
+            <a href="#manifesto" class="font-sans font-bold text-[16px] lg:text-[18px] tracking-[-1px] leading-[1.2] text-[#ddddd5] hover:text-white transition-colors duration-200">
                 Sobre
             </a>
-            <a href="#jornada" class="text-xs uppercase tracking-widest text-[#ddddd5] hover:text-white font-bold transition-colors duration-200">
+            <a href="#jornada" class="font-sans font-bold text-[16px] lg:text-[18px] tracking-[-1px] leading-[1.2] text-[#ddddd5] hover:text-white transition-colors duration-200">
                 Processo
             </a>
-            <a href="#faq" class="text-xs uppercase tracking-widest text-[#ddddd5] hover:text-white font-bold transition-colors duration-200">
+            <a href="#faq" class="font-sans font-bold text-[16px] lg:text-[18px] tracking-[-1px] leading-[1.2] text-[#ddddd5] hover:text-white transition-colors duration-200">
                 FAQ
             </a>
         </nav>
@@ -34,7 +34,7 @@
         <!-- Right Side CTA & Mobile Layout -->
         <div class="flex items-center gap-3">
             <!-- Penpot Top-Right Pill Button -->
-            <a href="#contato" class="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-full bg-[#ddddd5] text-[#101010] text-xs font-bold uppercase tracking-wider hover:bg-white active:scale-95 transition-all duration-200 shadow-md">
+            <a href="#contato" class="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-full bg-[#ddddd5] text-[#101010] font-sans font-bold text-[15px] sm:text-[18px] tracking-[-1px] leading-[1.2] hover:bg-white active:scale-95 transition-all duration-200 shadow-md">
                 <span>Fale Conosco</span>
                 <svg class="w-3.5 h-3.5 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
@@ -61,25 +61,25 @@
     <!-- Mobile Navigation Drawer -->
     <div id="mobile-menu" class="hidden md:hidden bg-[#101010] border-b border-white/10 px-6 py-8 space-y-6">
         <nav class="flex flex-col space-y-4">
-            <a href="#expertise" class="mobile-nav-link text-base font-display uppercase font-bold text-[#ddddd5] hover:text-[#b70606] transition-colors">
+            <a href="#expertise" class="mobile-nav-link text-lg font-sans font-bold tracking-[-1px] text-[#ddddd5] hover:text-[#b70606] transition-colors">
                 Expertise
             </a>
-            <a href="#projetos" class="mobile-nav-link text-base font-display uppercase font-bold text-[#ddddd5] hover:text-[#b70606] transition-colors">
+            <a href="#projetos" class="mobile-nav-link text-lg font-sans font-bold tracking-[-1px] text-[#ddddd5] hover:text-[#b70606] transition-colors">
                 Galeria
             </a>
-            <a href="#manifesto" class="mobile-nav-link text-base font-display uppercase font-bold text-[#ddddd5] hover:text-[#b70606] transition-colors">
+            <a href="#manifesto" class="mobile-nav-link text-lg font-sans font-bold tracking-[-1px] text-[#ddddd5] hover:text-[#b70606] transition-colors">
                 Sobre
             </a>
-            <a href="#jornada" class="mobile-nav-link text-base font-display uppercase font-bold text-[#ddddd5] hover:text-[#b70606] transition-colors">
+            <a href="#jornada" class="mobile-nav-link text-lg font-sans font-bold tracking-[-1px] text-[#ddddd5] hover:text-[#b70606] transition-colors">
                 Processo
             </a>
-            <a href="#faq" class="mobile-nav-link text-base font-display uppercase font-bold text-[#ddddd5] hover:text-[#b70606] transition-colors">
+            <a href="#faq" class="mobile-nav-link text-lg font-sans font-bold tracking-[-1px] text-[#ddddd5] hover:text-[#b70606] transition-colors">
                 FAQ
             </a>
         </nav>
 
         <div class="pt-4 border-t border-white/10 flex flex-col gap-3">
-            <a href="#contato" class="mobile-nav-link w-full py-3 rounded-full bg-[#ddddd5] text-[#101010] text-center font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+            <a href="#contato" class="mobile-nav-link w-full py-3 rounded-full bg-[#ddddd5] text-[#101010] text-center font-sans font-bold text-[16px] tracking-[-1px] leading-[1.2] flex items-center justify-center gap-2">
                 <span>Fale Conosco</span>
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />

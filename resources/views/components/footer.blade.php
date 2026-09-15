@@ -25,10 +25,10 @@
             <div class="lg:col-span-6 grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-12">
                 <!-- Col 1: EXPERTISE -->
                 <div class="space-y-4">
-                    <p class="font-sans font-normal text-sm sm:text-base uppercase tracking-wider text-[#101010] font-bold">
+                    <p class="font-sans font-bold text-base sm:text-[18px] tracking-normal text-[#101010] leading-[1.2]">
                         EXPERTISE
                     </p>
-                    <ul class="space-y-2 text-sm text-[#101010]/75 font-normal">
+                    <ul class="space-y-2 text-sm sm:text-[18px] font-sans font-normal text-[#101010]/75 leading-[1.2]">
                         <li><a href="#expertise" class="hover:text-[#b70606] transition-colors">Web Design</a></li>
                         <li><a href="#expertise" class="hover:text-[#b70606] transition-colors">Programação</a></li>
                         <li><a href="#expertise" class="hover:text-[#b70606] transition-colors">3D e Motion</a></li>
@@ -37,10 +37,10 @@
 
                 <!-- Col 2: EXPLORAR -->
                 <div class="space-y-4">
-                    <p class="font-sans font-normal text-sm sm:text-base uppercase tracking-wider text-[#101010] font-bold">
+                    <p class="font-sans font-bold text-base sm:text-[18px] tracking-normal text-[#101010] leading-[1.2]">
                         EXPLORAR
                     </p>
-                    <ul class="space-y-2 text-sm text-[#101010]/75 font-normal">
+                    <ul class="space-y-2 text-sm sm:text-[18px] font-sans font-normal text-[#101010]/75 leading-[1.2]">
                         <li><a href="#expertise" class="hover:text-[#b70606] transition-colors">Expertise</a></li>
                         <li><a href="#projetos" class="hover:text-[#b70606] transition-colors">Galeria</a></li>
                         <li><a href="#manifesto" class="hover:text-[#b70606] transition-colors">Sobre</a></li>
@@ -50,10 +50,10 @@
 
                 <!-- Col 3: Conexão -->
                 <div class="space-y-4">
-                    <p class="font-sans font-normal text-sm sm:text-base uppercase tracking-wider text-[#101010] font-bold">
+                    <p class="font-sans font-bold text-base sm:text-[18px] tracking-normal text-[#101010] leading-[1.2]">
                         Conexão
                     </p>
-                    <ul class="space-y-2 text-sm text-[#101010]/75 font-normal">
+                    <ul class="space-y-2 text-sm sm:text-[18px] font-sans font-normal text-[#101010]/75 leading-[1.2]">
                         <li>
                             <a href="https://www.linkedin.com/company/estudio-norra/" target="_blank" rel="noopener noreferrer" class="hover:text-[#b70606] transition-colors">
                                 Linkedin
@@ -79,13 +79,13 @@
         <div class="w-full h-px bg-[#101010]/20 mb-8"></div>
 
         <!-- Bottom Copyright Row matching Penpot -->
-        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs sm:text-sm text-[#101010]/70 font-normal">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs sm:text-[14px] text-[#101010]/70 font-normal">
             <div class="space-y-1">
-                <p class="font-sans font-normal">@ {{ date('Y') }} ESTÚDIO NORRA</p>
-                <p class="font-sans font-normal tracking-wide text-[#101010]/60">MULTIDISCIPLINAR POR ESSÊNCIA - TODOS OS DIREITOS RESERVADOS</p>
+                <p class="font-sans font-normal leading-[1.2]">@ {{ date('Y') }} ESTÚDIO NORRA</p>
+                <p class="font-sans font-normal tracking-normal text-[#101010]/60 leading-[1.2]">MULTIDISCIPLINAR POR ESSÊNCIA - TODOS OS DIREITOS RESERVADOS</p>
             </div>
             <div>
-                <p class="font-sans font-normal text-right">Onde o conceito torna-se arte</p>
+                <p class="font-sans font-normal text-right leading-[1.2]">Onde o conceito torna-se arte</p>
             </div>
         </div>
 

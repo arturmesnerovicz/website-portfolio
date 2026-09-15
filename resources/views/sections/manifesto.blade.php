@@ -21,10 +21,10 @@
                          data-index="0"
                          onclick="window.cycleManifestoStatNext()"
                          title="Clique para avançar estatística">
-                        <span id="manifesto-stat-num" class="font-display font-bold text-5xl sm:text-6xl text-[#ddddd5] tracking-tight block transition-colors duration-300">
+                        <span id="manifesto-stat-num" class="font-display font-bold text-5xl sm:text-[50px] text-[#ddddd5] tracking-[-1px] leading-[1.2] block transition-colors duration-300">
                             {{ $settings['manifesto_metric_number'] ?? '1k+' }}
                         </span>
-                        <span id="manifesto-stat-label" class="font-sans text-base sm:text-lg text-[#ddddd5] tracking-normal block mt-1 transition-colors duration-300">
+                        <span id="manifesto-stat-label" class="font-sans font-normal text-base sm:text-[18px] text-[#ddddd5] tracking-[-1px] leading-[1.2] block mt-1 transition-colors duration-300">
                             {{ $settings['manifesto_metric_label'] ?? 'designs entregues' }}
                         </span>
                     </div>
@@ -59,14 +59,14 @@
             <!-- Right Column: Big Manifesto Statement & Studio Signature with Nog 3D split text -->
             <div class="lg:col-span-8 order-1 lg:order-2 flex flex-col items-start lg:items-end">
                 <div class="space-y-8 sm:space-y-10 max-w-[774px] w-full lg:mr-16 xl:mr-24">
-                    <h2 data-split class="font-sans font-bold text-[50px] leading-[1.1] text-[#ddddd5] tracking-[-0.02em] hyphens-none">
+                    <h2 data-split class="font-sans font-bold text-[clamp(1.75rem,3.47vw,3.125rem)] leading-[1.1] text-[#ddddd5] tracking-[-1px] hyphens-none">
                         Entendemos que grandes<br class="hidden sm:inline" />
                         fundadores merecem uma<br class="hidden sm:inline" />
                         presença digital a altura do<br class="hidden sm:inline" />
                         que estão construindo.
                     </h2>
 
-                    <p data-split class="font-sans font-bold text-[50px] leading-[1.1] text-[#ddddd5] tracking-[-0.02em]">
+                    <p data-split class="font-sans font-bold text-[clamp(1.75rem,3.47vw,3.125rem)] leading-[1.1] text-[#ddddd5] tracking-[-1px]">
                         {{ $settings['manifesto_p1'] ?? 'Muitas empresas desenvolveram marcas incríveis, mas seu website não reflete isso ainda.' }}
                     </p>
 
@@ -75,7 +75,7 @@
                         <div class="w-12 h-12 rounded-full bg-[#ddddd5] flex items-center justify-center p-2 shadow-sm text-[#101010]">
                             <x-logo-monogram class="w-full h-full object-contain" />
                         </div>
-                        <span class="font-sans font-normal text-xl sm:text-[23.7px] text-[#ddddd5] tracking-tight">
+                        <span class="font-sans font-normal text-xl sm:text-[23.73px] text-[#ddddd5] tracking-normal leading-[1.2]">
                             Estúdio Norra
                         </span>
                     </div>

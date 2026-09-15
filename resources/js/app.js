@@ -163,15 +163,12 @@ function initModalKeyHandlers() {
     });
 }
 
-// 3.1 Projects Section: Highlight Video Hover & Storey Architecture Scroll Stacking Depth
+// 3.1 Projects Section: Highlight Video Hover
 function initProjectsSection() {
-    const container = document.getElementById('projects-stack-container');
-    if (!container) return;
-
-    const cards = Array.from(container.querySelectorAll('.project-card'));
+    const cards = Array.from(document.querySelectorAll('.project-card'));
     if (!cards.length) return;
 
-    // 1. Highlight Video on Hover (plays on enter, resets on leave)
+    // Highlight Video on Hover (plays on enter, resets on leave)
     cards.forEach(card => {
         const video = card.querySelector('.project-highlight-video');
         if (!video) return;
@@ -192,114 +189,6 @@ function initProjectsSection() {
             video.classList.remove('opacity-100');
             video.classList.add('opacity-0');
         });
-    });
-
-    // 2. Storey Architecture Scroll Stacking & Depth Animation
-    // When viewing Project 01, the project below (Project 02) has NO animation (full brightness, scale: 1).
-    // As the user scrolls down, Project 01 (o projeto de cima) recedes and darkens while Project 02 slides up over it.
-    // The project below never has an animation while it is below.
-    const mm = gsap.matchMedia();
-
-    mm.add('(min-width: 768px)', () => {
-        const getHeaderOffset = () => {
-            const header = document.getElementById('site-header');
-            return header ? header.offsetHeight : 80;
-        };
-
-        // Project 01 recedes and darkens ONLY as Project 02 slides up over it
-        if (cards[0] && cards[1]) {
-            const card0Dim = cards[0].querySelector('.project-dim-overlay');
-
-            gsap.to(cards[0], {
-                y: 15,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: cards[1],
-                    start: () => `top ${cards[0].offsetHeight + getHeaderOffset()}px`,
-                    end: () => `top ${getHeaderOffset()}px`,
-                    scrub: true,
-                    invalidateOnRefresh: true,
-                },
-            });
-
-            if (card0Dim) {
-                gsap.to(card0Dim, {
-                    opacity: 0.22,
-                    ease: 'none',
-                    scrollTrigger: {
-                        trigger: cards[1],
-                        start: () => `top ${cards[0].offsetHeight + getHeaderOffset()}px`,
-                        end: () => `top ${getHeaderOffset()}px`,
-                        scrub: true,
-                        invalidateOnRefresh: true,
-                    },
-                });
-            }
-
-            // When Project 03 slides up over Project 02:
-            // Project 01 recedes further into the background
-            if (cards[2]) {
-                gsap.to(cards[0], {
-                    y: 30,
-                    ease: 'none',
-                    scrollTrigger: {
-                        trigger: cards[2],
-                        start: () => `top ${cards[1].offsetHeight + getHeaderOffset()}px`,
-                        end: () => `top ${getHeaderOffset()}px`,
-                        scrub: true,
-                        invalidateOnRefresh: true,
-                    },
-                });
-
-                if (card0Dim) {
-                    gsap.to(card0Dim, {
-                        opacity: 0.38,
-                        ease: 'none',
-                        scrollTrigger: {
-                            trigger: cards[2],
-                            start: () => `top ${cards[1].offsetHeight + getHeaderOffset()}px`,
-                            end: () => `top ${getHeaderOffset()}px`,
-                            scrub: true,
-                            invalidateOnRefresh: true,
-                        },
-                    });
-                }
-            }
-        }
-
-        // Project 02 recedes and darkens ONLY as Project 03 slides up over it
-        if (cards[1] && cards[2]) {
-            const card1Dim = cards[1].querySelector('.project-dim-overlay');
-
-            gsap.to(cards[1], {
-                y: 15,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: cards[2],
-                    start: () => `top ${cards[1].offsetHeight + getHeaderOffset()}px`,
-                    end: () => `top ${getHeaderOffset()}px`,
-                    scrub: true,
-                    invalidateOnRefresh: true,
-                },
-            });
-
-            if (card1Dim) {
-                gsap.to(card1Dim, {
-                    opacity: 0.22,
-                    ease: 'none',
-                    scrollTrigger: {
-                        trigger: cards[2],
-                        start: () => `top ${cards[1].offsetHeight + getHeaderOffset()}px`,
-                        end: () => `top ${getHeaderOffset()}px`,
-                        scrub: true,
-                        invalidateOnRefresh: true,
-                    },
-                });
-            }
-        }
-
-        // Project 03 (the project below / final) has no receding animation.
-        // It stays at 100% brightness (overlay: 0), scale: 1, and rests in the stack.
     });
 }
 

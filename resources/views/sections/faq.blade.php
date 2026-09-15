@@ -5,7 +5,7 @@
 
                 <!-- Left Column: 'Ficou com dúvida?' & CTA button -->
                 <div class="lg:col-span-4 space-y-6 lg:sticky lg:top-32 order-2 lg:order-1 pt-6 lg:pt-0 norra-reveal">
-                    <h3 class="font-sans font-bold text-3xl sm:text-4xl text-[#ddddd5] tracking-tight leading-tight">
+                    <h3 class="font-sans font-bold text-3xl sm:text-4xl lg:text-[40px] text-[#ddddd5] tracking-[-1px] leading-[1.2]">
                         Ficou com<br class="hidden sm:inline" /> dúvida?
                     </h3>
 
@@ -17,7 +17,7 @@
                 <!-- Right Column: Big Title & Question List -->
                 <div class="lg:col-span-8 order-1 lg:order-2 space-y-12 sm:space-y-16">
                     <!-- Section Headline: 70px Penpot -->
-                    <h2 class="font-sans font-bold text-[clamp(2rem,4.2vw,4.375rem)] leading-[1.15] text-[#ddddd5] tracking-tight norra-reveal">
+                    <h2 class="font-sans font-bold text-[clamp(2rem,4.86vw,4.375rem)] leading-[1.15] text-[#ddddd5] tracking-[-2px] norra-reveal">
                         Tudo que você precisa saber<br />para iniciarmos um projeto.
                     </h2>
 
@@ -36,7 +36,7 @@
                                     <!-- Row Header -->
                                     <div class="flex items-center justify-between gap-6">
                                         <div class="faq-title-wrap min-w-0 flex-1">
-                                            <span class="faq-title block font-sans font-normal text-lg sm:text-xl md:text-2xl leading-tight">
+                                            <span class="faq-title block font-sans font-normal text-lg sm:text-xl md:text-[24px] tracking-[-1px] leading-[1.2]">
                                                 {{ $faq->question }}
                                             </span>
                                         </div>
@@ -63,7 +63,7 @@
                                                 @php
                                                     $faqWords = preg_split('/\s+/', trim($faq->answer ?? ''));
                                                 @endphp
-                                                <p class="faq-desc font-sans font-normal text-base sm:text-lg leading-relaxed max-w-2xl pr-6 flex flex-wrap transition-colors duration-500">
+                                                <p class="faq-desc font-sans font-normal text-base sm:text-[18px] leading-[1.2] tracking-normal max-w-2xl pr-6 flex flex-wrap transition-colors duration-500">
                                                     @foreach($faqWords as $wIdx => $word)
                                                         <span class="inline-block overflow-hidden mr-[0.3em] px-[0.03em] pb-1">
                                                             <span class="reveal-word inline-block"

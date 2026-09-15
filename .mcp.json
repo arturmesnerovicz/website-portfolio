@@ -6,6 +6,9 @@
                 "artisan",
                 "boost:mcp"
             ]
+        },
+        "penpot": {
+            "serverUrl": "https://design.penpot.app/mcp/stream?userToken=eyJhbGciOiJBMjU2S1ciLCJlbmMiOiJBMjU2R0NNIn0.Ia1kWaUYHaO-uxD3M-r9Dm-Tvt4mKQv7bKsGC5Ak6R0ltQJ8-JjAag.uGh3irieMFPIJhoE.B6WAf8Hc30ksiKViPMQ1Snmr9f1_FDWj37C8d3azYxKtPvKZUYTY8wwRfPT_Qv0dAk7gTaVfmYBd2BTLvM_gY1qx2GlRrJvzOupF3N_qEDSxf3-stdxtxq6zIkp_5XWwVqUHaM0SC6gvGBOZJWFICTunTAcPHbBSnqTJvDQYTt8ZEcdaP5F8zYYrGJYw-beurv4TUoSoIQFS6fqVd7fl2mU.cGjzFmyKxFjADnO3dQzqDQ"
         }
     }
 }

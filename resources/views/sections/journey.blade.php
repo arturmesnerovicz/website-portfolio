@@ -1,7 +1,7 @@
 <section id="jornada" class="journey-section lg:h-screen lg:h-[100dvh] lg:max-h-[100dvh] lg:overflow-hidden bg-[#101010] text-[#ddddd5] relative flex flex-col justify-between pt-24 sm:pt-28 pb-6 sm:pb-8 w-full">
     <!-- Header Block Matching Penpot 'seção jornada' -->
     <div class="w-full px-[clamp(1.5rem,3.125vw,3.5rem)] flex-shrink-0">
-        <h2 class="font-display font-bold text-[clamp(2rem,5vw,5.5rem)] leading-none uppercase tracking-[-0.06em] text-[#ddddd5] text-center">
+        <h2 class="font-display font-bold text-[clamp(2rem,6.94vw,6.25rem)] leading-none uppercase tracking-[-6px] text-[#ddddd5] text-center">
             JORNADA DO PROJETO
         </h2>
         <div class="w-full h-[1px] bg-[#ddddd5]/30 mt-4 sm:mt-6"></div>
@@ -25,7 +25,7 @@
                         <div class="w-[260px] xl:w-[288px] flex-shrink-0 flex flex-col justify-between self-stretch pt-2 pb-1">
                             <!-- (SCROLL) Indicator (Stage 1 only) -->
                             @if($loop->first)
-                                <div class="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#ddddd5]/70">
+                                <div class="flex items-center gap-2 font-sans text-[13px] font-normal tracking-[-1px] text-[#ddddd5]/70">
                                     <span>(SCROLL)</span>
                                     <svg width="18" height="10" viewBox="0 0 24 10" fill="none" class="stroke-current stroke-2">
                                         <path d="M0 5H22M22 5L17 1M22 5L17 9" stroke-linecap="round" stroke-linejoin="round"/>
@@ -37,10 +37,10 @@
 
                             <!-- "0X ETAPA" Stacked at Bottom -->
                             <div class="space-y-0 select-none pb-1">
-                                <span class="font-display font-bold text-[clamp(3.5rem,5.5vw,6.25rem)] text-[#ddddd5] block leading-[0.88] tracking-[-0.06em]">
+                                <span class="font-display font-bold text-[clamp(3.5rem,6.94vw,6.25rem)] text-[#ddddd5] block leading-[0.88] tracking-[-6.64px]">
                                     {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
                                 </span>
-                                <span class="font-display font-bold text-[clamp(3.5rem,5.5vw,6.25rem)] text-[#ddddd5] uppercase block leading-[0.88] tracking-[-0.05em]">
+                                <span class="font-display font-bold text-[clamp(3.5rem,6.94vw,6.25rem)] text-[#ddddd5] uppercase block leading-[0.88] tracking-[-5px]">
                                     ETAPA
                                 </span>
                             </div>
@@ -49,7 +49,7 @@
                         <!-- Right: Stage Description above Video & Video Container -->
                         <div class="w-full max-w-[964px] flex-shrink-0 flex flex-col justify-end space-y-4 xl:space-y-6 pb-1">
                             <!-- Descriptive Text corresponding to stage -->
-                            <p class="journey-desc-text font-sans font-normal text-[clamp(1.125rem,1.8vw,2.15rem)] leading-[1.25] tracking-[-0.035em] text-[#ddddd5] max-w-[782px]">
+                            <p class="journey-desc-text font-sans font-normal text-[clamp(1.125rem,2.77vw,2.5rem)] leading-[1.2] tracking-[-2px] text-[#ddddd5] max-w-[782px]">
                                 {{ $step->description }}
                             </p>
 
@@ -80,15 +80,15 @@
             @endphp
             <div class="border-t border-[#ddddd5]/20 pt-6 space-y-4">
                 <div class="flex items-baseline gap-3">
-                    <span class="font-display font-bold text-4xl sm:text-5xl text-[#ddddd5] leading-none">
+                    <span class="font-display font-bold text-4xl sm:text-5xl text-[#ddddd5] tracking-[-4px] leading-none">
                         {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
                     </span>
-                    <span class="font-display font-bold text-2xl sm:text-3xl text-[#ddddd5] uppercase tracking-tight leading-none">
+                    <span class="font-display font-bold text-2xl sm:text-3xl text-[#ddddd5] uppercase tracking-[-3px] leading-none">
                         ETAPA
                     </span>
                 </div>
 
-                <p class="font-sans text-sm sm:text-base text-[#ddddd5]/90 leading-relaxed">
+                <p class="font-sans font-normal text-sm sm:text-base text-[#ddddd5]/90 tracking-[-1px] leading-[1.2]">
                     {{ $step->description }}
                 </p>
 

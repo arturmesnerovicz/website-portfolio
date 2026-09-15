@@ -35,7 +35,7 @@
 
         <!-- Center: Cinematic Headline (Fully readable, dynamically scaled, centered in available space) -->
         <div class="my-auto py-2 sm:py-4 text-center max-w-4xl lg:max-w-5xl mx-auto flex-shrink-0 pointer-events-auto">
-            <h1 class="norra-reveal hero-headline font-display font-bold text-[clamp(1.75rem,4.1vw,4rem)] leading-[1.04] tracking-[-0.03em] text-[#ddddd5] uppercase hyphens-none">
+            <h1 class="norra-reveal hero-headline font-display font-bold text-[clamp(1.75rem,4.5vw,4.0625rem)] leading-[1.1] tracking-[-1.31px] text-[#ddddd5] hyphens-none">
                 {{ $settings['hero_title'] ?? 'Criamos experiências que tornam a sua marca irresistível' }}
             </h1>
         </div>
@@ -44,23 +44,23 @@
         <div class="relative w-full flex flex-col md:flex-row items-start md:items-end justify-between gap-4 md:gap-8 flex-shrink-0 pointer-events-auto">
             <!-- Bottom-Left: Editorial Paragraph & Metric & CTA -->
             <div class="max-w-xl space-y-3 sm:space-y-4 text-left">
-                <p class="norra-reveal text-xs sm:text-sm md:text-base text-[#ddddd5]/80 font-normal leading-relaxed font-sans max-w-lg lg:max-w-xl">
+                <p class="norra-reveal text-base sm:text-lg md:text-xl lg:text-[24px] text-[#ddddd5]/80 font-normal leading-[1.25] tracking-[-1px] font-sans max-w-lg lg:max-w-2xl">
                     {{ $settings['hero_subtitle'] ?? 'Ajudamos marcas consolidadas e fundadores exigentes a construir uma presença digital marcante, com estética autoral e tecnologia de alto desempenho.' }}
                 </p>
 
                 <div class="norra-reveal flex flex-wrap items-center gap-5 pt-1">
                     <!-- Penpot 30+ Metric Badge -->
                     <div class="flex items-baseline gap-2">
-                        <span class="font-display font-bold text-2xl sm:text-3xl lg:text-4xl text-[#ddddd5]">
+                        <span class="font-display font-bold text-3xl sm:text-4xl lg:text-[50px] tracking-normal leading-none text-[#ddddd5]">
                             {{ $settings['hero_badge_number'] ?? '30+' }}
                         </span>
-                        <span class="text-xs sm:text-sm text-[#888888] font-sans font-medium uppercase tracking-wider">
+                        <span class="text-sm sm:text-[18px] text-[#888888] font-sans font-normal tracking-[-1px] leading-tight">
                             {{ $settings['hero_badge_label'] ?? 'marcas ajudadas' }}
                         </span>
                     </div>
 
                     <!-- CTA Button -->
-                    <a href="#contato" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#ddddd5] text-[#101010] text-xs font-bold uppercase tracking-wider hover:bg-[#e33702] hover:text-white active:scale-95 transition-all duration-300 shadow-lg">
+                    <a href="#contato" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#ddddd5] text-[#101010] font-sans font-bold text-sm sm:text-[16px] tracking-[-1px] leading-[1.2] hover:bg-[#e33702] hover:text-white active:scale-95 transition-all duration-300 shadow-lg">
                         <span>Fale Conosco</span>
                         <svg class="w-3.5 h-3.5 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
