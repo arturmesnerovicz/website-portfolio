@@ -39,7 +39,7 @@ class ContentSeeder extends Seeder
 
             // Hero Section
             ['key' => 'hero_title', 'value' => 'Criamos experiências que tornam a sua marca irresistível', 'group' => 'hero', 'type' => 'text', 'label' => 'Título do Hero'],
-            ['key' => 'hero_subtitle', 'value' => 'Ajudamos marcas consolidadas e fundadores exigentes a construir uma presença digital marcante, com estética autoral e tecnologia de alto desempenho.', 'group' => 'hero', 'type' => 'textarea', 'label' => 'Subtítulo do Hero'],
+            ['key' => 'hero_subtitle', 'value' => 'Ajudamos marcas consolidadas craindo uma experiência de website, que reflete aquilo que construíram e o que as tornam únicas.', 'group' => 'hero', 'type' => 'textarea', 'label' => 'Subtítulo do Hero'],
             ['key' => 'hero_cta_text', 'value' => 'Fale Conosco', 'group' => 'hero', 'type' => 'text', 'label' => 'Texto do Botão Hero'],
             ['key' => 'hero_badge_number', 'value' => '30+', 'group' => 'hero', 'type' => 'text', 'label' => 'Métrica do Hero'],
             ['key' => 'hero_badge_label', 'value' => 'marcas ajudadas', 'group' => 'hero', 'type' => 'text', 'label' => 'Legenda da Métrica Hero'],

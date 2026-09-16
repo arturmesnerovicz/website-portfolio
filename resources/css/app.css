@@ -1,27 +1,51 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @font-face {
-    font-family: 'TeX Gyre Heros';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url('/fonts/tex-gyre-heros-400.woff') format('woff');
-}
-
-@font-face {
-    font-family: 'TeX Gyre Heros';
+    font-family: "Alte Haas Grotesk";
     font-style: normal;
     font-weight: 700;
     font-display: swap;
-    src: url('/fonts/tex-gyre-heros-700.woff2') format('woff2');
+    src: local("Alte Haas Grotesk Bold"),
+         local("AlteHaasGrotesk-Bold"),
+         local("AlteHaasGrotesk_Bold"),
+         url("../fonts/alte-haas-grotesk-700.woff") format("woff"),
+         url("../fonts/alte-haas-grotesk-700.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: 'Alte Haas Grotesk';
+    font-family: "Alte Haas Grotesk";
     font-style: normal;
-    font-weight: 700 900;
+    font-weight: 400;
     font-display: swap;
-    src: url('/fonts/alte-haas-grotesk-700.woff') format('woff');
+    src: local("Alte Haas Grotesk Regular"),
+         local("AlteHaasGrotesk-Regular"),
+         local("Alte Haas Grotesk"),
+         url("../fonts/alte-haas-grotesk-400.woff") format("woff"),
+         url("../fonts/alte-haas-grotesk-400.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "TeX Gyre Heros";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local("TeX Gyre Heros Regular"),
+         local("TeXGyreHeros-Regular"),
+         local("TeX Gyre Heros"),
+         url("../fonts/tex-gyre-heros-400.woff") format("woff"),
+         url("../fonts/tex-gyre-heros-400.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "TeX Gyre Heros";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: local("TeX Gyre Heros Bold"),
+         local("TeXGyreHeros-Bold"),
+         url("../fonts/tex-gyre-heros-700.woff2") format("woff2"),
+         url("../fonts/tex-gyre-heros-700.woff") format("woff"),
+         url("../fonts/tex-gyre-heros-700.otf") format("opentype");
 }
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -30,8 +54,12 @@
 @source '../js/**/*.js';
 
 @theme {
-    --font-display: 'Alte Haas Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-sans: 'TeX Gyre Heros', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-display:
+        "Alte Haas Grotesk", "Inter", -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, sans-serif;
+    --font-sans:
+        "TeX Gyre Heros", "Inter", -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, sans-serif;
 
     --color-norra-black: #101010;
     --color-norra-card: #151515;
@@ -124,7 +152,9 @@ html {
 
 /* Active & Hover states for Services accordion - Invert with max 4px radius */
 .service-item {
-    transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition:
+        background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     border-radius: 4px;
 }
 
@@ -164,7 +194,9 @@ html {
 /* Service Title: Default & Active state */
 .service-item .service-title {
     color: #ddddd5;
-    transition: color 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    transition:
+        color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform, color;
 }
 
@@ -177,7 +209,9 @@ html {
 /* Arrow: Closed state points 45° up-right (-45deg), opened state points 45° down-right (+45deg) */
 .service-item .service-arrow-icon {
     color: #ddddd5;
-    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    transition:
+        transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+        color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
     transform: rotate(-45deg);
 }
 
@@ -320,7 +354,9 @@ html {
 .reveal-word {
     transform: translateY(100%);
     opacity: 0;
-    transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    transition:
+        transform 0.7s cubic-bezier(0.25, 1, 0.5, 1),
+        opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1);
     will-change: transform, opacity;
 }
 
@@ -334,7 +370,9 @@ html {
 .service-bottom-row {
     transform: translateY(20px);
     opacity: 0;
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.1s, opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.1s;
+    transition:
+        transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.1s,
+        opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.1s;
     will-change: transform, opacity;
 }
 
@@ -348,7 +386,9 @@ html {
    ========================================================================== */
 
 .faq-item {
-    transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition:
+        background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     border-radius: 4px;
 }
 
@@ -384,7 +424,9 @@ html {
 /* FAQ Title: Default & Active state */
 .faq-item .faq-title {
     color: #ddddd5;
-    transition: color 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    transition:
+        color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform, color;
 }
 
@@ -396,7 +438,9 @@ html {
 /* Arrow: Closed state points 45° up-right (-45deg), opened state points 45° down-right (+45deg) */
 .faq-item .faq-arrow-icon {
     color: #ddddd5;
-    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    transition:
+        transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+        color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
     transform: rotate(-45deg);
 }
 
@@ -451,8 +495,9 @@ html {
     box-sizing: border-box;
     cursor: pointer;
     outline: none;
-    transition: transform var(--active-speed) var(--active-ease),
-                opacity var(--active-speed) var(--monolog-ease);
+    transition:
+        transform var(--active-speed) var(--active-ease),
+        opacity var(--active-speed) var(--monolog-ease);
 }
 
 .faq-cta-btn:hover {
@@ -487,6 +532,33 @@ html {
     transform: translateY(-1.2em);
 }
 
+/* Navigation Menu Link Monolog Roll Animation (exact match to Iniciar Projeto button) */
+.nav-roll-link {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.nav-roll-contain {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    line-height: 1;
+}
+
+.nav-roll-text {
+    display: block;
+    line-height: 1;
+    white-space: nowrap;
+    text-shadow: 0 1.2em 0 #ffffff;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.35, 1);
+    will-change: transform;
+}
+
+.nav-roll-link:hover .nav-roll-text {
+    transform: translateY(-1.2em);
+}
+
 .faq-cta-aside {
     position: relative;
     width: 20px;
@@ -515,8 +587,9 @@ html {
     stroke: #ddddd5;
     stroke-width: 2;
     opacity: 1;
-    transition: transform 0.65s cubic-bezier(0.16, 1, 0.35, 1),
-                opacity 0.4s cubic-bezier(0.16, 1, 0.35, 1);
+    transition:
+        transform 0.65s cubic-bezier(0.16, 1, 0.35, 1),
+        opacity 0.4s cubic-bezier(0.16, 1, 0.35, 1);
 }
 
 .faq-cta-svg.is-absolute {
@@ -565,7 +638,10 @@ html {
     transform: translateY(24px);
     filter: blur(8px);
     will-change: transform, opacity, filter;
-    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition:
+        opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .norra-reveal.is-revealed {
@@ -589,11 +665,12 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    *, ::before, ::after {
+    *,
+    ::before,
+    ::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
 }
-

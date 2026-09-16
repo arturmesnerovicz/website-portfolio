@@ -31,7 +31,10 @@
     <meta name="twitter:description" content="{{ $settings['seo_description'] ?? 'Criamos experiências digitais exclusivas para marcas consolidadas e fundadores exigentes.' }}">
     <meta name="twitter:image" content="{{ asset('assets/logos/logo.svg') }}">
 
-    <!-- Fonts -->
+    <!-- Fonts Preload -->
+    <link rel="preload" href="{{ asset('fonts/alte-haas-grotesk-700.woff') }}" as="font" type="font/woff" crossorigin>
+    <link rel="preload" href="{{ asset('fonts/tex-gyre-heros-400.woff') }}" as="font" type="font/woff" crossorigin>
+    <link rel="preload" href="{{ asset('fonts/tex-gyre-heros-700.woff2') }}" as="font" type="font/woff2" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">

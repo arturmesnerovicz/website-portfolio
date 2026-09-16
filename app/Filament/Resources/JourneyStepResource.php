@@ -30,8 +30,26 @@ class JourneyStepResource extends Resource
                     ->columnSpanFull(),
                 Forms\Components\Textarea::make('deliverables')
                     ->columnSpanFull(),
+                Forms\Components\Select::make('media_type')
+                    ->label('Tipo de Mídia')
+                    ->options([
+                        'image' => 'Imagem',
+                        'video' => 'Vídeo',
+                    ])
+                    ->default('image')
+                    ->required()
+                    ->live(),
                 Forms\Components\FileUpload::make('image_path')
-                    ->image(),
+                    ->label('Imagem')
+                    ->image()
+                    ->directory('journey/images')
+                    ->visible(fn (Forms\Get $get): bool => ($get('media_type') ?? 'image') === 'image'),
+                Forms\Components\FileUpload::make('video_path')
+                    ->label('Vídeo')
+                    ->acceptedFileTypes(['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime'])
+                    ->directory('journey/videos')
+                    ->maxSize(51200)
+                    ->visible(fn (Forms\Get $get): bool => $get('media_type') === 'video'),
                 Forms\Components\TextInput::make('sort_order')
                     ->required()
                     ->numeric()
@@ -51,7 +69,19 @@ class JourneyStepResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('subtitle')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image_path'),
+                Tables\Columns\TextColumn::make('media_type')
+                    ->label('Mídia')
+                    ->badge()
+                    ->color(fn (?string $state): string => match ($state) {
+                        'video' => 'info',
+                        default => 'gray',
+                    })
+                    ->formatStateUsing(fn (?string $state): string => match ($state) {
+                        'video' => 'Vídeo',
+                        default => 'Imagem',
+                    }),
+                Tables\Columns\ImageColumn::make('image_path')
+                    ->label('Imagem'),
                 Tables\Columns\TextColumn::make('sort_order')
                     ->numeric()
                     ->sortable(),

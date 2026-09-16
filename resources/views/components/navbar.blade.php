@@ -1,5 +1,5 @@
 <header id="site-header" class="fixed top-0 left-0 w-full z-40 transition-all duration-300 bg-[#101010]/80 backdrop-blur-md border-b border-white/[0.04]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <div class="relative w-full px-[clamp(1.5rem,3.125vw,3.5rem)] h-20 flex items-center justify-between">
         <!-- Brand Logo: Monogram from Penpot -->
         <a href="{{ url('/') }}" class="flex items-center gap-3 group focus:outline-none" aria-label="Estúdio Norra Início">
             <div class="w-8 h-8 text-[#ddddd5] group-hover:text-white transition-colors duration-300">
@@ -12,34 +12,33 @@
             </span>
         </a>
 
-        <!-- Desktop Navigation Links (Penpot Minimalist Menu) -->
-        <nav class="hidden md:flex items-center space-x-8 lg:space-x-12">
-            <a href="#expertise" class="font-sans font-bold text-[16px] lg:text-[18px] tracking-[-1px] leading-[1.2] text-[#ddddd5] hover:text-white transition-colors duration-200">
-                Expertise
+        <!-- Desktop Navigation Links (Penpot Minimalist Menu - Centered & Balanced Spacing with Monolog Roll Hover) -->
+        <nav class="hidden md:flex items-center gap-5 absolute left-1/2 -translate-x-1/2">
+            <a href="#expertise" class="nav-roll-link font-sans font-bold text-[16px] tracking-[-1px] text-[#ddddd5] py-2">
+                <span class="nav-roll-contain">
+                    <span class="nav-roll-text">Serviços</span>
+                </span>
             </a>
-            <a href="#projetos" class="font-sans font-bold text-[16px] lg:text-[18px] tracking-[-1px] leading-[1.2] text-[#ddddd5] hover:text-white transition-colors duration-200">
-                Galeria
+            <a href="#projetos" class="nav-roll-link font-sans font-bold text-[16px] tracking-[-1px] text-[#ddddd5] py-2">
+                <span class="nav-roll-contain">
+                    <span class="nav-roll-text">Projetos</span>
+                </span>
             </a>
-            <a href="#manifesto" class="font-sans font-bold text-[16px] lg:text-[18px] tracking-[-1px] leading-[1.2] text-[#ddddd5] hover:text-white transition-colors duration-200">
-                Sobre
+            <a href="#jornada" class="nav-roll-link font-sans font-bold text-[16px] tracking-[-1px] text-[#ddddd5] py-2">
+                <span class="nav-roll-contain">
+                    <span class="nav-roll-text">Processo</span>
+                </span>
             </a>
-            <a href="#jornada" class="font-sans font-bold text-[16px] lg:text-[18px] tracking-[-1px] leading-[1.2] text-[#ddddd5] hover:text-white transition-colors duration-200">
-                Processo
-            </a>
-            <a href="#faq" class="font-sans font-bold text-[16px] lg:text-[18px] tracking-[-1px] leading-[1.2] text-[#ddddd5] hover:text-white transition-colors duration-200">
-                FAQ
+            <a href="#faq" class="nav-roll-link font-sans font-bold text-[16px] tracking-[-1px] text-[#ddddd5] py-2">
+                <span class="nav-roll-contain">
+                    <span class="nav-roll-text">FAQ</span>
+                </span>
             </a>
         </nav>
 
         <!-- Right Side CTA & Mobile Layout -->
         <div class="flex items-center gap-3">
-            <!-- Penpot Top-Right Pill Button -->
-            <a href="#contato" class="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-full bg-[#ddddd5] text-[#101010] font-sans font-bold text-[15px] sm:text-[18px] tracking-[-1px] leading-[1.2] hover:bg-white active:scale-95 transition-all duration-200 shadow-md">
-                <span>Fale Conosco</span>
-                <svg class="w-3.5 h-3.5 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-                </svg>
-            </a>
+            <x-btn-cta text="Iniciar Projeto" />
 
             <!-- Mobile Hamburger Button -->
             <button id="mobile-menu-btn"
@@ -62,13 +61,10 @@
     <div id="mobile-menu" class="hidden md:hidden bg-[#101010] border-b border-white/10 px-6 py-8 space-y-6">
         <nav class="flex flex-col space-y-4">
             <a href="#expertise" class="mobile-nav-link text-lg font-sans font-bold tracking-[-1px] text-[#ddddd5] hover:text-[#b70606] transition-colors">
-                Expertise
+                Serviços
             </a>
             <a href="#projetos" class="mobile-nav-link text-lg font-sans font-bold tracking-[-1px] text-[#ddddd5] hover:text-[#b70606] transition-colors">
-                Galeria
-            </a>
-            <a href="#manifesto" class="mobile-nav-link text-lg font-sans font-bold tracking-[-1px] text-[#ddddd5] hover:text-[#b70606] transition-colors">
-                Sobre
+                Projetos
             </a>
             <a href="#jornada" class="mobile-nav-link text-lg font-sans font-bold tracking-[-1px] text-[#ddddd5] hover:text-[#b70606] transition-colors">
                 Processo
@@ -79,12 +75,7 @@
         </nav>
 
         <div class="pt-4 border-t border-white/10 flex flex-col gap-3">
-            <a href="#contato" class="mobile-nav-link w-full py-3 rounded-full bg-[#ddddd5] text-[#101010] text-center font-sans font-bold text-[16px] tracking-[-1px] leading-[1.2] flex items-center justify-center gap-2">
-                <span>Fale Conosco</span>
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-                </svg>
-            </a>
+            <x-btn-cta text="Iniciar Projeto" class="w-full !justify-between" />
             <div class="text-center">
                 <span class="text-xs text-[#888888]">contato@estudionorra.com</span>
             </div>

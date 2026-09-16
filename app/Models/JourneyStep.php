@@ -15,7 +15,9 @@ class JourneyStep extends Model
         'subtitle',
         'description',
         'deliverables',
+        'media_type',
         'image_path',
+        'video_path',
         'sort_order',
         'is_active',
     ];

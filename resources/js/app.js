@@ -348,6 +348,25 @@ function initJourneyScroll() {
 
     if (!section || !container || !track) return;
 
+    // Mobile / IntersectionObserver Autoplay
+    const allJourneyVideos = section.querySelectorAll('.journey-stage-video');
+    if (allJourneyVideos.length && 'IntersectionObserver' in window) {
+        const mobObserver = new IntersectionObserver((entries) => {
+            if (window.innerWidth >= 1024) return; // Desktop handled by GSAP
+            entries.forEach((entry) => {
+                const vid = entry.target;
+                if (entry.isIntersecting) {
+                    const playPromise = vid.play();
+                    if (playPromise !== undefined) playPromise.catch(() => {});
+                } else {
+                    vid.pause();
+                }
+            });
+        }, { threshold: 0.35 });
+
+        allJourneyVideos.forEach((v) => mobObserver.observe(v));
+    }
+
     const mm = gsap.matchMedia();
 
     mm.add('(min-width: 1024px)', () => {
@@ -379,6 +398,27 @@ function initJourneyScroll() {
         syncStageBaselines();
         window.addEventListener('resize', syncStageBaselines);
 
+        // Autoplay stage video when active/in-view during horizontal scroll
+        const checkActiveVideos = () => {
+            const items = track.querySelectorAll('.journey-stage-item');
+            items.forEach((item) => {
+                const rect = item.getBoundingClientRect();
+                const video = item.querySelector('.journey-stage-video');
+                if (!video) return;
+                const isVisible = rect.left < window.innerWidth * 0.7 && rect.right > window.innerWidth * 0.3;
+                if (isVisible) {
+                    if (video.paused) {
+                        const playPromise = video.play();
+                        if (playPromise !== undefined) playPromise.catch(() => {});
+                    }
+                } else {
+                    if (!video.paused) {
+                        video.pause();
+                    }
+                }
+            });
+        };
+
         // Fluid continuous transition without jerk/click
         const tl = gsap.timeline({
             scrollTrigger: {
@@ -389,18 +429,30 @@ function initJourneyScroll() {
                 scrub: 0.8,
                 invalidateOnRefresh: true,
                 anticipatePin: 0,
+                onEnter: checkActiveVideos,
+                onEnterBack: checkActiveVideos,
+                onLeave: () => {
+                    track.querySelectorAll('.journey-stage-video').forEach((v) => v.pause());
+                },
+                onLeaveBack: () => {
+                    track.querySelectorAll('.journey-stage-video').forEach((v) => v.pause());
+                },
             },
         });
 
         tl.to(track, {
             x: () => -getScrollDistance(),
             ease: 'power1.inOut',
+            onUpdate: checkActiveVideos,
         });
+
+        checkActiveVideos();
 
         return () => {
             window.removeEventListener('resize', syncStageBaselines);
             const descs = track.querySelectorAll('.journey-desc-text');
             descs.forEach((d) => { d.style.minHeight = ''; });
+            track.querySelectorAll('.journey-stage-video').forEach((v) => v.pause());
         };
     });
 }
