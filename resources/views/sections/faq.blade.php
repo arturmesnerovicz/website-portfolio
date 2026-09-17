@@ -24,7 +24,7 @@
                     <!-- Questions List -->
                     <div class="faq-list border-t border-white/20 divide-y divide-white/10 relative">
                         @foreach($faqs as $index => $faq)
-                            <div class="faq-item relative rounded-[4px] py-6 sm:py-7 px-4 sm:px-8 cursor-pointer transition-all duration-500 ease-out overflow-hidden group norra-reveal"
+                            <div class="faq-item relative rounded-[4px] py-6 sm:py-7 px-4 sm:px-8 cursor-pointer transition-all duration-500 ease-out overflow-hidden group"
                                  onclick="toggleFaqAccordion(this)">
 
                                 <!-- Expanding Luminous Radial Gradient Background on Hover & Active (matching EXPERTISE) -->
@@ -63,7 +63,7 @@
                                                 @php
                                                     $faqWords = preg_split('/\s+/', trim($faq->answer ?? ''));
                                                 @endphp
-                                                <p class="faq-desc font-sans font-normal text-base sm:text-[18px] leading-[1.2] tracking-normal max-w-2xl pr-6 flex flex-wrap transition-colors duration-500">
+                                                <p class="faq-desc font-sans font-normal text-base sm:text-[18px] leading-relaxed tracking-normal max-w-2xl pr-6 flex flex-wrap transition-colors duration-500">
                                                     @foreach($faqWords as $wIdx => $word)
                                                         <span class="inline-block overflow-hidden mr-[0.3em] px-[0.03em] pb-1">
                                                             <span class="reveal-word inline-block"
@@ -107,10 +107,9 @@ function toggleFaqAccordion(element) {
         element.classList.add('is-active');
     }
 
-    // Refresh ScrollTrigger so trigger offsets adjust to new height
+    // Refresh ScrollTrigger only AFTER accordion transition finishes (650ms) so it never interrupts the word reveal animation
     if (window.ScrollTrigger) {
-        setTimeout(() => window.ScrollTrigger.refresh(), 300);
-        setTimeout(() => window.ScrollTrigger.refresh(), 600);
+        setTimeout(() => window.ScrollTrigger.refresh(), 650);
     }
 }
 </script>

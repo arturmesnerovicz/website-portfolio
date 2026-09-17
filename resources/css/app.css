@@ -72,7 +72,6 @@
 }
 
 html {
-    scroll-behavior: smooth;
     background-color: #101010;
     color: #f5f5f5;
 }
@@ -107,6 +106,10 @@ html {
 }
 
 /* Pinned horizontal track for GSAP ScrollTrigger */
+.journey-section {
+    will-change: transform;
+}
+
 .journey-horizontal-container {
     position: relative;
     width: 100%;
@@ -458,6 +461,10 @@ html {
 
 .faq-item.is-active .faq-accordion-grid {
     grid-template-rows: 1fr;
+}
+
+.faq-accordion-content {
+    opacity: 1;
 }
 
 /* Description text inside accordion */

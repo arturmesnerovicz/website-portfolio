@@ -127,10 +127,9 @@ function toggleServiceAccordion(element) {
         element.classList.add('is-active');
     }
 
-    // Refresh ScrollTrigger so pinned offsets adapt accurately
+    // Refresh ScrollTrigger after accordion transition finishes
     if (window.ScrollTrigger) {
-        setTimeout(() => window.ScrollTrigger.refresh(), 300);
-        setTimeout(() => window.ScrollTrigger.refresh(), 600);
+        setTimeout(() => window.ScrollTrigger.refresh(), 650);
     }
 }
 </script>

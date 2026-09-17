@@ -5,6 +5,7 @@ import { CustomEase } from 'gsap/CustomEase';
 import { SplitText } from 'gsap/SplitText';
 
 gsap.registerPlugin(ScrollTrigger, CustomEase, SplitText);
+ScrollTrigger.config({ ignoreMobileResize: true });
 window.gsap = gsap;
 window.ScrollTrigger = ScrollTrigger;
 
@@ -498,28 +499,9 @@ function initJourneyScroll() {
 
     if (!section || !container || !track) return;
 
-    // Mobile / IntersectionObserver Autoplay
-    const allJourneyVideos = section.querySelectorAll('.journey-stage-video');
-    if (allJourneyVideos.length && 'IntersectionObserver' in window) {
-        const mobObserver = new IntersectionObserver((entries) => {
-            if (window.innerWidth >= 1024) return; // Desktop handled by GSAP
-            entries.forEach((entry) => {
-                const vid = entry.target;
-                if (entry.isIntersecting) {
-                    const playPromise = vid.play();
-                    if (playPromise !== undefined) playPromise.catch(() => {});
-                } else {
-                    vid.pause();
-                }
-            });
-        }, { threshold: 0.35 });
-
-        allJourneyVideos.forEach((v) => mobObserver.observe(v));
-    }
-
     const mm = gsap.matchMedia();
 
-    mm.add('(min-width: 1024px)', () => {
+    mm.add('(min-width: 0px)', () => {
         const getScrollDistance = () => {
             const stages = track.querySelectorAll('.journey-stage-item');
             if (stages.length >= 2) {
@@ -528,8 +510,13 @@ function initJourneyScroll() {
             return track.scrollWidth - window.innerWidth;
         };
 
-        // Synchronize stage description heights to align titles and media to identical bottom baseline
+        // Synchronize stage description heights to align titles and media to identical bottom baseline (tablet & desktop only)
         const syncStageBaselines = () => {
+            if (window.innerWidth < 768) {
+                const descs = track.querySelectorAll('.journey-desc-text');
+                descs.forEach((d) => { d.style.minHeight = ''; });
+                return;
+            }
             const descs = Array.from(track.querySelectorAll('.journey-desc-text'));
             if (!descs.length) return;
             descs.forEach((d) => { d.style.minHeight = ''; });
@@ -547,6 +534,12 @@ function initJourneyScroll() {
 
         syncStageBaselines();
         window.addEventListener('resize', syncStageBaselines);
+        if (document.fonts?.ready) {
+            document.fonts.ready.then(() => {
+                syncStageBaselines();
+                ScrollTrigger.refresh();
+            });
+        }
 
         // Autoplay stage video when active/in-view during horizontal scroll
         const checkActiveVideos = () => {
@@ -570,15 +563,17 @@ function initJourneyScroll() {
         };
 
         // Fluid continuous transition without jerk/click
+        const isMobile = window.innerWidth < 768;
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: section,
                 start: 'top top',
-                end: () => `+=${getScrollDistance() * 1.25}`,
+                end: () => `+=${getScrollDistance() * (window.innerWidth >= 1024 ? 1.25 : (window.innerWidth >= 768 ? 1.2 : 1.1))}`,
                 pin: true,
-                scrub: 0.8,
+                pinSpacing: true,
+                scrub: isMobile ? 0.6 : 0.8,
                 invalidateOnRefresh: true,
-                anticipatePin: 0,
+                anticipatePin: 1,
                 onEnter: checkActiveVideos,
                 onEnterBack: checkActiveVideos,
                 onLeave: () => {
@@ -592,7 +587,7 @@ function initJourneyScroll() {
 
         tl.to(track, {
             x: () => -getScrollDistance(),
-            ease: 'power1.inOut',
+            ease: 'none',
             onUpdate: checkActiveVideos,
         });
 
@@ -692,15 +687,17 @@ function initTextReveals() {
         });
     });
 
-    // Anchor link clicks: instantly reveal target section before/during scroll
+    // Anchor link clicks: instantly reveal target section and smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener('click', () => {
+        anchor.addEventListener('click', (e) => {
             const targetId = anchor.getAttribute('href');
             if (targetId && targetId !== '#') {
                 const target = document.querySelector(targetId);
                 if (target) {
+                    e.preventDefault();
                     const parentSection = target.closest('section, footer') || target;
                     window.revealSection(parentSection);
+                    target.scrollIntoView({ behavior: 'smooth' });
                 }
             }
         });
