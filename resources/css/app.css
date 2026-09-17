@@ -385,6 +385,78 @@ html {
 }
 
 /* ==========================================================================
+   Mobile-Only Services Accordion Smoothing (< 768px)
+   Eliminates abrupt snapping and the 1-second word delay on mobile screens
+   Desktop and Tablet remain 100% untouched
+   ========================================================================== */
+@media (max-width: 767px) {
+    .service-item {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+        transition:
+            background-color 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.4s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    }
+
+    .service-accordion-grid {
+        transition: grid-template-rows 0.48s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    }
+
+    .service-item .service-arrow-icon {
+        transition:
+            transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+            color 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    /* Description: Smooth unified entrance instead of 1-second 30-word staggered lag */
+    .service-desc {
+        opacity: 0;
+        transform: translateY(12px);
+        transition:
+            opacity 0.22s ease-out,
+            transform 0.22s ease-out,
+            color 0.35s ease !important;
+        will-change: opacity, transform;
+    }
+
+    .service-item.is-active .service-desc {
+        opacity: 1;
+        transform: translateY(0);
+        transition:
+            opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1) 0.06s,
+            transform 0.42s cubic-bezier(0.22, 1, 0.36, 1) 0.06s,
+            color 0.35s ease !important;
+    }
+
+    /* Disable the 30-word individual inline transition-delay and GPU composite layers on mobile */
+    .service-desc .reveal-word {
+        transform: none !important;
+        opacity: 1 !important;
+        transition: none !important;
+        transition-delay: 0s !important;
+        will-change: auto !important;
+    }
+
+    /* Bottom row: Smooth slide and fade in sequence */
+    .service-bottom-row {
+        opacity: 0;
+        transform: translateY(10px);
+        transition:
+            opacity 0.2s ease-out,
+            transform 0.2s ease-out !important;
+        will-change: opacity, transform;
+    }
+
+    .service-item.is-active .service-bottom-row {
+        opacity: 1;
+        transform: translateY(0);
+        transition:
+            opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1) 0.12s,
+            transform 0.42s cubic-bezier(0.22, 1, 0.36, 1) 0.12s !important;
+    }
+}
+
+/* ==========================================================================
    FAQ Section (Accordion, Animations & Interactions matching EXPERTISE)
    ========================================================================== */
 

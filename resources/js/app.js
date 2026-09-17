@@ -510,9 +510,9 @@ function initJourneyScroll() {
             return track.scrollWidth - window.innerWidth;
         };
 
-        // Synchronize stage description heights to align titles and media to identical bottom baseline (tablet & desktop only)
+        // Synchronize stage description heights to align titles and media to identical bottom baseline (desktop xl+ only)
         const syncStageBaselines = () => {
-            if (window.innerWidth < 768) {
+            if (window.innerWidth < 1280) {
                 const descs = track.querySelectorAll('.journey-desc-text');
                 descs.forEach((d) => { d.style.minHeight = ''; });
                 return;
@@ -802,7 +802,7 @@ function startManifestoLoadingCycle() {
         manifestoProgressTween.kill();
     }
 
-    const isMobile = window.innerWidth < 1024;
+    const isMobile = window.innerWidth < 768;
 
     if (isMobile) {
         // Mobile: Horizontal progress bar (fills from left to right)
@@ -873,10 +873,10 @@ function initManifestoBeamCycle() {
     // Start cycle when section is visible or DOM is ready
     startManifestoLoadingCycle();
 
-    // Adapt cleanly when resizing across mobile / desktop breakpoints (< 1024px)
-    let isLastMobile = window.innerWidth < 1024;
+    // Adapt cleanly when resizing across mobile / desktop & tablet breakpoints (< 768px)
+    let isLastMobile = window.innerWidth < 768;
     window.addEventListener('resize', () => {
-        const currentMobile = window.innerWidth < 1024;
+        const currentMobile = window.innerWidth < 768;
         if (currentMobile !== isLastMobile) {
             isLastMobile = currentMobile;
             startManifestoLoadingCycle();
