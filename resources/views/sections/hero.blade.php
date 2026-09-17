@@ -41,7 +41,7 @@
                     $heroTitle = "Criamos experiências\nque tornam a sua marca\nirresistível";
                 }
             @endphp
-            <h1 class="norra-reveal hero-headline font-display font-bold text-[clamp(1.75rem,4.5vw,4.0625rem)] leading-[1.1] tracking-[-1.31px] text-[#ddddd5] hyphens-none">
+            <h1 class="norra-reveal hero-headline font-display font-bold text-[clamp(1.75rem,4.5vw,4.0625rem)] leading-[1.1] tracking-[-0.5px] sm:tracking-[-0.75px] md:tracking-[-1.31px] text-[#ddddd5] hyphens-none">
                 {!! nl2br(e($heroTitle)) !!}
             </h1>
         </div>
@@ -50,7 +50,7 @@
         <div class="relative w-full flex flex-col md:flex-row items-start md:items-end justify-between gap-4 md:gap-8 flex-shrink-0 pointer-events-auto">
             <!-- Bottom-Left: Editorial Paragraph (486px matching Penpot) -->
             <div class="max-w-[486px] text-left">
-                <p class="norra-reveal text-base sm:text-lg md:text-xl lg:text-[24px] text-[#ddddd5]/80 font-normal leading-[1.25] tracking-[-1px] font-sans">
+                <p class="norra-reveal text-base sm:text-lg md:text-xl lg:text-[24px] text-[#ddddd5]/80 font-normal leading-[1.25] tracking-normal sm:tracking-[-0.5px] lg:tracking-[-1px] font-sans">
                     {{ $settings['hero_subtitle'] ?? 'Ajudamos marcas consolidadas craindo uma experiência de website, que reflete aquilo que construíram e o que as tornam únicas.' }}
                 </p>
             </div>

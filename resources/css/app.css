@@ -366,13 +366,13 @@ html {
     opacity: 1;
 }
 
-/* Bottom Row (Chips & CTA): y: 20px -> 0px, opacity: 0 -> 1, duration: 0.6s, ease: [0.25, 1, 0.5, 1], delay: 0.1s */
+/* Bottom Row (Chips & CTA): subtle y: 8px -> 0px, opacity: 0 -> 1, duration: 0.5s */
 .service-bottom-row {
-    transform: translateY(20px);
+    transform: translateY(8px);
     opacity: 0;
     transition:
-        transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.1s,
-        opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.1s;
+        transform 0.5s cubic-bezier(0.25, 1, 0.5, 1) 0.08s,
+        opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1) 0.08s;
     will-change: transform, opacity;
 }
 
@@ -521,11 +521,17 @@ html {
     font-size: 18px;
     font-weight: 700;
     line-height: 1;
-    letter-spacing: -1px;
+    letter-spacing: -0.5px;
     color: #101010;
     white-space: nowrap;
     text-shadow: 0 1.2em 0 #101010;
     transition: transform 0.65s cubic-bezier(0.16, 1, 0.35, 1);
+}
+
+@media (min-width: 640px) {
+    .faq-cta-text {
+        letter-spacing: -1px;
+    }
 }
 
 .faq-cta-btn:hover .faq-cta-text {
@@ -616,10 +622,23 @@ html {
 }
 
 .faq-cta-btn--lg .faq-cta-text {
-    font-size: clamp(1.25rem, 1.67vw, 1.51rem);
+    font-size: clamp(1.125rem, 1.67vw, 1.51rem);
     line-height: 1.2;
-    letter-spacing: -2.01px;
+    letter-spacing: -0.75px;
     font-weight: 700;
+}
+
+@media (min-width: 640px) {
+    .faq-cta-btn--lg .faq-cta-text {
+        letter-spacing: -1.25px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .faq-cta-btn--lg .faq-cta-text {
+        font-size: clamp(1.25rem, 1.67vw, 1.51rem);
+        letter-spacing: -2.01px;
+    }
 }
 
 .faq-cta-btn--lg .faq-cta-aside {
@@ -630,6 +649,36 @@ html {
 .faq-cta-btn--lg .faq-cta-svg {
     width: 13px;
     height: 13px;
+}
+
+/* CTA Button Small / Header Modifier (Proportionally scaled down) */
+.faq-cta-btn--sm {
+    gap: 10px;
+    padding: 4px 8px 4px 12px;
+    border-width: 3px !important;
+}
+
+.faq-cta-btn--sm .faq-cta-text {
+    font-size: 15px;
+    line-height: 1;
+    letter-spacing: -0.5px;
+    font-weight: 700;
+}
+
+@media (min-width: 640px) {
+    .faq-cta-btn--sm .faq-cta-text {
+        letter-spacing: -0.75px;
+    }
+}
+
+.faq-cta-btn--sm .faq-cta-aside {
+    width: 17px;
+    height: 17px;
+}
+
+.faq-cta-btn--sm .faq-cta-svg {
+    width: 8.5px;
+    height: 8.5px;
 }
 
 /* Production Text Reveal State */
@@ -662,6 +711,48 @@ html {
 
 .animate-spin-slow {
     animation: spin-slow 20s linear infinite;
+}
+
+/* ==========================================================================
+   Site-wide Noise / Film Grain Overlay (Basic Agency Technique)
+   ========================================================================== */
+.site-noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+.site-noise::after {
+    position: absolute;
+    top: -10rem;
+    left: -10rem;
+    width: calc(100% + 20rem);
+    height: calc(100% + 20rem);
+    animation: siteNoise 1s steps(2) infinite;
+    background-image: var(--noise-bg, url('/assets/noise.png'));
+    background-position: 50%;
+    content: "";
+    will-change: transform;
+    opacity: var(--site-noise-opacity, 0.85);
+}
+
+@keyframes siteNoise {
+    0% { transform: translate3d(0, 9rem, 0); }
+    10% { transform: translate3d(-1rem, -4rem, 0); }
+    20% { transform: translate3d(-8rem, 2rem, 0); }
+    30% { transform: translate3d(9rem, -9rem, 0); }
+    40% { transform: translate3d(-2rem, 7rem, 0); }
+    50% { transform: translate3d(-9rem, -4rem, 0); }
+    60% { transform: translate3d(2rem, 6rem, 0); }
+    70% { transform: translate3d(7rem, -8rem, 0); }
+    80% { transform: translate3d(-9rem, 1rem, 0); }
+    90% { transform: translate3d(6rem, -5rem, 0); }
+    to { transform: translate3d(-7rem, 0, 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {

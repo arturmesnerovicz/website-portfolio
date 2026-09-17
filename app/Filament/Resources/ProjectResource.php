@@ -44,7 +44,14 @@ class ProjectResource extends Resource
                     ->maxSize(51200),
                 Forms\Components\Textarea::make('gallery')
                     ->columnSpanFull(),
-                Forms\Components\Textarea::make('tags')
+                Forms\Components\CheckboxList::make('tags')
+                    ->label('Serviços / Tags')
+                    ->options([
+                        'Website' => 'Website',
+                        'Aplicativo' => 'Aplicativo',
+                        'Design 3D' => 'Design 3D',
+                    ])
+                    ->columns(3)
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('link_url'),
                 Forms\Components\Toggle::make('is_featured')

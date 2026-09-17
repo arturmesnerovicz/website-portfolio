@@ -68,6 +68,9 @@
 </head>
 <body class="min-h-screen bg-[#101010] text-[#f5f5f5] font-sans selection:bg-[#b70606] selection:text-white flex flex-col relative overflow-x-hidden">
 
+    <!-- Subtle Film Grain / Noise Overlay (Basic Agency Style) -->
+    <div class="site-noise" style="--noise-bg: url('{{ asset('assets/noise.png') }}');" aria-hidden="true"></div>
+
     <!-- Canvas Flow Field Preloader -->
     @include('components.preloader')
 

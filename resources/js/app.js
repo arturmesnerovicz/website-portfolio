@@ -19,64 +19,214 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeroParallax();
     initJourneyScroll();
     initFaqCtaTransition();
-    initTextReveals();
     init3DTextSplit();
+    initTextReveals();
     initManifestoBeamCycle();
     initProjectsSection();
 });
 
 
-// 1. Header scroll effect
+// 1. Header scroll effect (maintains solid #101010 black background with zero opacity)
 function initHeaderScroll() {
     const header = document.getElementById('site-header');
     if (!header) return;
 
     window.addEventListener('scroll', () => {
         if (window.scrollY > 40) {
-            header.classList.add('bg-[#101010]/95', 'shadow-2xl');
-            header.classList.remove('bg-[#101010]/80');
+            header.classList.add('shadow-2xl');
         } else {
-            header.classList.remove('bg-[#101010]/95', 'shadow-2xl');
-            header.classList.add('bg-[#101010]/80');
+            header.classList.remove('shadow-2xl');
         }
     }, { passive: true });
 }
 
-// 2. Mobile Menu Drawer
+// 2. Mobile Menu Drawer & Backdrop Blur with Smooth Transitions
 function initMobileMenu() {
     const btn = document.getElementById('mobile-menu-btn');
     const menu = document.getElementById('mobile-menu');
+    const backdrop = document.getElementById('mobile-menu-backdrop');
     const openIcon = document.getElementById('hamburger-icon');
     const closeIcon = document.getElementById('close-icon');
 
     if (!btn || !menu) return;
 
+    let isOpen = false;
+
+    const openMenu = () => {
+        if (isOpen) return;
+        isOpen = true;
+
+        btn.setAttribute('aria-expanded', 'true');
+
+        // Smoothly crossfade and rotate button icon
+        if (openIcon && closeIcon) {
+            openIcon.classList.add('opacity-0', '-rotate-90', 'pointer-events-none');
+            openIcon.classList.remove('opacity-100', 'rotate-0');
+            closeIcon.classList.remove('opacity-0', 'rotate-90', 'pointer-events-none');
+            closeIcon.classList.add('opacity-100', 'rotate-0');
+        }
+
+        // Fade in backdrop
+        if (backdrop) {
+            backdrop.classList.remove('hidden');
+            gsap.killTweensOf(backdrop);
+            gsap.to(backdrop, {
+                opacity: 1,
+                duration: 0.35,
+                ease: 'power2.out',
+                onStart: () => {
+                    backdrop.classList.remove('pointer-events-none');
+                    backdrop.classList.add('pointer-events-auto');
+                }
+            });
+        }
+
+        // Prepare drawer and elements
+        menu.classList.remove('hidden');
+        gsap.killTweensOf(menu);
+
+        const items = menu.querySelectorAll('.mobile-nav-item');
+        const footer = menu.querySelector('#mobile-menu-footer');
+        if (items.length) gsap.killTweensOf(items);
+        if (footer) gsap.killTweensOf(footer);
+
+        // Calculate natural height dynamically
+        gsap.set(menu, { height: 'auto', opacity: 0 });
+        const targetHeight = menu.offsetHeight;
+        gsap.set(menu, { height: 0, opacity: 0 });
+
+        // Animate drawer expanding smoothly
+        gsap.to(menu, {
+            height: targetHeight,
+            opacity: 1,
+            duration: 0.42,
+            ease: 'norra-out',
+            onComplete: () => {
+                menu.style.height = 'auto';
+            }
+        });
+
+        // Staggered smooth entrance for each page link
+        if (items.length) {
+            gsap.fromTo(items,
+                { opacity: 0, y: 16 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.4,
+                    stagger: 0.08,
+                    ease: 'norra-out',
+                    delay: 0.1
+                }
+            );
+        }
+
+        // Soft fade-in for footer contact info
+        if (footer) {
+            gsap.fromTo(footer,
+                { opacity: 0, y: 10 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.35,
+                    ease: 'power2.out',
+                    delay: 0.32
+                }
+            );
+        }
+    };
+
+    const closeMenu = () => {
+        if (!isOpen) return;
+        isOpen = false;
+
+        btn.setAttribute('aria-expanded', 'false');
+
+        // Restore hamburger icon
+        if (openIcon && closeIcon) {
+            openIcon.classList.remove('opacity-0', '-rotate-90', 'pointer-events-none');
+            openIcon.classList.add('opacity-100', 'rotate-0');
+            closeIcon.classList.add('opacity-0', 'rotate-90', 'pointer-events-none');
+            closeIcon.classList.remove('opacity-100', 'rotate-0');
+        }
+
+        // Fade out backdrop
+        if (backdrop) {
+            gsap.killTweensOf(backdrop);
+            gsap.to(backdrop, {
+                opacity: 0,
+                duration: 0.25,
+                ease: 'power2.inOut',
+                onComplete: () => {
+                    backdrop.classList.add('hidden', 'pointer-events-none');
+                    backdrop.classList.remove('pointer-events-auto');
+                }
+            });
+        }
+
+        const items = menu.querySelectorAll('.mobile-nav-item');
+        const footer = menu.querySelector('#mobile-menu-footer');
+        if (items.length) gsap.killTweensOf(items);
+        if (footer) gsap.killTweensOf(footer);
+        gsap.killTweensOf(menu);
+
+        // Smoothly fade/slide items away
+        if (items.length) {
+            gsap.to(items, {
+                opacity: 0,
+                y: -8,
+                duration: 0.2,
+                ease: 'power2.in'
+            });
+        }
+
+        // Smoothly collapse drawer
+        gsap.to(menu, {
+            height: 0,
+            opacity: 0,
+            duration: 0.3,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                menu.classList.add('hidden');
+                gsap.set(menu, { clearProps: 'all' });
+                if (items.length) gsap.set(items, { clearProps: 'all' });
+                if (footer) gsap.set(footer, { clearProps: 'all' });
+            }
+        });
+    };
+
     const toggleMenu = () => {
-        const isClosed = menu.classList.contains('hidden');
-        if (isClosed) {
-            menu.classList.remove('hidden');
-            openIcon?.classList.add('hidden');
-            closeIcon?.classList.remove('hidden');
-            btn.setAttribute('aria-expanded', 'true');
+        if (isOpen) {
+            closeMenu();
         } else {
-            menu.classList.add('hidden');
-            openIcon?.classList.remove('hidden');
-            closeIcon?.classList.add('hidden');
-            btn.setAttribute('aria-expanded', 'false');
+            openMenu();
         }
     };
 
     btn.addEventListener('click', toggleMenu);
 
+    if (backdrop) {
+        backdrop.addEventListener('click', closeMenu);
+    }
+
     // Close when clicking any nav link
     document.querySelectorAll('.mobile-nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            menu.classList.add('hidden');
-            openIcon?.classList.remove('hidden');
-            closeIcon?.classList.add('hidden');
-            btn.setAttribute('aria-expanded', 'false');
-        });
+        link.addEventListener('click', closeMenu);
     });
+
+    // Close on escape key
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isOpen) {
+            closeMenu();
+        }
+    });
+
+    // Auto-close if resized to desktop viewport
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768 && isOpen) {
+            closeMenu();
+        }
+    }, { passive: true });
 }
 
 // 3. Project Preview Modal
@@ -457,47 +607,104 @@ function initJourneyScroll() {
     });
 }
 
-// 8. Editorial Blur-and-Rise Reveal Animations (estudionorra.com signature)
-function initTextReveals() {
-    const reveals = document.querySelectorAll('.norra-reveal');
-    if (!reveals.length) return;
+// 8. Section-Level Synchronized Reveal Manager
+// When user reaches any section, the entire section and all its contents (reveals, lines, split text, signature) are rendered immediately!
+window.revealSection = function(section) {
+    if (!section || section.dataset.norraRevealed === 'true') return;
+    section.dataset.norraRevealed = 'true';
 
-    const revealVisible = () => {
-        reveals.forEach((el) => {
-            const rect = el.getBoundingClientRect();
-            if (rect.top < window.innerHeight * 0.92) {
-                el.classList.add('is-revealed');
+    // 1. Reveal all .norra-reveal elements inside this section immediately
+    const reveals = section.querySelectorAll('.norra-reveal');
+    reveals.forEach((el) => {
+        el.classList.add('is-revealed');
+    });
+
+    // 2. Reveal all .services-list inside this section
+    const servicesLists = section.querySelectorAll('.services-list');
+    servicesLists.forEach((list) => {
+        list.classList.add('is-revealed');
+    });
+
+    // 3. Play any SplitText animations registered for this section
+    if (section._splitTweens && section._splitTweens.length) {
+        section._splitTweens.forEach((tween) => {
+            if (tween && typeof tween.play === 'function') {
+                tween.play();
+            }
+        });
+    }
+};
+
+function initTextReveals() {
+    const allSections = document.querySelectorAll('section, footer');
+
+    // Reveal any sections currently visible or partially visible in viewport
+    const checkSectionsInView = () => {
+        allSections.forEach((section) => {
+            const rect = section.getBoundingClientRect();
+            // If any part of the section has entered viewport (top < 92% of screen and bottom > 0)
+            if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+                window.revealSection(section);
+            }
+        });
+
+        // Also check any orphan .norra-reveal elements not inside a section or footer
+        document.querySelectorAll('.norra-reveal:not(.is-revealed)').forEach((el) => {
+            const parentSection = el.closest('section, footer');
+            if (!parentSection) {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.92) {
+                    el.classList.add('is-revealed');
+                }
             }
         });
     };
 
+    // Run check on load, preloader done, and fallbacks
+    checkSectionsInView();
     window.addEventListener('norra-preloader-done', () => {
-        setTimeout(revealVisible, 150);
+        setTimeout(checkSectionsInView, 100);
     });
+    setTimeout(checkSectionsInView, 1000);
 
-    // Fallback if preloader already finished or not present
-    setTimeout(revealVisible, 1200);
+    // Scroll listener for instant responsiveness
+    window.addEventListener('scroll', checkSectionsInView, { passive: true });
 
-    // ScrollTrigger for all elements
-    reveals.forEach((el) => {
+    // ScrollTrigger for every section: when the section top reaches 85% of screen, reveal whole section
+    allSections.forEach((section) => {
         ScrollTrigger.create({
-            trigger: el,
-            start: 'top 88%',
-            onEnter: () => el.classList.add('is-revealed'),
-            once: true,
-        });
-    });
-
-    // ScrollTrigger for Service Separator Lines (corygrossman.co style left-to-right entrance)
-    const servicesList = document.querySelector('.services-list');
-    if (servicesList) {
-        ScrollTrigger.create({
-            trigger: servicesList,
+            trigger: section,
             start: 'top 85%',
-            onEnter: () => servicesList.classList.add('is-revealed'),
+            onEnter: () => window.revealSection(section),
+            onEnterBack: () => window.revealSection(section),
             once: true,
         });
-    }
+
+        // Also if ANY child reveal element inside the section enters early (top 90%), reveal the whole section!
+        const childTriggers = section.querySelectorAll('.norra-reveal, [data-split], .services-list');
+        childTriggers.forEach((child) => {
+            ScrollTrigger.create({
+                trigger: child,
+                start: 'top 90%',
+                onEnter: () => window.revealSection(section),
+                once: true,
+            });
+        });
+    });
+
+    // Anchor link clicks: instantly reveal target section before/during scroll
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener('click', () => {
+            const targetId = anchor.getAttribute('href');
+            if (targetId && targetId !== '#') {
+                const target = document.querySelector(targetId);
+                if (target) {
+                    const parentSection = target.closest('section, footer') || target;
+                    window.revealSection(parentSection);
+                }
+            }
+        });
+    });
 }
 
 // 9. 3D Masked Text Reveal (Nog Arquitetura project.blade.php & nog-orchestrator.js formula)
@@ -506,6 +713,11 @@ function init3DTextSplit() {
     if (!elements.length) return;
 
     elements.forEach((element) => {
+        const section = element.closest('section, footer') || element;
+        if (!section._splitTweens) {
+            section._splitTweens = [];
+        }
+
         try {
             const split = SplitText.create(element, {
                 type: 'lines,words',
@@ -516,23 +728,31 @@ function init3DTextSplit() {
 
             if (!split.words || !split.words.length) return;
 
-            gsap.from(split.words, {
+            // Stagger sequential splits in the same section slightly (e.g. h2 then p)
+            const splitIndexInSection = section._splitTweens.length;
+            const delay = splitIndexInSection * 0.12;
+
+            const tween = gsap.from(split.words, {
                 yPercent: 118,
                 rotateX: -42,
                 transformOrigin: '50% 100%',
                 duration: 1.05,
+                delay: delay,
                 stagger: { each: 0.035, from: 'start' },
                 ease: 'norra-out',
-                scrollTrigger: {
-                    trigger: element,
-                    start: 'top 85%',
-                    once: true,
-                },
+                paused: true, // Controlled by section reveal
                 onComplete: () => {
                     gsap.set(split.words, { clearProps: 'transform,opacity,willChange' });
                     split.revert();
                 },
             });
+
+            section._splitTweens.push(tween);
+
+            // If section was already revealed, play immediately
+            if (section.dataset.norraRevealed === 'true') {
+                tween.play();
+            }
         } catch (e) {
             console.warn('SplitText initialization fallback:', e);
         }
@@ -585,25 +805,51 @@ function startManifestoLoadingCycle() {
         manifestoProgressTween.kill();
     }
 
-    // Reset fill height to 0%
-    gsap.set(fill, { height: '0%' });
+    const isMobile = window.innerWidth < 1024;
 
-    // Slow, progressive, continuous fill from top to bottom
-    manifestoProgressTween = gsap.to(fill, {
-        height: '100%',
-        duration: MANIFESTO_CYCLE_DURATION,
-        ease: 'none',
-        onComplete: () => {
-            // ONLY after loading completes 100%, switch to the next stat
-            const currentIdx = parseInt(block.getAttribute('data-index') || '0', 10);
-            window.updateManifestoStatToIndex(currentIdx + 1);
+    if (isMobile) {
+        // Mobile: Horizontal progress bar (fills from left to right)
+        gsap.set(fill, {
+            width: '0%',
+            height: '100%',
+            transformOrigin: 'left center',
+        });
 
-            // Subtle delay before next cycle begins
-            gsap.delayedCall(0.2, () => {
-                startManifestoLoadingCycle();
-            });
-        },
-    });
+        manifestoProgressTween = gsap.to(fill, {
+            width: '100%',
+            duration: MANIFESTO_CYCLE_DURATION,
+            ease: 'none',
+            onComplete: () => {
+                const currentIdx = parseInt(block.getAttribute('data-index') || '0', 10);
+                window.updateManifestoStatToIndex(currentIdx + 1);
+
+                gsap.delayedCall(0.2, () => {
+                    startManifestoLoadingCycle();
+                });
+            },
+        });
+    } else {
+        // Desktop: Vertical progress bar (fills from top to bottom)
+        gsap.set(fill, {
+            height: '0%',
+            width: '100%',
+            transformOrigin: 'top center',
+        });
+
+        manifestoProgressTween = gsap.to(fill, {
+            height: '100%',
+            duration: MANIFESTO_CYCLE_DURATION,
+            ease: 'none',
+            onComplete: () => {
+                const currentIdx = parseInt(block.getAttribute('data-index') || '0', 10);
+                window.updateManifestoStatToIndex(currentIdx + 1);
+
+                gsap.delayedCall(0.2, () => {
+                    startManifestoLoadingCycle();
+                });
+            },
+        });
+    }
 }
 
 window.cycleManifestoStatNext = function() {
@@ -630,6 +876,16 @@ function initManifestoBeamCycle() {
     // Start cycle when section is visible or DOM is ready
     startManifestoLoadingCycle();
 
+    // Adapt cleanly when resizing across mobile / desktop breakpoints (< 1024px)
+    let isLastMobile = window.innerWidth < 1024;
+    window.addEventListener('resize', () => {
+        const currentMobile = window.innerWidth < 1024;
+        if (currentMobile !== isLastMobile) {
+            isLastMobile = currentMobile;
+            startManifestoLoadingCycle();
+        }
+    });
+
     // Pause / resume on tab visibility change
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
@@ -640,24 +896,24 @@ function initManifestoBeamCycle() {
     });
 }
 
-// 12. Fluid FAQ to CTA Scroll Transition (Storey Architecture style)
+// 12. Fluid Transition to CTA Scroll (Storey Architecture style - supports #faq and #todos-projetos)
 function initFaqCtaTransition() {
-    const faqSection = document.getElementById('faq');
+    const triggerSection = document.getElementById('faq') || document.getElementById('todos-projetos');
     const ctaSection = document.getElementById('contato');
 
-    if (!faqSection || !ctaSection) return;
+    if (!triggerSection || !ctaSection) return;
 
-    const faqInner = faqSection.querySelector('.faq-inner-container') || faqSection;
-    const faqOverlay = faqSection.querySelector('.faq-dim-overlay');
+    const inner = triggerSection.querySelector('.faq-inner-container') || triggerSection.querySelector('.projects-inner-container') || triggerSection;
+    const overlay = triggerSection.querySelector('.faq-dim-overlay') || triggerSection.querySelector('.projects-dim-overlay');
 
     const mm = gsap.matchMedia();
 
     // Desktop and Tablet transition
     mm.add('(min-width: 768px)', () => {
-        // Pin FAQ at bottom of viewport so CTA smoothly ascends over it
+        // Pin trigger section at bottom of viewport so CTA smoothly ascends over it
         const tl = gsap.timeline({
             scrollTrigger: {
-                trigger: faqSection,
+                trigger: triggerSection,
                 start: 'bottom bottom',
                 end: '+=100%',
                 pin: true,
@@ -668,15 +924,15 @@ function initFaqCtaTransition() {
             },
         });
 
-        // 1. FAQ recedes: translates slightly upward, subtle scale down, and atmospheric dim
-        tl.to(faqInner, {
+        // 1. Content recedes: translates slightly upward, subtle scale down, and atmospheric dim
+        tl.to(inner, {
             y: -100,
             scale: 0.96,
             ease: 'none',
         }, 0);
 
-        if (faqOverlay) {
-            tl.to(faqOverlay, {
+        if (overlay) {
+            tl.to(overlay, {
                 opacity: 0.65,
                 ease: 'none',
             }, 0);
@@ -687,7 +943,7 @@ function initFaqCtaTransition() {
     mm.add('(max-width: 767px)', () => {
         const tl = gsap.timeline({
             scrollTrigger: {
-                trigger: faqSection,
+                trigger: triggerSection,
                 start: 'bottom bottom',
                 end: '+=100%',
                 pin: true,
@@ -698,14 +954,14 @@ function initFaqCtaTransition() {
             },
         });
 
-        tl.to(faqInner, {
+        tl.to(inner, {
             y: -40,
             scale: 0.98,
             ease: 'none',
         }, 0);
 
-        if (faqOverlay) {
-            tl.to(faqOverlay, {
+        if (overlay) {
+            tl.to(overlay, {
                 opacity: 0.5,
                 ease: 'none',
             }, 0);

@@ -4,7 +4,7 @@
         <!-- Section Title: Penpot exact Alte Haas Grotesk 78px uppercase -->
         <div class="mb-10 sm:mb-14 lg:mb-[3.5vw]">
             <span class="sr-only">Projetos Selecionados</span>
-            <h2 class="norra-reveal font-display font-bold text-[clamp(2.5rem,5.5vw,4.875rem)] leading-none uppercase tracking-[-4px] text-[#101010]">
+            <h2 class="norra-reveal font-display font-bold text-[clamp(2.5rem,5.5vw,4.875rem)] leading-none uppercase tracking-[-1.5px] sm:tracking-[-2.5px] md:tracking-[-3px] lg:tracking-[-4px] text-[#101010]">
                 PROJETOS SELECIONADOS
             </h2>
         </div>
@@ -61,11 +61,11 @@
 
                             <!-- Project Details: Top-aligned, moved close to the image (gap 2.74%), font-weight: bold title -->
                             <div class="w-full lg:w-[32.6%] space-y-3 sm:space-y-4 pt-1 sm:pt-2 lg:pt-[1.6vw]">
-                                <h3 class="font-sans font-bold text-2xl sm:text-[26px] lg:text-[28px] text-[#101010] tracking-[-1px] leading-[1.2]">
+                                <h3 class="font-sans font-bold text-2xl sm:text-[26px] lg:text-[28px] text-[#101010] tracking-[-0.5px] sm:tracking-[-0.75px] md:tracking-[-1px] leading-[1.2]">
                                     {{ $project->title }}
                                 </h3>
 
-                                <p class="font-sans font-normal text-sm sm:text-base lg:text-[18px] text-[#101010]/80 tracking-[-1px] leading-[1.2]">
+                                <p class="font-sans font-normal text-sm sm:text-base lg:text-[18px] text-[#101010]/80 tracking-normal sm:tracking-[-0.25px] md:tracking-[-0.5px] lg:tracking-[-1px] leading-[1.2]">
                                     {{ $project->short_description }}
                                 </p>
                             </div>
@@ -77,9 +77,9 @@
 
         <!-- Bottom Link: 'Veja todos os projetos' matching Penpot with font-weight: bold, 48px desktop / 24px mobile, exact 4px line gap and 17px section bottom -->
         <div class="mt-7 sm:mt-8 lg:mt-[2.22vw] border-t border-[#a2a1a1]">
-            <a href="#contato"
+            <a href="{{ route('projects.index') }}"
                class="group flex items-center justify-between pt-1 pb-1 sm:pt-1.5 sm:pb-1.5 lg:pt-[4px] lg:pb-[4px] text-[#101010] hover:text-[var(--color-norra-red)] transition-colors">
-                <span class="font-sans font-bold text-[clamp(1.5rem,3.333vw,3rem)] leading-[1.2] tracking-[-2px]">
+                <span class="font-sans font-bold text-[clamp(1.5rem,3.333vw,3rem)] leading-[1.2] tracking-[-0.5px] sm:tracking-[-1px] md:tracking-[-1.5px] lg:tracking-[-2px]">
                     Veja todos os projetos
                 </span>
                 <span class="text-[#101010] group-hover:translate-x-3 group-hover:text-[var(--color-norra-red)] transition-all duration-300 flex items-center flex-shrink-0">

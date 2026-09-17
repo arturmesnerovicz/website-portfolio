@@ -1,4 +1,4 @@
-<header id="site-header" class="fixed top-0 left-0 w-full z-40 transition-all duration-300 bg-[#101010]/80 backdrop-blur-md border-b border-white/[0.04]">
+<header id="site-header" class="fixed top-0 left-0 w-full z-40 transition-all duration-300 bg-[#101010] border-b border-white/[0.04]">
     <div class="relative w-full px-[clamp(1.5rem,3.125vw,3.5rem)] h-20 flex items-center justify-between">
         <!-- Brand Logo: Monogram from Penpot -->
         <a href="{{ url('/') }}" class="flex items-center gap-3 group focus:outline-none" aria-label="Estúdio Norra Início">
@@ -13,73 +13,81 @@
         </a>
 
         <!-- Desktop Navigation Links (Penpot Minimalist Menu - Centered & Balanced Spacing with Monolog Roll Hover) -->
-        <nav class="hidden md:flex items-center gap-5 absolute left-1/2 -translate-x-1/2">
-            <a href="#expertise" class="nav-roll-link font-sans font-bold text-[16px] tracking-[-1px] text-[#ddddd5] py-2">
+        <nav class="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
+            <a href="{{ request()->routeIs('home') ? '#expertise' : url('/#expertise') }}" class="nav-roll-link font-sans font-bold text-[16px] tracking-[-1px] text-[#ddddd5] py-2">
                 <span class="nav-roll-contain">
                     <span class="nav-roll-text">Serviços</span>
                 </span>
             </a>
-            <a href="#projetos" class="nav-roll-link font-sans font-bold text-[16px] tracking-[-1px] text-[#ddddd5] py-2">
+            <a href="{{ request()->routeIs('home') ? '#projetos' : '#todos-projetos' }}" class="nav-roll-link font-sans font-bold text-[16px] tracking-[-1px] text-[#ddddd5] py-2">
                 <span class="nav-roll-contain">
                     <span class="nav-roll-text">Projetos</span>
                 </span>
             </a>
-            <a href="#jornada" class="nav-roll-link font-sans font-bold text-[16px] tracking-[-1px] text-[#ddddd5] py-2">
+            <a href="{{ request()->routeIs('home') ? '#jornada' : url('/#jornada') }}" class="nav-roll-link font-sans font-bold text-[16px] tracking-[-1px] text-[#ddddd5] py-2">
                 <span class="nav-roll-contain">
                     <span class="nav-roll-text">Processo</span>
-                </span>
-            </a>
-            <a href="#faq" class="nav-roll-link font-sans font-bold text-[16px] tracking-[-1px] text-[#ddddd5] py-2">
-                <span class="nav-roll-contain">
-                    <span class="nav-roll-text">FAQ</span>
                 </span>
             </a>
         </nav>
 
         <!-- Right Side CTA & Mobile Layout -->
         <div class="flex items-center gap-3">
-            <x-btn-cta text="Iniciar Projeto" />
+            <x-btn-cta text="Iniciar Projeto" size="sm" />
 
-            <!-- Mobile Hamburger Button -->
+            <!-- Mobile Hamburger Button (clean toggle without any focus ring/circle) -->
             <button id="mobile-menu-btn"
                     type="button"
-                    class="md:hidden inline-flex items-center justify-center p-2 rounded-full text-[#ddddd5] hover:text-white focus:outline-none focus:ring-1 focus:ring-[#ddddd5]"
+                    class="md:hidden relative w-10 h-10 inline-flex items-center justify-center text-[#ddddd5] hover:text-white outline-none focus:outline-none focus:ring-0 active:ring-0 focus-visible:outline-none border-none bg-transparent hover:bg-transparent active:bg-transparent transition-colors cursor-pointer select-none"
+                    style="-webkit-tap-highlight-color: transparent;"
                     aria-controls="mobile-menu"
                     aria-expanded="false"
                     aria-label="Abrir Menu">
-                <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
-                </svg>
-                <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <span class="relative w-6 h-6 flex items-center justify-center pointer-events-none">
+                    <svg id="hamburger-icon" class="w-6 h-6 absolute inset-0 transition-all duration-300 transform opacity-100 rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
+                    </svg>
+                    <svg id="close-icon" class="w-6 h-6 absolute inset-0 transition-all duration-300 transform opacity-0 rotate-90 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </span>
             </button>
         </div>
     </div>
 
     <!-- Mobile Navigation Drawer -->
-    <div id="mobile-menu" class="hidden md:hidden bg-[#101010] border-b border-white/10 px-6 py-8 space-y-6">
-        <nav class="flex flex-col space-y-4">
-            <a href="#expertise" class="mobile-nav-link text-lg font-sans font-bold tracking-[-1px] text-[#ddddd5] hover:text-[#b70606] transition-colors">
-                Serviços
-            </a>
-            <a href="#projetos" class="mobile-nav-link text-lg font-sans font-bold tracking-[-1px] text-[#ddddd5] hover:text-[#b70606] transition-colors">
-                Projetos
-            </a>
-            <a href="#jornada" class="mobile-nav-link text-lg font-sans font-bold tracking-[-1px] text-[#ddddd5] hover:text-[#b70606] transition-colors">
-                Processo
-            </a>
-            <a href="#faq" class="mobile-nav-link text-lg font-sans font-bold tracking-[-1px] text-[#ddddd5] hover:text-[#b70606] transition-colors">
-                FAQ
-            </a>
-        </nav>
+    <div id="mobile-menu" class="hidden md:hidden overflow-hidden bg-[#101010] border-b border-white/10 w-full shadow-2xl">
+        <div class="px-6 sm:px-8 pt-6 pb-8 space-y-6">
+            <nav class="flex flex-col">
+                <div class="mobile-nav-item border-b border-white/10 pb-5">
+                    <a href="{{ request()->routeIs('home') ? '#expertise' : url('/#expertise') }}"
+                       class="mobile-nav-link font-sans font-bold text-3xl sm:text-4xl tracking-[-0.5px] sm:tracking-[-1px] md:tracking-[-1.5px] leading-tight text-[#ddddd5] hover:text-white transition-colors duration-200 block">
+                        Serviços
+                    </a>
+                </div>
+                <div class="mobile-nav-item border-b border-white/10 py-5">
+                    <a href="{{ request()->routeIs('home') ? '#projetos' : '#todos-projetos' }}"
+                       class="mobile-nav-link font-sans font-bold text-3xl sm:text-4xl tracking-[-0.5px] sm:tracking-[-1px] md:tracking-[-1.5px] leading-tight text-[#ddddd5] hover:text-white transition-colors duration-200 block">
+                        Projetos
+                    </a>
+                </div>
+                <div class="mobile-nav-item border-b border-white/10 py-5">
+                    <a href="{{ request()->routeIs('home') ? '#jornada' : url('/#jornada') }}"
+                       class="mobile-nav-link font-sans font-bold text-3xl sm:text-4xl tracking-[-0.5px] sm:tracking-[-1px] md:tracking-[-1.5px] leading-tight text-[#ddddd5] hover:text-white transition-colors duration-200 block">
+                        Processo
+                    </a>
+                </div>
+            </nav>
 
-        <div class="pt-4 border-t border-white/10 flex flex-col gap-3">
-            <x-btn-cta text="Iniciar Projeto" class="w-full !justify-between" />
-            <div class="text-center">
-                <span class="text-xs text-[#888888]">contato@estudionorra.com</span>
+            <div id="mobile-menu-footer" class="pt-2">
+                <span class="text-xs sm:text-sm font-sans text-[#888888]">contato@estudionorra.com</span>
             </div>
         </div>
     </div>
 </header>
+
+<!-- Mobile Menu Backdrop Blur Overlay (gentle darkening and blur on rest of site) -->
+<div id="mobile-menu-backdrop"
+     class="fixed inset-0 top-20 z-30 bg-black/40 backdrop-blur-[4px] opacity-0 pointer-events-none hidden md:hidden"
+     aria-hidden="true"></div>
 

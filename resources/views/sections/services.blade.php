@@ -3,7 +3,7 @@
 
         <!-- Section Header: Penpot EXPERTISE 78px - Aligned with Service Titles -->
         <div class="mb-12 sm:mb-16 px-4 sm:px-8">
-            <h2 class="norra-reveal font-display font-bold text-[clamp(2.5rem,5.5vw,4.875rem)] leading-none uppercase tracking-[-4.85px] text-[#ddddd5]">
+            <h2 class="norra-reveal font-display font-bold text-[clamp(2.5rem,5.5vw,4.875rem)] leading-none uppercase tracking-[-1.5px] sm:tracking-[-2.5px] md:tracking-[-3.5px] lg:tracking-[-4.85px] text-[#ddddd5]">
                 EXPERTISE
             </h2>
         </div>
@@ -27,7 +27,7 @@
                         <div class="flex items-center justify-between gap-6">
                             <!-- Left: Title -->
                             <div class="service-title-wrap min-w-0 flex-1">
-                                <span class="service-title block font-sans font-bold tracking-[-3px] text-[clamp(1.75rem,4.86vw,4.375rem)] leading-tight">
+                                <span class="service-title block font-sans font-bold tracking-[-1px] sm:tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-3px] text-[clamp(1.75rem,4.86vw,4.375rem)] leading-tight">
                                     {{ $service->title }}
                                 </span>
                             </div>
@@ -58,7 +58,7 @@
                         <div class="service-accordion-grid">
                             <div class="overflow-hidden">
                                 <!-- Aligned Expandable Content -->
-                                <div class="service-accordion-content pt-5 sm:pt-6 space-y-6 sm:space-y-7 min-w-0">
+                                <div class="service-accordion-content pt-5 sm:pt-6 pb-6 sm:pb-5 space-y-6 sm:space-y-7 min-w-0">
                                     <!-- Description (Framer-Motion RevealParagraph replica) -->
                                     @php
                                         $descWords = preg_split('/\s+/', trim($service->description ?? ''));
@@ -75,7 +75,7 @@
                                     </p>
 
                                     <!-- Bottom Row: Deliverables Chips on Left, FALE CONOSCO Pill CTA on Right -->
-                                    <div class="service-bottom-row flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
+                                    <div class="service-bottom-row flex flex-col sm:flex-row sm:items-center justify-between gap-5 sm:gap-4 pt-2 pb-1">
                                         <!-- Deliverables Chips -->
                                         @if(!empty($service->deliverables) && is_array($service->deliverables))
                                             <div class="flex flex-wrap items-center gap-2">
@@ -90,10 +90,10 @@
                                         @endif
 
                                         <!-- FALE CONOSCO Button with bottom-center ink fill -->
-                                        <div class="flex-shrink-0">
+                                        <div class="flex-shrink-0 pt-1 sm:pt-0">
                                             <a href="#contato"
                                                onclick="event.stopPropagation();"
-                                               class="service-cta-btn relative overflow-hidden inline-flex items-center justify-center px-6 py-2.5 rounded-[4px] border-[1.5px] text-[11px] sm:text-xs font-medium uppercase tracking-widest transition-all duration-300">
+                                               class="service-cta-btn relative overflow-hidden inline-flex items-center justify-center px-6 py-2.5 rounded-[4px] border-[1.5px] text-[11px] sm:text-xs font-medium uppercase tracking-widest leading-none transition-all duration-300">
                                                 <span class="service-cta-ink" aria-hidden="true"></span>
                                                 <span class="service-cta-text relative z-10 transition-colors duration-300">FALE CONOSCO</span>
                                             </a>
@@ -125,6 +125,12 @@ function toggleServiceAccordion(element) {
     // Toggle clicked item if it was closed
     if (!isOpen) {
         element.classList.add('is-active');
+    }
+
+    // Refresh ScrollTrigger so pinned offsets adapt accurately
+    if (window.ScrollTrigger) {
+        setTimeout(() => window.ScrollTrigger.refresh(), 300);
+        setTimeout(() => window.ScrollTrigger.refresh(), 600);
     }
 }
 </script>

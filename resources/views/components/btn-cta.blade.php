@@ -6,7 +6,11 @@
 ])
 
 @php
-    $sizeClass = $size === 'lg' ? 'faq-cta-btn--lg' : '';
+    $sizeClass = match($size) {
+        'lg' => 'faq-cta-btn--lg',
+        'sm' => 'faq-cta-btn--sm',
+        default => '',
+    };
 @endphp
 
 <button type="{{ $type }}"

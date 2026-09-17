@@ -1,11 +1,11 @@
-<section id="faq" class="pt-24 sm:pt-32 md:pt-40 pb-24 sm:pb-32 md:pb-40 lg:pb-[40vh] bg-[#151515] text-[#ddddd5] relative z-10">
+<section id="faq" class="pt-24 sm:pt-32 md:pt-40 pb-[50vh] sm:pb-[45vh] lg:pb-[40vh] bg-[#151515] text-[#ddddd5] relative z-10">
     <div class="faq-inner-container w-full">
         <div class="w-full px-[clamp(1.5rem,3.125vw,3.5rem)]">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
-                <!-- Left Column: 'Ficou com dúvida?' & CTA button -->
-                <div class="lg:col-span-4 space-y-6 lg:sticky lg:top-32 order-2 lg:order-1 pt-6 lg:pt-0 norra-reveal">
-                    <h3 class="font-sans font-bold text-3xl sm:text-4xl lg:text-[40px] text-[#ddddd5] tracking-[-1px] leading-[1.2]">
+                <!-- Left Column: 'Ficou com dúvida?' & CTA button (Desktop only, hidden on mobile to prevent duplicate CTA buttons) -->
+                <div class="hidden lg:block lg:col-span-4 space-y-6 lg:sticky lg:top-32 order-2 lg:order-1 pt-6 lg:pt-0 norra-reveal">
+                    <h3 class="font-sans font-bold text-3xl sm:text-4xl lg:text-[40px] text-[#ddddd5] tracking-[-0.5px] sm:tracking-[-0.75px] lg:tracking-[-1px] leading-[1.2]">
                         Ficou com<br class="hidden sm:inline" /> dúvida?
                     </h3>
 
@@ -17,7 +17,7 @@
                 <!-- Right Column: Big Title & Question List -->
                 <div class="lg:col-span-8 order-1 lg:order-2 space-y-12 sm:space-y-16">
                     <!-- Section Headline: 70px Penpot -->
-                    <h2 class="font-sans font-bold text-[clamp(2rem,4.86vw,4.375rem)] leading-[1.15] text-[#ddddd5] tracking-[-2px] norra-reveal">
+                    <h2 class="font-sans font-bold text-[clamp(2rem,4.86vw,4.375rem)] leading-[1.15] text-[#ddddd5] tracking-[-0.5px] sm:tracking-[-1px] lg:tracking-[-2px] norra-reveal">
                         Tudo que você precisa saber<br />para iniciarmos um projeto.
                     </h2>
 
@@ -36,7 +36,7 @@
                                     <!-- Row Header -->
                                     <div class="flex items-center justify-between gap-6">
                                         <div class="faq-title-wrap min-w-0 flex-1">
-                                            <span class="faq-title block font-sans font-normal text-lg sm:text-xl md:text-[24px] tracking-[-1px] leading-[1.2]">
+                                            <span class="faq-title block font-sans font-normal text-lg sm:text-xl md:text-[24px] tracking-normal sm:tracking-[-0.5px] lg:tracking-[-1px] leading-[1.2]">
                                                 {{ $faq->question }}
                                             </span>
                                         </div>
@@ -59,7 +59,7 @@
                                     <!-- Expandable Body with CSS Grid transition (matching EXPERTISE) -->
                                     <div class="faq-accordion-grid">
                                         <div class="overflow-hidden">
-                                            <div class="faq-accordion-content pt-4 sm:pt-5 min-w-0">
+                                            <div class="faq-accordion-content pt-4 sm:pt-5 pb-5 sm:pb-4 min-w-0">
                                                 @php
                                                     $faqWords = preg_split('/\s+/', trim($faq->answer ?? ''));
                                                 @endphp
@@ -105,6 +105,12 @@ function toggleFaqAccordion(element) {
     // Toggle clicked item if it was closed
     if (!isOpen) {
         element.classList.add('is-active');
+    }
+
+    // Refresh ScrollTrigger so trigger offsets adjust to new height
+    if (window.ScrollTrigger) {
+        setTimeout(() => window.ScrollTrigger.refresh(), 300);
+        setTimeout(() => window.ScrollTrigger.refresh(), 600);
     }
 }
 </script>
