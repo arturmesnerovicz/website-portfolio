@@ -68,7 +68,8 @@
                 <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-x-7 gap-y-12 sm:gap-y-14 transition-all duration-300 w-full">
                     @forelse($projects as $project)
                         @php
-                            $externalUrl = !empty($project->link_url) ? $project->link_url : (!empty($project->external_url) ? $project->external_url : '#');
+                            $hasUrl = !empty($project->link_url) && $project->link_url !== '#';
+                            $externalUrl = $hasUrl ? $project->link_url : '#';
                             $highlightVideo = $project->highlight_video ?? $project->highlightVideo ?? $project->video_url ?? null;
                             $videoSrc = null;
                             if (!empty($highlightVideo)) {
@@ -77,6 +78,16 @@
                                     : asset('storage/' . $highlightVideo);
                             }
                             $tagsArray = is_array($project->tags) ? $project->tags : (json_decode($project->tags ?? '[]', true) ?: []);
+                            $projectModalData = [
+                                'title' => $project->title,
+                                'client' => $project->client,
+                                'year' => $project->year,
+                                'category' => $project->category,
+                                'short_description' => $project->short_description,
+                                'full_description' => $project->full_description,
+                                'modal_image_url' => $project->modal_image_url,
+                                'tags' => $tagsArray,
+                            ];
                         @endphp
 
                         <article class="project-grid-card group flex flex-col transition-all duration-400 ease-out"
@@ -85,19 +96,29 @@
                             
                             <!-- Project Media Box: No hover zoom, rounded-[4px], bg-[#b1b2b5], aspect 661/441 (~1.5) -->
                             <div class="w-full aspect-[661/441] overflow-hidden rounded-[4px] bg-[#b1b2b5] relative block cursor-pointer shadow-sm">
-                                <a href="{{ $externalUrl }}"
-                                   @if($externalUrl !== '#') target="_blank" rel="noopener noreferrer" @else onclick="event.preventDefault(); if (typeof openProjectModal === 'function') { openProjectModal(@json($project)); }" @endif
-                                   class="block w-full h-full text-inherit"
-                                   aria-label="Ver projeto {{ $project->title }}">
+                                @if($hasUrl)
+                                    <a href="{{ $project->link_url }}"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       class="block w-full h-full text-inherit"
+                                       aria-label="Ver projeto {{ $project->title }}">
+                                @else
+                                    <div role="button"
+                                         tabindex="0"
+                                         class="block w-full h-full text-inherit cursor-pointer select-none focus:outline-none"
+                                         data-project-modal-trigger
+                                         data-project="{{ json_encode($projectModalData) }}"
+                                         aria-label="Ver projeto {{ $project->title }}">
+                                @endif
                                     
                                     @if(!empty($project->cover_image))
-                                        <img src="{{ asset('storage/' . $project->cover_image) }}"
+                                        <img src="{{ $project->cover_image_url }}"
                                              alt="{{ $project->title }}"
                                              class="project-card-image w-full h-full object-cover"
                                              loading="lazy">
                                     @else
                                         <div class="w-full h-full flex items-center justify-center bg-[#b1b2b5] text-[#101010]/30 font-sans font-bold text-2xl">
-                                            {{ $project->title }}
+                                             {{ $project->title }}
                                         </div>
                                     @endif
 
@@ -110,18 +131,33 @@
                                             <source src="{{ $videoSrc }}">
                                         </video>
                                     @endif
-                                </a>
+
+                                @if($hasUrl)
+                                    </a>
+                                @else
+                                    </div>
+                                @endif
                             </div>
 
                             <!-- Project Information (Penpot y=870, y=911, y=969) -->
                             <div class="pt-3 sm:pt-4 flex flex-col space-y-2">
                                 <!-- Title: TeX Gyre Heros Bold 28px #101010 -->
                                 <h2 class="font-sans font-bold text-2xl sm:text-[28px] text-[#101010] tracking-[-0.5px] sm:tracking-[-0.75px] md:tracking-[-1px] leading-[1.2]">
-                                    <a href="{{ $externalUrl }}"
-                                       @if($externalUrl !== '#') target="_blank" rel="noopener noreferrer" @else onclick="event.preventDefault(); if (typeof openProjectModal === 'function') { openProjectModal(@json($project)); }" @endif
-                                       class="hover:text-[var(--color-norra-red)] transition-colors">
-                                        {{ $project->title }}
-                                    </a>
+                                    @if($hasUrl)
+                                        <a href="{{ $project->link_url }}"
+                                           target="_blank"
+                                           rel="noopener noreferrer"
+                                           class="hover:text-[var(--color-norra-red)] transition-colors">
+                                            {{ $project->title }}
+                                        </a>
+                                    @else
+                                        <button type="button"
+                                                class="hover:text-[var(--color-norra-red)] transition-colors text-left cursor-pointer font-sans font-bold text-2xl sm:text-[28px] tracking-[-0.5px] sm:tracking-[-0.75px] md:tracking-[-1px] leading-[1.2] p-0 bg-transparent border-0"
+                                                data-project-modal-trigger
+                                                data-project="{{ json_encode($projectModalData) }}">
+                                            {{ $project->title }}
+                                        </button>
+                                    @endif
                                 </h2>
 
                                 <!-- Auxiliary text / Short description: TeX Gyre Heros 400 18px #101010 -->

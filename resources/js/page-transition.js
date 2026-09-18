@@ -281,9 +281,9 @@ export function initPageTransition() {
         const href = link.getAttribute('href');
         if (!href) return;
 
-        // Skip non-HTTP links
-        if (href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return;
-        if (link.target === '_blank' || link.hasAttribute('download') || link.dataset.noTransition !== undefined) return;
+        // Skip non-HTTP links, hash-only anchors, modal triggers, and explicitly skipped links
+        if (href === '#' || href === '' || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return;
+        if (link.target === '_blank' || link.hasAttribute('download') || link.dataset.noTransition !== undefined || link.hasAttribute('data-project-modal-trigger')) return;
 
         // Skip user modifier clicks (e.g. Cmd+click, Ctrl+click, middle click)
         if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;

@@ -13,7 +13,8 @@
         <div class="space-y-12 sm:space-y-16 lg:space-y-[3.5vw]">
             @foreach($projects->take(3) as $index => $project)
                 @php
-                    $externalUrl = !empty($project->link_url) ? $project->link_url : (!empty($project->external_url) ? $project->external_url : '#');
+                    $hasUrl = !empty($project->link_url) && $project->link_url !== '#';
+                    $externalUrl = $hasUrl ? $project->link_url : '#';
                     $highlightVideo = $project->highlight_video ?? $project->highlightVideo ?? $project->video_url ?? null;
                     $videoSrc = null;
                     if (!empty($highlightVideo)) {
@@ -21,12 +22,32 @@
                             ? $highlightVideo
                             : asset('storage/' . $highlightVideo);
                     }
+                    $projectModalData = [
+                        'title' => $project->title,
+                        'client' => $project->client,
+                        'year' => $project->year,
+                        'category' => $project->category,
+                        'short_description' => $project->short_description,
+                        'full_description' => $project->full_description,
+                        'modal_image_url' => $project->modal_image_url,
+                        'tags' => is_array($project->tags) ? $project->tags : [],
+                    ];
                 @endphp
                 <article class="project-card group">
-                    <a href="{{ $externalUrl }}"
-                       @if($externalUrl !== '#') target="_blank" rel="noopener noreferrer" @else onclick="event.preventDefault()" @endif
-                       class="block text-inherit no-underline cursor-pointer"
-                       aria-label="{{ $project->title }}">
+                    @if($hasUrl)
+                        <a href="{{ $project->link_url }}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="block text-inherit no-underline cursor-pointer"
+                           aria-label="{{ $project->title }}">
+                    @else
+                        <div role="button"
+                             tabindex="0"
+                             class="block text-inherit no-underline cursor-pointer select-none focus:outline-none"
+                             data-project-modal-trigger
+                             data-project="{{ json_encode($projectModalData) }}"
+                             aria-label="Ver projeto {{ $project->title }}">
+                    @endif
 
                         <!-- Top Divider Line with Arrow Indicator matching Penpot (arrow placed beside line, not over it) -->
                         <div class="w-full flex items-center gap-2 sm:gap-2.5 lg:gap-[10px] mb-4 sm:mb-5 lg:mb-[18px]">
@@ -43,7 +64,7 @@
                         <div class="flex flex-col lg:flex-row items-start justify-start gap-6 lg:gap-[2.74%]">
                             <!-- Project Media: Max 4px radius, scaled proportionally to Penpot without fixed max-w restriction -->
                             <div class="project-media-container w-full lg:w-[57.63%] aspect-[778/470] overflow-hidden rounded-[4px] bg-[#B1B2B5] relative shadow-sm flex-shrink-0">
-                                <img src="{{ asset('storage/' . $project->cover_image) }}"
+                                <img src="{{ $project->cover_image_url }}"
                                      alt="{{ $project->title }}"
                                      class="project-poster w-full h-full object-cover"
                                      loading="lazy">
@@ -70,7 +91,11 @@
                                 </p>
                             </div>
                         </div>
-                    </a>
+                    @if($hasUrl)
+                        </a>
+                    @else
+                        </div>
+                    @endif
                 </article>
             @endforeach
         </div>

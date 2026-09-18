@@ -243,8 +243,8 @@ function initMobileMenu() {
     }, { passive: true });
 }
 
-// 3. Project Preview Modal
-window.openProjectModal = function(title, client, year, category, description, imageUrl, tags) {
+// 3. Project Preview Modal (matching norra-spa full-length website presentation)
+window.openProjectModal = function(data) {
     const modal = document.getElementById('project-modal');
     const card = document.getElementById('project-modal-card');
     const modalTitle = document.getElementById('modal-title');
@@ -254,29 +254,67 @@ window.openProjectModal = function(title, client, year, category, description, i
     const modalDesc = document.getElementById('modal-description');
     const modalImg = document.getElementById('modal-image');
     const modalTags = document.getElementById('modal-tags');
+    const modalMeta = document.getElementById('modal-meta-container');
+    const modalCtaBtn = document.getElementById('modal-cta-btn');
 
     if (!modal) return;
 
-    if (modalTitle) modalTitle.textContent = title || '';
-    if (modalClient) modalClient.textContent = client || '';
-    if (modalYear) modalYear.textContent = year || '';
-    if (modalCategory) modalCategory.textContent = category || 'Web Design';
-    if (modalDesc) modalDesc.textContent = description || '';
+    let project = {};
+    if (typeof data === 'object' && data !== null) {
+        project = data;
+    } else {
+        project = {
+            title: arguments[0],
+            client: arguments[1],
+            year: arguments[2],
+            category: arguments[3],
+            description: arguments[4],
+            imageUrl: arguments[5],
+            tags: arguments[6],
+        };
+    }
+
+    const title = project.title || project.name || 'Projeto';
+    const client = project.client || project.client_name || '';
+    const year = project.year || project.project_year || '';
+    const category = project.category || project.project_type || 'Web Site';
+    const desc = project.full_description || project.short_description || project.description || '';
+    const rawImg = project.modal_image_url || project.full_image_url || project.mockup_image || project.cover_image || project.imageUrl || '';
+    const tags = Array.isArray(project.tags) ? project.tags : [];
+
+    if (modalTitle) modalTitle.textContent = title;
+    if (modalClient) modalClient.textContent = client;
+    if (modalYear) modalYear.textContent = year;
+    if (modalCategory) modalCategory.textContent = category;
+    if (modalDesc) modalDesc.textContent = desc;
+
+    if (modalMeta) {
+        modalMeta.style.display = (client || year) ? 'grid' : 'none';
+    }
+
     if (modalImg) {
-        modalImg.src = imageUrl || '';
-        modalImg.alt = title || 'Projeto';
+        let resolvedImg = rawImg;
+        if (resolvedImg && !resolvedImg.startsWith('http') && !resolvedImg.startsWith('/')) {
+            resolvedImg = '/storage/' + resolvedImg;
+        }
+        modalImg.src = resolvedImg || '';
+        modalImg.alt = `Design completo do projeto ${title}`;
     }
 
     if (modalTags) {
         modalTags.innerHTML = '';
-        if (Array.isArray(tags)) {
-            tags.forEach(tag => {
-                const badge = document.createElement('span');
-                badge.className = 'px-3 py-1 rounded-full text-xs font-medium bg-[#101010] border border-white/10 text-[#ddddd5]';
-                badge.textContent = tag;
-                modalTags.appendChild(badge);
-            });
-        }
+        tags.forEach((tag) => {
+            const badge = document.createElement('span');
+            badge.className = 'inline-flex items-center px-2.5 py-1 rounded-[2px] bg-white/10 text-white font-sans text-xs font-medium';
+            badge.textContent = tag;
+            modalTags.appendChild(badge);
+        });
+    }
+
+    if (modalCtaBtn) {
+        const whatsappNumber = '5567981530042';
+        const msg = encodeURIComponent(`Olá! Gostaria de conversar sobre um projeto semelhante ao ${title}.`);
+        modalCtaBtn.href = `https://wa.me/${whatsappNumber}?text=${msg}`;
     }
 
     modal.classList.remove('hidden');
@@ -307,10 +345,34 @@ window.closeProjectModal = function() {
     setTimeout(() => {
         modal.classList.add('hidden');
         document.body.style.overflow = '';
+        const modalImg = document.getElementById('modal-image');
+        if (modalImg) modalImg.src = '';
     }, 300);
 };
 
 function initModalKeyHandlers() {
+    // 1. Delegated click handler for any project modal trigger button/link
+    if (!document._projectModalTriggerInitialized) {
+        document._projectModalTriggerInitialized = true;
+        document.addEventListener('click', (e) => {
+            const trigger = e.target.closest('[data-project-modal-trigger]');
+            if (!trigger) return;
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            const rawData = trigger.getAttribute('data-project');
+            if (!rawData) return;
+
+            try {
+                const project = JSON.parse(rawData);
+                window.openProjectModal(project);
+            } catch (err) {
+                console.error('Failed to parse project modal data:', err);
+            }
+        });
+    }
+
     const modal = document.getElementById('project-modal');
     if (!modal || modal._modalKeyHandlersInitialized) return;
     modal._modalKeyHandlersInitialized = true;

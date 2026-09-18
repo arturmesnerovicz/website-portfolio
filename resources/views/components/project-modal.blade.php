@@ -1,41 +1,90 @@
-<div id="project-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-black/80 backdrop-blur-md transition-all duration-300 opacity-0" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div id="project-modal-card" class="relative w-full max-w-4xl max-h-[90vh] bg-[#151515] border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col transform scale-95 transition-transform duration-300">
-        <!-- Close Button -->
-        <button onclick="closeProjectModal()" class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-[#101010]/80 text-[#ddddd5] hover:text-white border border-white/10 flex items-center justify-center hover:bg-[#b70606] transition-colors focus:outline-none" aria-label="Fechar Modal">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
+<div id="project-modal"
+     class="fixed inset-0 z-[90] hidden overflow-y-auto bg-black/85 backdrop-blur-md transition-all duration-300 opacity-0 select-none sm:select-auto"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="modal-title"
+     onclick="closeProjectModal()">
 
-        <!-- Scrollable Modal Content -->
-        <div class="overflow-y-auto p-6 sm:p-10 space-y-8">
-            <!-- Modal Media Header -->
-            <div class="rounded-2xl overflow-hidden bg-[#101010] border border-white/5 aspect-video relative flex items-center justify-center">
-                <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
+    <!-- Fixed Floating Close Button (matching norra-spa) -->
+    <button type="button"
+            onclick="event.stopPropagation(); closeProjectModal()"
+            class="fixed right-4 top-4 sm:right-6 sm:top-6 z-[80] flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white text-black shadow-2xl hover:bg-white/90 active:scale-95 transition-all cursor-pointer focus:outline-none"
+            aria-label="Fechar modal de projeto">
+        <svg class="h-5 w-5 stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </button>
+
+    <!-- Modal Content Grid Container (matching norra-spa 2-column layout) -->
+    <div class="min-h-full w-full p-4 sm:p-6 lg:p-8 flex items-start justify-center">
+        <div id="project-modal-card"
+             class="relative mx-auto grid w-full max-w-[96rem] grid-cols-1 gap-6 pb-12 pt-14 sm:pt-16 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start lg:gap-8 lg:py-10 transform scale-95 transition-transform duration-300"
+             onclick="event.stopPropagation()">
+
+            <!-- Left: Full Website Image (Natural vertical height, uncropped, scrollable) -->
+            <div class="order-2 lg:order-1 flex h-auto justify-center w-full min-h-[50vh]">
+                <div class="relative w-full max-w-5xl overflow-hidden rounded-xl bg-white/[0.03] border border-white/10 shadow-[0_30px_90px_-50px_rgba(0,0,0,0.9)]">
+                    <img id="modal-image"
+                         src=""
+                         alt="Imagem completa do projeto"
+                         loading="eager"
+                         decoding="async"
+                         class="relative block h-auto w-full object-contain shadow-2xl transition-opacity duration-300" />
+                </div>
             </div>
 
-            <!-- Project Details -->
-            <div class="space-y-4">
-                <div class="flex flex-wrap items-center gap-3">
-                    <span id="modal-category" class="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-[#b70606]/20 text-[#ff4d4d] border border-[#b70606]/30"></span>
-                    <span id="modal-client" class="text-xs text-[#888888] font-medium"></span>
-                    <span class="text-white/20">•</span>
-                    <span id="modal-year" class="text-xs text-[#888888] font-medium"></span>
+            <!-- Right: Sticky Aside Info Card (matching norra-spa) -->
+            <aside class="order-1 lg:order-2 flex flex-col justify-between gap-6 rounded-2xl border border-white/10 bg-[#0e0e0e] p-6 sm:p-7 text-[#ddddd5] shadow-2xl lg:sticky lg:top-8 lg:max-h-[calc(100vh-4rem)] overflow-y-auto">
+                <div class="flex flex-col gap-4">
+                    <!-- Project Category / Type -->
+                    <div class="flex flex-col gap-1.5">
+                        <span id="modal-category"
+                              class="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-[#ddddd5]/55">
+                            Web Site
+                        </span>
+                        <!-- Project Title -->
+                        <h3 id="modal-title"
+                            class="font-sans font-bold text-2xl sm:text-3xl text-white leading-tight tracking-tight">
+                        </h3>
+                    </div>
+
+                    <!-- Meta Data: Client & Year (matching norra-spa) -->
+                    <div id="modal-meta-container" class="grid grid-cols-2 gap-3 border-y border-white/15 py-3">
+                        <div class="flex flex-col gap-0.5">
+                            <span class="font-sans text-[10px] font-bold uppercase tracking-[0.16em] text-[#ddddd5]/45">
+                                Cliente
+                            </span>
+                            <span id="modal-client" class="font-sans font-medium text-sm sm:text-base text-white"></span>
+                        </div>
+                        <div class="flex flex-col gap-0.5">
+                            <span class="font-sans text-[10px] font-bold uppercase tracking-[0.16em] text-[#ddddd5]/45">
+                                Ano
+                            </span>
+                            <span id="modal-year" class="font-sans font-medium text-sm sm:text-base text-white"></span>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <p id="modal-description"
+                       class="max-h-48 overflow-y-auto font-sans text-sm leading-relaxed text-[#ddddd5]/80 lg:max-h-[30vh]">
+                    </p>
+
+                    <!-- Tags -->
+                    <div id="modal-tags" class="flex flex-wrap gap-2 pt-1"></div>
                 </div>
 
-                <h2 id="modal-title" class="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-white tracking-tight"></h2>
-
-                <p id="modal-description" class="text-sm sm:text-base text-[#aaaaaa] leading-relaxed"></p>
-
-                <!-- Tags -->
-                <div id="modal-tags" class="flex flex-wrap gap-2 pt-2"></div>
-
-                <!-- CTA inside modal -->
-                <div class="pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
-                    <span class="text-xs text-[#888888]">Gostou desse projeto? Vamos criar o seu.</span>
-                    <a href="#contato" onclick="closeProjectModal()" class="px-6 py-3 rounded-full bg-[#ddddd5] text-[#101010] font-bold text-xs uppercase tracking-wider hover:bg-white transition-colors">
-                        Iniciar um Projeto Semelhante
+                <!-- Call to Action Button -->
+                <div class="pt-4 border-t border-white/10 flex flex-col gap-2.5">
+                    <span class="text-xs text-[#ddddd5]/50">Gostou da proposta visual?</span>
+                    <a id="modal-cta-btn"
+                       href="#contato"
+                       target="_blank"
+                       class="block w-full py-3.5 px-6 rounded-xl bg-[#ddddd5] text-[#101010] font-sans font-bold text-xs uppercase tracking-wider text-center shadow-lg hover:bg-white transition-colors cursor-pointer">
+                        Fale Conosco
                     </a>
                 </div>
-            </div>
+            </aside>
+
         </div>
     </div>
 </div>

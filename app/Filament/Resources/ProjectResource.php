@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Models\Project;
+use App\Services\ImageOptimizer;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -33,10 +34,20 @@ class ProjectResource extends Resource
                 Forms\Components\Textarea::make('full_description')
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('cover_image')
+                    ->label('Imagem de Capa (Card)')
+                    ->helperText('Imagem exibida no card do projeto. É redimensionada até 2400px e convertida automaticamente para WebP de alta fidelidade.')
                     ->image()
+                    ->maxSize(20480)
+                    ->directory('projects')
+                    ->saveUploadedFileUsing(fn ($file): string => ImageOptimizer::optimizeAndStore($file, 'projects', 2400, 90))
                     ->required(),
                 Forms\Components\FileUpload::make('mockup_image')
-                    ->image(),
+                    ->label('Imagem do Site Completo (Pop-up)')
+                    ->helperText('Aparece no pop-up quando o projeto não tem URL. Print do site completo, mockup ou prancha. É redimensionada até 4000px e convertida para WebP mantendo máxima qualidade e leveza.')
+                    ->image()
+                    ->maxSize(25600)
+                    ->directory('projects')
+                    ->saveUploadedFileUsing(fn ($file): string => ImageOptimizer::optimizeAndStore($file, 'projects', 4000, 92)),
                 Forms\Components\FileUpload::make('highlight_video')
                     ->label('Vídeo de Highlights')
                     ->acceptedFileTypes(['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime'])
@@ -53,7 +64,10 @@ class ProjectResource extends Resource
                     ])
                     ->columns(3)
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('link_url'),
+                Forms\Components\TextInput::make('link_url')
+                    ->label('URL do Site (Link Externo)')
+                    ->helperText('Se preenchido, o clique no projeto abre a URL em nova aba. Se deixado vazio, o clique abre o pop-up com a imagem completa do projeto.')
+                    ->url(),
                 Forms\Components\Toggle::make('is_featured')
                     ->required(),
                 Forms\Components\TextInput::make('sort_order')
