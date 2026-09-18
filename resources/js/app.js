@@ -9,10 +9,12 @@ ScrollTrigger.config({ ignoreMobileResize: true });
 window.gsap = gsap;
 window.ScrollTrigger = ScrollTrigger;
 
+import { initPageTransition } from './page-transition';
+
 // Authentic Norra cubic-bezier ease matching Nog Arquitetura
 CustomEase.create('norra-out', 'M0,0 C0.16,1 0.3,1 1,1');
 
-document.addEventListener('DOMContentLoaded', () => {
+export function initAllNorraComponents() {
     initHeaderScroll();
     initMobileMenu();
     initContactForm();
@@ -24,13 +26,23 @@ document.addEventListener('DOMContentLoaded', () => {
     initTextReveals();
     initManifestoBeamCycle();
     initProjectsSection();
+    if (typeof window.initProjectsFilterPage === 'function') {
+        window.initProjectsFilterPage();
+    }
+}
+window.initAllNorraComponents = initAllNorraComponents;
+
+document.addEventListener('DOMContentLoaded', () => {
+    initAllNorraComponents();
+    initPageTransition();
 });
 
 
 // 1. Header scroll effect (maintains solid #101010 black background with zero opacity)
 function initHeaderScroll() {
     const header = document.getElementById('site-header');
-    if (!header) return;
+    if (!header || header._headerScrollInitialized) return;
+    header._headerScrollInitialized = true;
 
     window.addEventListener('scroll', () => {
         if (window.scrollY > 40) {
@@ -49,7 +61,8 @@ function initMobileMenu() {
     const openIcon = document.getElementById('hamburger-icon');
     const closeIcon = document.getElementById('close-icon');
 
-    if (!btn || !menu) return;
+    if (!btn || !menu || btn._mobileMenuInitialized) return;
+    btn._mobileMenuInitialized = true;
 
     let isOpen = false;
 
@@ -299,7 +312,8 @@ window.closeProjectModal = function() {
 
 function initModalKeyHandlers() {
     const modal = document.getElementById('project-modal');
-    if (!modal) return;
+    if (!modal || modal._modalKeyHandlersInitialized) return;
+    modal._modalKeyHandlersInitialized = true;
 
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
@@ -384,7 +398,8 @@ window.hideToast = function() {
 // 5. AJAX Contact Form Submission
 function initContactForm() {
     const form = document.getElementById('contact-form');
-    if (!form) return;
+    if (!form || form._contactFormInitialized) return;
+    form._contactFormInitialized = true;
 
     form.addEventListener('submit', async (e) => {
         // Only intercept if fetch is available

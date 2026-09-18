@@ -170,11 +170,13 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    window.initProjectsFilterPage = function () {
         const filterButtons = document.querySelectorAll('.project-filter-btn');
         const projectCards = Array.from(document.querySelectorAll('.project-grid-card'));
         const noProjectsMsg = document.getElementById('no-projects-found');
         const paginationContainer = document.getElementById('projects-pagination');
+
+        if (!filterButtons.length || !projectCards.length) return;
 
         const ITEMS_PER_PAGE = 6;
         let currentFilter = 'all';
@@ -340,6 +342,12 @@
                 });
             }
         });
-    });
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', window.initProjectsFilterPage);
+    } else {
+        window.initProjectsFilterPage();
+    }
 </script>
 @endpush

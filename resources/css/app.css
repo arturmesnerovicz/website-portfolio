@@ -834,6 +834,29 @@ html {
     to { transform: translate3d(-7rem, 0, 0); }
 }
 
+/* Exo Ape Page Transition Performance & Hardware Acceleration */
+body.is-loading {
+    user-select: none;
+    cursor: wait;
+}
+
+.exo-viewport-frame {
+    perspective: 1200px;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+#exo-page-container {
+    transform-style: preserve-3d;
+}
+
+#exo-page-content {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
 @media (prefers-reduced-motion: reduce) {
     *,
     ::before,

@@ -77,16 +77,24 @@
     <!-- Navigation Header -->
     @include('components.navbar')
 
-    <!-- Main Content Slot -->
-    <main class="flex-grow">
-        @yield('content')
-    </main>
+    <!-- Exo Ape Page Transition Container -->
+    <div id="exo-page-container" class="relative w-full flex-grow flex flex-col">
+        <div id="exo-page-content" class="relative w-full flex-grow flex flex-col">
+            <!-- Outgoing dark veil overlay -->
+            <div id="exo-page-overlay" class="fixed inset-0 bg-[#0d0e13] z-30 pointer-events-none opacity-0 invisible" aria-hidden="true"></div>
+
+            <!-- Main Content Slot -->
+            <main class="flex-grow">
+                @yield('content')
+            </main>
+
+            <!-- Footer -->
+            @include('components.footer')
+        </div>
+    </div>
 
     <!-- Project Preview Modal -->
     @include('components.project-modal')
-
-    <!-- Footer -->
-    @include('components.footer')
 
     <!-- Floating WhatsApp Action Button -->
     <a href="https://wa.me/{{ $settings['contact_whatsapp'] ?? '5567981530042' }}?text={{ urlencode('Olá! Gostaria de conversar sobre um projeto com o Estúdio Norra.') }}"
