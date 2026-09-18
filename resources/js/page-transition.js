@@ -114,7 +114,6 @@ export async function transitionTo(targetUrl, isPopState = false) {
 
         const pageContainer = document.getElementById('exo-page-container');
         const outgoingContent = document.getElementById('exo-page-content');
-        const outgoingOverlay = document.getElementById('exo-page-overlay');
 
         if (!incomingContentSource || !pageContainer || !outgoingContent) {
             window.location.href = targetUrl;
@@ -137,6 +136,13 @@ export async function transitionTo(targetUrl, isPopState = false) {
         outgoingContent.style.width = '100vw';
         outgoingContent.style.marginTop = `-${scrollY}px`;
         outgoingFrame.appendChild(outgoingContent);
+
+        // Dynamic dark veil overlay for outgoing page (only exists during transition)
+        const outgoingOverlay = document.createElement('div');
+        outgoingOverlay.className = 'absolute inset-0 bg-[#0d0e13] z-30 pointer-events-none';
+        gsap.set(outgoingOverlay, { autoAlpha: 0 });
+        outgoingFrame.appendChild(outgoingOverlay);
+
         document.body.appendChild(outgoingFrame);
 
         // 5. Create Incoming Viewport Frame (placed above outgoing at z-30, below navbar at z-40)
@@ -146,10 +152,6 @@ export async function transitionTo(targetUrl, isPopState = false) {
         incomingFrame.style.willChange = 'transform, clip-path';
 
         const incomingContent = incomingContentSource.cloneNode(true);
-        const incomingOverlay = incomingContent.querySelector('#exo-page-overlay');
-        if (incomingOverlay) {
-            gsap.set(incomingOverlay, { autoAlpha: 0 });
-        }
         incomingContent.style.width = '100vw';
         incomingContent.style.marginTop = '0px';
 
@@ -167,9 +169,12 @@ export async function transitionTo(targetUrl, isPopState = false) {
                 // Instantly scroll window to top before replacing elements in normal DOM flow
                 window.scrollTo(0, 0);
 
-                // Restore incoming content to natural document flow
+                // Restore incoming content to natural document flow with zero leftover transforms
                 incomingContent.style.width = '';
                 incomingContent.style.marginTop = '';
+                incomingContent.style.transform = '';
+                incomingContent.style.transformOrigin = '';
+                incomingContent.style.willChange = '';
                 pageContainer.innerHTML = '';
                 pageContainer.appendChild(incomingContent);
 

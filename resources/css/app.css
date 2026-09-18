@@ -847,16 +847,6 @@ body.is-loading {
     -webkit-backface-visibility: hidden;
 }
 
-#exo-page-container {
-    transform-style: preserve-3d;
-}
-
-#exo-page-content {
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-}
-
 @media (prefers-reduced-motion: reduce) {
     *,
     ::before,

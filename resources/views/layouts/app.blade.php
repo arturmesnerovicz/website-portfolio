@@ -80,9 +80,6 @@
     <!-- Exo Ape Page Transition Container -->
     <div id="exo-page-container" class="relative w-full flex-grow flex flex-col">
         <div id="exo-page-content" class="relative w-full flex-grow flex flex-col">
-            <!-- Outgoing dark veil overlay -->
-            <div id="exo-page-overlay" class="fixed inset-0 bg-[#0d0e13] z-30 pointer-events-none opacity-0 invisible" aria-hidden="true"></div>
-
             <!-- Main Content Slot -->
             <main class="flex-grow">
                 @yield('content')
