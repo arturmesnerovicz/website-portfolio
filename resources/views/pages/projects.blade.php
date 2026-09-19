@@ -123,7 +123,7 @@
                                     @endif
 
                                     @if($videoSrc)
-                                        <video class="project-highlight-video absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-300 rounded-[4px]"
+                                        <video class="project-highlight-video absolute inset-0 w-full h-full object-cover opacity-0 pointer-events-none transition-opacity duration-300 rounded-[4px]"
                                                muted
                                                playsinline
                                                loop
@@ -304,6 +304,11 @@
 
             renderPagination(totalMatching);
 
+            // Re-observe visible project cards for mobile/tablet in-view video autoplay
+            if (typeof window.initProjectsSection === 'function') {
+                window.initProjectsSection();
+            }
+
             // Refresh GSAP ScrollTrigger so the CTA pin accounts for new content height
             if (typeof ScrollTrigger !== 'undefined') {
                 setTimeout(() => {
@@ -364,20 +369,6 @@
         } else {
             updateDisplay(false);
         }
-
-        // Project hover video playback support
-        projectCards.forEach(card => {
-            const video = card.querySelector('.project-highlight-video');
-            if (video) {
-                card.addEventListener('mouseenter', () => {
-                    video.play().catch(() => {});
-                });
-                card.addEventListener('mouseleave', () => {
-                    video.pause();
-                    video.currentTime = 0;
-                });
-            }
-        });
     };
 
     if (document.readyState === 'loading') {

@@ -65,4 +65,21 @@ class ProjectsTest extends TestCase
         $response->assertSee('href="https://example.com/projeto"', false);
         $response->assertSee('target="_blank"', false);
     }
+
+    public function test_project_modal_renders_centered_layout_without_info_aside(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
+        $response->assertSee('id="project-modal"', false);
+        $response->assertSee('id="project-modal-card"', false);
+        $response->assertSee('id="modal-image"', false);
+        // Ensure info aside card elements are removed
+        $response->assertDontSee('id="modal-category"', false);
+        $response->assertDontSee('id="modal-client"', false);
+        $response->assertDontSee('id="modal-year"', false);
+        $response->assertDontSee('id="modal-description"', false);
+        $response->assertDontSee('id="modal-tags"', false);
+        $response->assertDontSee('id="modal-cta-btn"', false);
+    }
 }

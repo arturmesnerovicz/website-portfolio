@@ -247,15 +247,7 @@ function initMobileMenu() {
 window.openProjectModal = function(data) {
     const modal = document.getElementById('project-modal');
     const card = document.getElementById('project-modal-card');
-    const modalTitle = document.getElementById('modal-title');
-    const modalClient = document.getElementById('modal-client');
-    const modalYear = document.getElementById('modal-year');
-    const modalCategory = document.getElementById('modal-category');
-    const modalDesc = document.getElementById('modal-description');
     const modalImg = document.getElementById('modal-image');
-    const modalTags = document.getElementById('modal-tags');
-    const modalMeta = document.getElementById('modal-meta-container');
-    const modalCtaBtn = document.getElementById('modal-cta-btn');
 
     if (!modal) return;
 
@@ -265,32 +257,12 @@ window.openProjectModal = function(data) {
     } else {
         project = {
             title: arguments[0],
-            client: arguments[1],
-            year: arguments[2],
-            category: arguments[3],
-            description: arguments[4],
             imageUrl: arguments[5],
-            tags: arguments[6],
         };
     }
 
     const title = project.title || project.name || 'Projeto';
-    const client = project.client || project.client_name || '';
-    const year = project.year || project.project_year || '';
-    const category = project.category || project.project_type || 'Web Site';
-    const desc = project.full_description || project.short_description || project.description || '';
     const rawImg = project.modal_image_url || project.full_image_url || project.mockup_image || project.cover_image || project.imageUrl || '';
-    const tags = Array.isArray(project.tags) ? project.tags : [];
-
-    if (modalTitle) modalTitle.textContent = title;
-    if (modalClient) modalClient.textContent = client;
-    if (modalYear) modalYear.textContent = year;
-    if (modalCategory) modalCategory.textContent = category;
-    if (modalDesc) modalDesc.textContent = desc;
-
-    if (modalMeta) {
-        modalMeta.style.display = (client || year) ? 'grid' : 'none';
-    }
 
     if (modalImg) {
         let resolvedImg = rawImg;
@@ -301,24 +273,13 @@ window.openProjectModal = function(data) {
         modalImg.alt = `Design completo do projeto ${title}`;
     }
 
-    if (modalTags) {
-        modalTags.innerHTML = '';
-        tags.forEach((tag) => {
-            const badge = document.createElement('span');
-            badge.className = 'inline-flex items-center px-2.5 py-1 rounded-[2px] bg-white/10 text-white font-sans text-xs font-medium';
-            badge.textContent = tag;
-            modalTags.appendChild(badge);
-        });
-    }
-
-    if (modalCtaBtn) {
-        const whatsappNumber = '5567981530042';
-        const msg = encodeURIComponent(`Olá! Gostaria de conversar sobre um projeto semelhante ao ${title}.`);
-        modalCtaBtn.href = `https://wa.me/${whatsappNumber}?text=${msg}`;
-    }
-
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
+
+    // Pause any background project highlight videos while modal is open
+    document.querySelectorAll('.project-highlight-video').forEach((v) => {
+        v.pause();
+    });
 
     requestAnimationFrame(() => {
         modal.classList.remove('opacity-0');
@@ -377,8 +338,33 @@ function initModalKeyHandlers() {
     if (!modal || modal._modalKeyHandlersInitialized) return;
     modal._modalKeyHandlersInitialized = true;
 
+    let isPointerDownOnCard = false;
+
+    modal.addEventListener('pointerdown', (e) => {
+        const card = document.getElementById('project-modal-card');
+        isPointerDownOnCard = card ? card.contains(e.target) : false;
+    });
+
+    window.addEventListener('pointerup', () => {
+        setTimeout(() => {
+            isPointerDownOnCard = false;
+        }, 50);
+    });
+
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
+        // If the interaction started on the card, do not close (prevents closing on drag/select)
+        if (isPointerDownOnCard) {
+            isPointerDownOnCard = false;
+            return;
+        }
+
+        // Avoid closing if clicking the scrollbar on the modal (Windows desktop)
+        if (e.clientX >= modal.clientWidth || e.clientY >= modal.clientHeight) {
+            return;
+        }
+
+        const card = document.getElementById('project-modal-card');
+        if (!card || !card.contains(e.target)) {
             window.closeProjectModal();
         }
     });
@@ -390,34 +376,93 @@ function initModalKeyHandlers() {
     });
 }
 
-// 3.1 Projects Section: Highlight Video Hover
-function initProjectsSection() {
-    const cards = Array.from(document.querySelectorAll('.project-card'));
+// 3.1 Projects Section: Highlight Video (Hover on Desktop, Scroll In-View on Mobile/Tablet)
+let projectsVideoObserver = null;
+
+function isMobileOrTabletDevice() {
+    return window.matchMedia('(hover: none), (pointer: coarse), (max-width: 1023px)').matches;
+}
+
+function playHighlightVideo(video) {
+    if (!video) return;
+    video.muted = true;
+    video.playsInline = true;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+        playPromise.catch(() => {});
+    }
+    video.classList.remove('opacity-0');
+    video.classList.add('opacity-100');
+}
+
+function pauseHighlightVideo(video) {
+    if (!video) return;
+    video.pause();
+    video.currentTime = 0;
+    video.classList.remove('opacity-100');
+    video.classList.add('opacity-0');
+}
+
+export function initProjectsSection() {
+    const cards = Array.from(document.querySelectorAll('.project-card, .project-grid-card'));
     if (!cards.length) return;
 
-    // Highlight Video on Hover (plays on enter, resets on leave)
+    if (projectsVideoObserver) {
+        projectsVideoObserver.disconnect();
+        projectsVideoObserver = null;
+    }
+
+    // Mobile & Tablet: auto-play video when project scrolls into view, pause when out of view
+    if ('IntersectionObserver' in window) {
+        projectsVideoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target.querySelector('.project-highlight-video');
+                if (!video) return;
+
+                // Only auto-play on scroll for mobile and tablet devices
+                if (!isMobileOrTabletDevice()) {
+                    return;
+                }
+
+                if (entry.isIntersecting) {
+                    playHighlightVideo(video);
+                } else {
+                    pauseHighlightVideo(video);
+                }
+            });
+        }, {
+            rootMargin: '-10% 0px -10% 0px',
+            threshold: 0.15
+        });
+    }
+
     cards.forEach(card => {
         const video = card.querySelector('.project-highlight-video');
         if (!video) return;
 
-        card.addEventListener('mouseenter', () => {
-            video.currentTime = 0;
-            const playPromise = video.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(() => {});
-            }
-            video.classList.remove('opacity-0');
-            video.classList.add('opacity-100');
-        });
+        // Observe card for mobile/tablet scroll in-view playback
+        if (projectsVideoObserver) {
+            projectsVideoObserver.observe(card);
+        }
 
-        card.addEventListener('mouseleave', () => {
-            video.pause();
-            video.currentTime = 0;
-            video.classList.remove('opacity-100');
-            video.classList.add('opacity-0');
-        });
+        // Desktop: mouseenter / mouseleave hover playback
+        if (!card._videoHoverListenersAttached) {
+            card._videoHoverListenersAttached = true;
+
+            card.addEventListener('mouseenter', () => {
+                if (isMobileOrTabletDevice()) return;
+                video.currentTime = 0;
+                playHighlightVideo(video);
+            });
+
+            card.addEventListener('mouseleave', () => {
+                if (isMobileOrTabletDevice()) return;
+                pauseHighlightVideo(video);
+            });
+        }
     });
 }
+window.initProjectsSection = initProjectsSection;
 
 // 4. Toast Notifications
 window.showToast = function(title, message, isError = false) {
