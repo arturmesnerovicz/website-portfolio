@@ -840,7 +840,6 @@ function init3DTextSplit() {
         try {
             const split = SplitText.create(element, {
                 type: 'lines,words',
-                mask: 'lines',
                 autoSplit: true,
                 aria: 'auto',
             });
@@ -852,16 +851,17 @@ function init3DTextSplit() {
             const delay = splitIndexInSection * 0.12;
 
             const tween = gsap.from(split.words, {
-                yPercent: 118,
-                rotateX: -42,
+                opacity: 0,
+                y: 28,
+                rotateX: -20,
                 transformOrigin: '50% 100%',
-                duration: 1.05,
+                duration: 0.95,
                 delay: delay,
-                stagger: { each: 0.035, from: 'start' },
+                stagger: { each: 0.025, from: 'start' },
                 ease: 'norra-out',
                 paused: true, // Controlled by section reveal
                 onComplete: () => {
-                    gsap.set(split.words, { clearProps: 'transform,opacity,willChange' });
+                    gsap.set(split.words, { clearProps: 'all' });
                     split.revert();
                 },
             });

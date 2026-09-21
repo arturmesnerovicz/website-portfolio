@@ -14,7 +14,13 @@ class SocialLinkResource extends Resource
 {
     protected static ?string $model = SocialLink::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-share';
+
+    protected static ?string $navigationGroup = 'Configurações Gerais';
+
+    protected static ?string $navigationLabel = 'Redes Sociais';
+
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {

@@ -2,6 +2,15 @@
     <div class="w-full px-[clamp(1.5rem,3.125vw,3.5rem)]">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
 
+            @php
+                $manifestoHeadline = $settings['manifesto_headline'] ?? "Entendemos que grandes\nfundadores merecem uma\npresença digital a altura do\nque estão construindo.";
+                $manifestoStats = [
+                    ['num' => $settings['manifesto_metric_number'] ?? '1k+', 'label' => $settings['manifesto_metric_label'] ?? 'designs entregues'],
+                    ['num' => $settings['manifesto_stat2_number'] ?? '98%', 'label' => $settings['manifesto_stat2_label'] ?? 'satisfação comprovada'],
+                    ['num' => $settings['manifesto_stat3_number'] ?? '10+', 'label' => $settings['manifesto_stat3_label'] ?? 'anos de excelência'],
+                ];
+            @endphp
+
             <!-- Left Column: Vertical Loading Bar + Stat Block & Nav Arrows (Desktop/Tablet) / Horizontal Loading Bar + Stat Left & Arrows Right (Mobile) -->
             <div class="md:col-span-5 lg:col-span-4 flex flex-col md:flex-row items-start gap-5 md:gap-4 order-2 md:order-1 pt-0.5 w-full">
                 <!-- Progress Line: Horizontal on mobile (full width), Vertical on desktop & tablet (320px) -->
@@ -16,16 +25,16 @@
                 <div class="flex flex-row items-start justify-between w-full md:flex-col md:items-start md:justify-between md:h-[320px] md:w-auto min-w-0">
                     <!-- Metric Stat Block: Left side on mobile, Top on desktop & tablet -->
                     <div id="manifesto-stat-block"
-                         class="group cursor-pointer transition-all duration-300 select-none"
-                         data-stats='[{"num":"1k+","label":"designs entregues"},{"num":"98%","label":"satisfação comprovada"},{"num":"10+","label":"anos de excelência"}]'
-                         data-index="0"
-                         onclick="window.cycleManifestoStatNext()"
-                         title="Clique para avançar estatística">
+                          class="group cursor-pointer transition-all duration-300 select-none"
+                          data-stats="{{ json_encode($manifestoStats) }}"
+                          data-index="0"
+                          onclick="window.cycleManifestoStatNext()"
+                          title="Clique para avançar estatística">
                         <span id="manifesto-stat-num" class="font-display font-bold text-5xl sm:text-[50px] text-[#ddddd5] tracking-[-0.5px] sm:tracking-[-1px] leading-[1.2] block transition-colors duration-300">
-                            {{ $settings['manifesto_metric_number'] ?? '1k+' }}
+                            {{ $manifestoStats[0]['num'] }}
                         </span>
                         <span id="manifesto-stat-label" class="font-sans font-normal text-base sm:text-[18px] text-[#ddddd5] tracking-normal sm:tracking-[-0.5px] lg:tracking-[-1px] leading-[1.2] block mt-1 transition-colors duration-300">
-                            {{ $settings['manifesto_metric_label'] ?? 'designs entregues' }}
+                            {{ $manifestoStats[0]['label'] }}
                         </span>
                     </div>
 
@@ -69,14 +78,11 @@
             <!-- Right Column: Big Manifesto Statement & Studio Signature with Nog 3D split text -->
             <div class="md:col-span-7 lg:col-span-8 order-1 md:order-2 flex flex-col items-start lg:items-end">
                 <div class="space-y-8 sm:space-y-10 max-w-[774px] w-full lg:mr-16 xl:mr-24">
-                    <h2 data-split class="font-sans font-bold text-[clamp(1.75rem,3.47vw,3.125rem)] leading-[1.1] text-[#ddddd5] tracking-[-0.5px] sm:tracking-[-0.75px] lg:tracking-[-1px] hyphens-none">
-                        Entendemos que grandes<br class="hidden sm:inline" />
-                        fundadores merecem uma<br class="hidden sm:inline" />
-                        presença digital a altura do<br class="hidden sm:inline" />
-                        que estão construindo.
+                    <h2 data-split class="font-sans font-bold text-[clamp(1.75rem,3.47vw,3.125rem)] leading-[1.18] text-[#ddddd5] tracking-[-0.5px] sm:tracking-[-0.75px] lg:tracking-[-1px] hyphens-none">
+                        {!! nl2br(e($manifestoHeadline)) !!}
                     </h2>
 
-                    <p data-split class="font-sans font-bold text-[clamp(1.75rem,3.47vw,3.125rem)] leading-[1.1] text-[#ddddd5] tracking-[-0.5px] sm:tracking-[-0.75px] lg:tracking-[-1px]">
+                    <p data-split class="font-sans font-bold text-[clamp(1.75rem,3.47vw,3.125rem)] leading-[1.18] text-[#ddddd5] tracking-[-0.5px] sm:tracking-[-0.75px] lg:tracking-[-1px]">
                         {{ $settings['manifesto_p1'] ?? 'Muitas empresas desenvolveram marcas incríveis, mas seu website não reflete isso ainda.' }}
                     </p>
 

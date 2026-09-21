@@ -14,7 +14,13 @@ class JourneyStepResource extends Resource
 {
     protected static ?string $model = JourneyStep::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-trending-up';
+
+    protected static ?string $navigationGroup = 'Seções do Site';
+
+    protected static ?string $navigationLabel = 'Jornada';
+
+    protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form
     {

@@ -2,27 +2,41 @@
     <!-- Subtle Ambient Glow -->
     <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[400px] bg-[#e33702]/10 rounded-full blur-[160px] pointer-events-none -z-10"></div>
 
-    <!-- Floating Showcase Devices (Absolute positioning so they never consume flex space or push content out of view) -->
-    <!-- Top-Left: iMac Monitor Mockup ("Serviços") -->
+    <!-- Floating Showcase Devices (Dynamic via CMS Hero Section, fallback to default mockups) -->
+    @php
+        $heroLeftImg = !empty($settings['hero_image_left']) && file_exists(public_path('storage/' . $settings['hero_image_left']))
+            ? asset('storage/' . $settings['hero_image_left'])
+            : asset('storage/hero-imac.png');
+
+        $heroRightImg = !empty($settings['hero_image_right']) && file_exists(public_path('storage/' . $settings['hero_image_right']))
+            ? asset('storage/' . $settings['hero_image_right'])
+            : asset('storage/hero-tablet.png');
+
+        $heroBottomRightImg = !empty($settings['hero_image_bottom_right']) && file_exists(public_path('storage/' . $settings['hero_image_bottom_right']))
+            ? asset('storage/' . $settings['hero_image_bottom_right'])
+            : asset('storage/hero-tablet-bottom.png');
+    @endphp
+
+    <!-- Top-Left: iMac Monitor Mockup -->
     <div class="hero-float-left absolute left-[clamp(1.5rem,3.125vw,3.5rem)] top-[calc(6.5rem+1px)] sm:top-[calc(7rem+1px)] md:top-[calc(7.5rem+1px)] w-28 sm:w-36 md:w-44 lg:w-[280px] aspect-[280/340] rounded-[2px] overflow-hidden shadow-2xl transition-transform duration-700 ease-out pointer-events-auto z-10">
-        <img src="{{ asset('storage/hero-imac.png') }}"
-             alt="Estúdio Norra - Serviços Desktop"
+        <img src="{{ $heroLeftImg }}"
+             alt="Estúdio Norra - Showcase Esquerda"
              class="w-full h-full object-contain filter drop-shadow-[0_16px_28px_rgba(0,0,0,0.85)]"
              loading="eager">
     </div>
 
     <!-- Top-Right: Angled Tablet Mockup -->
     <div class="hero-float-right absolute right-[clamp(1.5rem,3.125vw,3.5rem)] top-[calc(6.5rem+1px)] sm:top-[calc(7rem+1px)] md:top-[calc(7.5rem+1px)] w-28 sm:w-36 md:w-44 lg:w-[280px] aspect-[280/340] rounded-[2px] overflow-hidden shadow-2xl transition-transform duration-700 ease-out pointer-events-auto z-10">
-        <img src="{{ asset('storage/hero-tablet.png') }}"
-             alt="Estúdio Norra - Projeto Mobile Tablet"
+        <img src="{{ $heroRightImg }}"
+             alt="Estúdio Norra - Showcase Direita"
              class="w-full h-full object-contain filter drop-shadow-[0_16px_28px_rgba(0,0,0,0.85)]"
              loading="eager">
     </div>
 
     <!-- Bottom-Right: Floating Tablet Mockup (Desktop only) -->
     <div class="hero-float-bottom-right hidden sm:block absolute right-[clamp(1.5rem,3.125vw,3.5rem)] bottom-6 sm:bottom-8 md:bottom-10 w-28 sm:w-36 md:w-44 lg:w-[280px] aspect-[280/340] rounded-[2px] overflow-hidden shadow-2xl transition-transform duration-700 ease-out pointer-events-auto z-10">
-        <img src="{{ asset('storage/hero-tablet-bottom.png') }}"
-             alt="Estúdio Norra - Visual Showcase"
+        <img src="{{ $heroBottomRightImg }}"
+             alt="Estúdio Norra - Showcase Inferior"
              class="w-full h-full object-contain filter drop-shadow-[0_16px_28px_rgba(0,0,0,0.85)]"
              loading="lazy">
     </div>

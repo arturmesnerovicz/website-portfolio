@@ -96,14 +96,6 @@ html {
     background: #b60e0e;
 }
 
-/* Preloader canvas style */
-#norra-preloader-canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
 
 /* Pinned horizontal track for GSAP ScrollTrigger */
 .journey-section {
@@ -151,6 +143,12 @@ html {
 /* 3D Perspective and Line Mask for SplitText Nog Formula */
 [data-split] {
     perspective: 1200px;
+    overflow: visible !important;
+}
+
+[data-split] div,
+[data-split] span {
+    overflow: visible !important;
 }
 
 /* Active & Hover states for Services accordion - Invert with max 4px radius */
@@ -591,7 +589,9 @@ html {
     position: relative;
     overflow: hidden;
     display: inline-block;
-    line-height: 1;
+    line-height: 1.15;
+    padding-bottom: 0.15em;
+    margin-bottom: -0.15em;
 }
 
 .faq-cta-text {
@@ -599,11 +599,11 @@ html {
     font-family: var(--font-sans);
     font-size: 18px;
     font-weight: 700;
-    line-height: 1;
+    line-height: 1.15;
     letter-spacing: -0.5px;
     color: #101010;
     white-space: nowrap;
-    text-shadow: 0 1.2em 0 #101010;
+    text-shadow: 0 1.3em 0 #101010;
     transition: transform 0.65s cubic-bezier(0.16, 1, 0.35, 1);
 }
 
@@ -614,7 +614,7 @@ html {
 }
 
 .faq-cta-btn:hover .faq-cta-text {
-    transform: translateY(-1.2em);
+    transform: translateY(-1.3em);
 }
 
 /* Navigation Menu Link Monolog Roll Animation (exact match to Iniciar Projeto button) */
@@ -628,20 +628,22 @@ html {
     position: relative;
     overflow: hidden;
     display: inline-block;
-    line-height: 1;
+    line-height: 1.15;
+    padding-bottom: 0.15em;
+    margin-bottom: -0.15em;
 }
 
 .nav-roll-text {
     display: block;
-    line-height: 1;
+    line-height: 1.15;
     white-space: nowrap;
-    text-shadow: 0 1.2em 0 #ffffff;
+    text-shadow: 0 1.3em 0 #ffffff;
     transition: transform 0.65s cubic-bezier(0.16, 1, 0.35, 1);
     will-change: transform;
 }
 
 .nav-roll-link:hover .nav-roll-text {
-    transform: translateY(-1.2em);
+    transform: translateY(-1.3em);
 }
 
 .faq-cta-aside {

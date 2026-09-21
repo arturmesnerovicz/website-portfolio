@@ -1,10 +1,13 @@
 <section id="contato" class="cta-section relative z-20 w-full min-h-screen lg:h-screen lg:min-h-[100svh] -mt-[100vh] flex items-center justify-center overflow-hidden will-change-transform">
-    <!-- Full-width Photographic Studio Background from Penpot (Static) -->
+    <!-- Full-width Photographic Studio Background (Developer Desk / Estúdio Norra) -->
     <div class="cta-bg-wrap absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <img src="{{ asset('storage/cta-bg.png') }}"
-             alt="Estúdio Norra Studio Atmosphere"
-             class="cta-bg-img w-full h-full object-cover object-center filter brightness-60 contrast-110">
-        <div class="absolute inset-0 bg-[#101010]/50 backdrop-blur-[2px]"></div>
+        <picture>
+            <source srcset="{{ asset('storage/cta-bg.webp') }}?v={{ file_exists(public_path('storage/cta-bg.webp')) ? filemtime(public_path('storage/cta-bg.webp')) : 1 }}" type="image/webp">
+            <img src="{{ asset('storage/cta-bg.png') }}?v={{ file_exists(public_path('storage/cta-bg.png')) ? filemtime(public_path('storage/cta-bg.png')) : 1 }}"
+                 alt="Estúdio Norra Workspace & Studio Atmosphere"
+                 class="cta-bg-img w-full h-full object-cover object-center filter brightness-65 contrast-105">
+        </picture>
+        <div class="absolute inset-0 bg-[#101010]/50 backdrop-blur-[1px]"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-[#101010] via-transparent to-[#101010]/80"></div>
     </div>
 

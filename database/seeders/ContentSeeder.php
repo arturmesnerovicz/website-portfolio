@@ -43,12 +43,19 @@ class ContentSeeder extends Seeder
             ['key' => 'hero_cta_text', 'value' => 'Fale Conosco', 'group' => 'hero', 'type' => 'text', 'label' => 'Texto do Botão Hero'],
             ['key' => 'hero_badge_number', 'value' => '30+', 'group' => 'hero', 'type' => 'text', 'label' => 'Métrica do Hero'],
             ['key' => 'hero_badge_label', 'value' => 'marcas ajudadas', 'group' => 'hero', 'type' => 'text', 'label' => 'Legenda da Métrica Hero'],
+            ['key' => 'hero_image_left', 'value' => 'hero-imac.png', 'group' => 'hero', 'type' => 'image', 'label' => 'Mockup Superior Esquerdo'],
+            ['key' => 'hero_image_right', 'value' => 'hero-tablet.png', 'group' => 'hero', 'type' => 'image', 'label' => 'Mockup Superior Direito'],
+            ['key' => 'hero_image_bottom_right', 'value' => 'hero-tablet-bottom.png', 'group' => 'hero', 'type' => 'image', 'label' => 'Mockup Inferior Direito'],
 
             // Manifesto Section
             ['key' => 'manifesto_headline', 'value' => 'Entendemos que grandes fundadores merecem uma presença digital a altura do que estão construindo.', 'group' => 'manifesto', 'type' => 'textarea', 'label' => 'Manchete do Manifesto'],
             ['key' => 'manifesto_p1', 'value' => 'Muitas empresas desenvolveram marcas incríveis, mas seu website não reflete isso ainda.', 'group' => 'manifesto', 'type' => 'textarea', 'label' => 'Primeiro Parágrafo do Manifesto'],
-            ['key' => 'manifesto_metric_number', 'value' => '1k+', 'group' => 'manifesto', 'type' => 'text', 'label' => 'Métrica do Manifesto'],
-            ['key' => 'manifesto_metric_label', 'value' => 'designs entregues', 'group' => 'manifesto', 'type' => 'text', 'label' => 'Legenda do Manifesto'],
+            ['key' => 'manifesto_metric_number', 'value' => '1k+', 'group' => 'manifesto', 'type' => 'text', 'label' => 'Métrica 1 - Número'],
+            ['key' => 'manifesto_metric_label', 'value' => 'designs entregues', 'group' => 'manifesto', 'type' => 'text', 'label' => 'Métrica 1 - Legenda'],
+            ['key' => 'manifesto_stat2_number', 'value' => '98%', 'group' => 'manifesto', 'type' => 'text', 'label' => 'Métrica 2 - Número'],
+            ['key' => 'manifesto_stat2_label', 'value' => 'satisfação comprovada', 'group' => 'manifesto', 'type' => 'text', 'label' => 'Métrica 2 - Legenda'],
+            ['key' => 'manifesto_stat3_number', 'value' => '10+', 'group' => 'manifesto', 'type' => 'text', 'label' => 'Métrica 3 - Número'],
+            ['key' => 'manifesto_stat3_label', 'value' => 'anos de excelência', 'group' => 'manifesto', 'type' => 'text', 'label' => 'Métrica 3 - Legenda'],
 
             // Final CTA Section
             ['key' => 'cta_title', 'value' => 'VAMOS CRIAR UMA EXPERIÊNCIA QUE MOVE SUA MARCA', 'group' => 'cta', 'type' => 'text', 'label' => 'Título do CTA Final'],

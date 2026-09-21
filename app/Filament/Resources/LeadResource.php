@@ -14,7 +14,13 @@ class LeadResource extends Resource
 {
     protected static ?string $model = Lead::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-envelope';
+
+    protected static ?string $navigationGroup = 'Atendimento & Leads';
+
+    protected static ?string $navigationLabel = 'Mensagens / Contatos';
+
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
