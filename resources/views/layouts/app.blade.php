@@ -93,6 +93,9 @@
     <!-- Project Preview Modal -->
     @include('components.project-modal')
 
+    <!-- Lateral Contact Drawer (Penpot 'formulário lateral') -->
+    @include('components.contact-drawer')
+
     <!-- Floating WhatsApp Action Button -->
     <a href="https://wa.me/{{ $settings['contact_whatsapp'] ?? '5567981530042' }}?text={{ urlencode('Olá! Gostaria de conversar sobre um projeto com o Estúdio Norra.') }}"
        target="_blank"

@@ -8,11 +8,15 @@ gsap.registerPlugin(ScrollTrigger, CustomEase, SplitText);
 ScrollTrigger.config({ ignoreMobileResize: true });
 window.gsap = gsap;
 window.ScrollTrigger = ScrollTrigger;
+window.CustomEase = CustomEase;
+window.SplitText = SplitText;
 
 import { initPageTransition } from './page-transition';
 
-// Authentic Norra cubic-bezier ease matching Nog Arquitetura
+// Authentic Norra cubic-bezier ease matching Nog Arquitetura & Monolog / OH Architecture
 CustomEase.create('norra-out', 'M0,0 C0.16,1 0.3,1 1,1');
+CustomEase.create('ease-menu', '.7, 0, .22, 1');
+CustomEase.create('ease-secondary', '0.16, 1, 0.35, 1');
 
 export function initAllNorraComponents() {
     initHeaderScroll();
@@ -513,12 +517,12 @@ function initContactForm() {
         if (window.fetch) {
             e.preventDefault();
 
-            const submitBtn = document.getElementById('submit-btn');
+            const submitBtn = document.getElementById('drawer-submit-btn') || document.getElementById('submit-btn');
             const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
             if (submitBtn) {
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = `
-                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-current" fill="none" viewBox="0 0 24 24">
+                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-current inline-block" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
@@ -544,6 +548,9 @@ function initContactForm() {
                 if (response.ok && data.success) {
                     window.showToast('Mensagem Enviada!', data.message || 'Recebemos suas informações com sucesso. Em até 24 horas entraremos em contato!', false);
                     form.reset();
+                    if (typeof window.closeContactModal === 'function') {
+                        setTimeout(window.closeContactModal, 1200);
+                    }
                 } else {
                     const errorMsg = data.message || (data.errors ? Object.values(data.errors).flat().join(', ') : 'Ocorreu um erro ao enviar sua mensagem. Tente novamente.');
                     window.showToast('Erro no Envio', errorMsg, true);

@@ -762,6 +762,144 @@ html {
     height: 8.5px;
 }
 
+/* Drawer Dark CTA Button (exact match to Iniciar Projeto floating button in inverted dark palette) */
+.drawer-cta-btn {
+    --monolog-ease: cubic-bezier(0.16, 1, 0.35, 1);
+    --active-ease: cubic-bezier(0.48, 1.68, 0.64, 1);
+    --active-speed: 0.35s;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 10px 6px 14px;
+    border-width: 3px !important;
+    border-style: solid !important;
+    border-color: #101010 !important;
+    border-radius: 4px !important;
+    background-color: #101010 !important;
+    box-sizing: border-box;
+    cursor: pointer;
+    outline: none;
+    transition:
+        transform var(--active-speed) var(--active-ease),
+        opacity var(--active-speed) var(--monolog-ease);
+}
+
+.drawer-cta-btn:hover {
+    opacity: 0.92;
+}
+
+.drawer-cta-btn:active {
+    transform: scale(0.95);
+}
+
+.drawer-cta-text-contain {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    line-height: 1.15;
+    padding-bottom: 0.15em;
+    margin-bottom: -0.15em;
+}
+
+.drawer-cta-text {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.25px;
+    color: #ddddd5;
+    white-space: nowrap;
+    text-shadow: 0 1.3em 0 #ddddd5;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.35, 1);
+}
+
+@media (min-width: 640px) {
+    .drawer-cta-text {
+        font-size: 16px;
+        letter-spacing: -0.75px;
+    }
+}
+
+.drawer-cta-btn:hover .drawer-cta-text {
+    transform: translateY(-1.3em);
+}
+
+.drawer-cta-aside {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    background-color: #ddddd5;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.drawer-cta-aside-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: 2px;
+    background-color: #ddddd5;
+}
+
+.drawer-cta-svg {
+    position: relative;
+    z-index: 2;
+    width: 10px;
+    height: 10px;
+    stroke: #101010;
+    stroke-width: 2.2;
+    opacity: 1;
+    transition:
+        transform 0.65s cubic-bezier(0.16, 1, 0.35, 1),
+        opacity 0.4s cubic-bezier(0.16, 1, 0.35, 1);
+}
+
+.drawer-cta-svg.is-absolute {
+    position: absolute;
+    transform: translate(-250%, 250%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.drawer-cta-btn:hover .drawer-cta-svg {
+    transform: translate(250%, -250%);
+    opacity: 0;
+}
+
+.drawer-cta-btn:hover .drawer-cta-svg.is-absolute {
+    transform: translate(0, 0);
+    opacity: 1;
+}
+
+/* Editorial Split Text Masking (OH Architecture / Monolog signature pattern) */
+.split-parent {
+    overflow: hidden;
+    margin-top: -0.04em;
+}
+
+.split-child {
+    will-change: transform;
+    padding-bottom: 0.04em;
+    display: block;
+}
+
+/* Lateral Contact Drawer Transitions (OH Architecture cinematic clip-path reveal) */
+#contact-drawer-backdrop {
+    will-change: opacity;
+}
+
+#contact-modal-card {
+    will-change: clip-path;
+    clip-path: polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%);
+}
+
 /* Production Text Reveal State */
 .norra-reveal {
     opacity: 0;

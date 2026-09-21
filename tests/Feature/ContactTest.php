@@ -42,6 +42,36 @@ class ContactTest extends TestCase
         Mail::assertSent(LeadAutoReply::class);
     }
 
+    public function test_can_submit_contact_form_without_budget_successfully(): void
+    {
+        Mail::fake();
+
+        $payload = [
+            'name' => 'Mariana Costa',
+            'email' => 'mariana@studio.com',
+            'phone' => '(11) 98888-7777',
+            'company' => 'Costa Branding',
+            'service' => 'Web Desenvolvimento',
+            'message' => 'Preciso de um website de alto padrão para posicionar minha marca.',
+        ];
+
+        $response = $this->postJson(route('contact.store'), $payload);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'success' => true,
+            ]);
+
+        $this->assertDatabaseHas('leads', [
+            'email' => 'mariana@studio.com',
+            'company' => 'Costa Branding',
+            'budget' => null,
+        ]);
+
+        Mail::assertSent(NewLeadNotification::class);
+        Mail::assertSent(LeadAutoReply::class);
+    }
+
     public function test_honeypot_prevents_spam_without_saving_lead(): void
     {
         Mail::fake();
