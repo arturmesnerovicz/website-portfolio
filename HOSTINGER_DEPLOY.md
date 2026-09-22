@@ -78,11 +78,15 @@ bash deploy-hostinger.sh
 
 ---
 
-## 6. Acesso ao Painel Administrativo Filament
+## 6. Criação e Acesso ao Painel Administrativo Filament
 
 - **URL do Painel:** `https://estudionorra.com/admin`
-- **E-mail:** `teste@estudionorra.com`
-- **Senha:** `12345678`
+- **Criar Administrador Seguro:**
+  Execute o comando Artisan no terminal SSH para criar seu usuário e senha exclusivos:
+  ```bash
+  php artisan make:filament-user
+  ```
+  *(Informe seu nome, e-mail corporativo seguro e uma senha forte de sua escolha).*
 
 No painel, você tem controle total sobre:
 - **Configurações Gerais do Site:** Slogans, métricas, dados de SEO e links.

@@ -997,3 +997,91 @@ body.is-loading {
         scroll-behavior: auto !important;
     }
 }
+
+/* Floating WhatsApp Button (Adaptive Contrast: #101010 over light, #ddddd5 over dark) */
+.whatsapp-floating-btn {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    text-decoration: none;
+    outline: none;
+    transition:
+        background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.35s cubic-bezier(0.16, 1, 0.35, 1);
+}
+
+@media (min-width: 640px) {
+    .whatsapp-floating-btn {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+}
+
+/* Default state over dark sections (#101010): Light button (#ddddd5) with dark icon (#101010) */
+.whatsapp-floating-btn,
+.whatsapp-floating-btn.is-dark-bg {
+    background-color: #ddddd5;
+    color: #101010;
+    border: 1px solid rgba(16, 16, 16, 0.15);
+    box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.45);
+}
+
+.whatsapp-floating-btn:hover,
+.whatsapp-floating-btn.is-dark-bg:hover {
+    background-color: #ffffff;
+    color: #101010;
+    transform: scale(1.08);
+    box-shadow: 0 14px 35px -4px rgba(0, 0, 0, 0.6);
+}
+
+/* Contrast state over light sections (#ddddd5): Dark button (#101010) with light icon (#ddddd5) */
+.whatsapp-floating-btn.is-light-bg {
+    background-color: #101010;
+    color: #ddddd5;
+    border: 1px solid rgba(221, 221, 213, 0.25);
+    box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.25);
+}
+
+.whatsapp-floating-btn.is-light-bg:hover {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    transform: scale(1.08);
+    box-shadow: 0 14px 35px -4px rgba(0, 0, 0, 0.35);
+}
+
+.whatsapp-floating-btn:active {
+    transform: scale(0.94);
+}
+
+.whatsapp-floating-icon {
+    width: 26px;
+    height: 26px;
+    fill: currentColor;
+    display: block;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.35, 1);
+}
+
+@media (min-width: 640px) {
+    .whatsapp-floating-icon {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+.whatsapp-floating-btn:hover .whatsapp-floating-icon {
+    transform: scale(1.06);
+}
+

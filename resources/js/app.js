@@ -22,6 +22,7 @@ export function initAllNorraComponents() {
     initHeaderScroll();
     initMobileMenu();
     initContactForm();
+    initFloatingWhatsApp();
     initModalKeyHandlers();
     initHeroParallax();
     initJourneyScroll();
@@ -1094,5 +1095,97 @@ function initFaqCtaTransition() {
         }
     });
 }
+
+// 12. Dynamic Adaptive Contrast Controller for Floating WhatsApp Button
+function initFloatingWhatsApp() {
+    const btn = document.getElementById('whatsapp-floating-btn');
+    if (!btn || btn._waInitialized) return;
+    btn._waInitialized = true;
+
+    const checkContrast = () => {
+        const rect = btn.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        let isLight = false;
+
+        // 1. Check if over Footer (always Light #ddddd5)
+        const footer = document.querySelector('footer');
+        const footerRect = footer?.getBoundingClientRect();
+        if (footerRect && centerY >= footerRect.top && centerY <= footerRect.bottom) {
+            isLight = true;
+        }
+        // 2. Check if over CTA section (#contato - always Dark #101010; takes precedence over pinned background sections)
+        else {
+            const cta = document.getElementById('contato');
+            const ctaRect = cta?.getBoundingClientRect();
+            if (ctaRect && centerY >= ctaRect.top && centerY <= ctaRect.bottom) {
+                isLight = false;
+            }
+            // 3. Check if over Home "Projetos Selecionados" section (#projetos - Light #ddddd5)
+            else {
+                const projetos = document.getElementById('projetos');
+                const projetosRect = projetos?.getBoundingClientRect();
+                if (projetosRect && centerY >= projetosRect.top && centerY <= projetosRect.bottom) {
+                    isLight = true;
+                }
+                // 4. Check if over Projects Page section (#todos-projetos - Light #ddddd5)
+                else {
+                    const todosProjetos = document.getElementById('todos-projetos');
+                    const todosProjetosRect = todosProjetos?.getBoundingClientRect();
+                    if (todosProjetosRect && centerY >= todosProjetosRect.top && centerY <= todosProjetosRect.bottom) {
+                        isLight = true;
+                    }
+                    // 5. Fallback: query any other element marked with data-bg="light"
+                    else {
+                        const otherLight = document.querySelectorAll('[data-bg="light"]:not(#todos-projetos):not(#projetos):not(footer)');
+                        for (let i = 0; i < otherLight.length; i++) {
+                            const elRect = otherLight[i].getBoundingClientRect();
+                            if (centerY >= elRect.top && centerY <= elRect.bottom && centerX >= elRect.left && centerX <= elRect.right) {
+                                isLight = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (isLight) {
+            btn.classList.add('is-light-bg');
+            btn.classList.remove('is-dark-bg');
+        } else {
+            btn.classList.add('is-dark-bg');
+            btn.classList.remove('is-light-bg');
+        }
+    };
+
+    let ticking = false;
+    const onScroll = () => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                checkContrast();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', checkContrast, { passive: true });
+
+    if (window.ScrollTrigger) {
+        ScrollTrigger.addEventListener('scrollEnd', checkContrast);
+    }
+
+    // Initial checks and lifecycle triggers
+    checkContrast();
+    setTimeout(checkContrast, 150);
+    setTimeout(checkContrast, 500);
+    setTimeout(checkContrast, 1000);
+    window.addEventListener('norra-preloader-done', () => setTimeout(checkContrast, 100));
+}
+window.initFloatingWhatsApp = initFloatingWhatsApp;
+
 
 

@@ -1,4 +1,4 @@
-<section id="projetos" class="pt-16 sm:pt-20 lg:pt-[4.375vw] pb-4 sm:pb-5 lg:pb-[1.2vw] bg-[#DDDDD5] text-[#101010] relative w-full">
+<section id="projetos" data-bg="light" class="pt-16 sm:pt-20 lg:pt-[4.375vw] pb-4 sm:pb-5 lg:pb-[1.2vw] bg-[#ddddd5] text-[#101010] relative w-full">
     <div class="w-full px-4 sm:px-6 lg:px-[3.125vw]">
 
         <!-- Section Title: Penpot exact Alte Haas Grotesk 78px uppercase -->

@@ -17,13 +17,15 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::updateOrCreate(
-            ['email' => 'teste@estudionorra.com'],
-            [
-                'name' => 'teste',
-                'password' => bcrypt('12345678'),
-            ]
-        );
+        if (app()->environment('local')) {
+            User::updateOrCreate(
+                ['email' => 'teste@estudionorra.com'],
+                [
+                    'name' => 'teste',
+                    'password' => bcrypt('12345678'),
+                ]
+            );
+        }
 
         $this->call(ContentSeeder::class);
     }

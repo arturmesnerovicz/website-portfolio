@@ -1,4 +1,4 @@
-<footer class="bg-[#ddddd5] text-[#101010] pt-16 sm:pt-20 pb-12 transition-colors border-t border-[#101010]/15">
+<footer data-bg="light" class="bg-[#ddddd5] text-[#101010] pt-16 sm:pt-20 pb-12 transition-colors border-t border-[#101010]/15">
     <div class="w-full px-[clamp(1.5rem,3.125vw,3.5rem)]">
         
         <!-- Top Section: Logo on Left, 3 Navigation Columns on Right -->

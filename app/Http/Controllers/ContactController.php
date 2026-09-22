@@ -58,7 +58,7 @@ class ContactController extends Controller
         ]);
 
         // 4. Send Automated Emails (with safe error handling)
-        $notifyEmail = env('NORRA_NOTIFY_EMAIL', config('mail.from.address', 'contato@estudionorra.com'));
+        $notifyEmail = config('mail.notify_email', 'contato@estudionorra.com');
 
         try {
             // Internal team notification

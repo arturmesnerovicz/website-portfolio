@@ -115,4 +115,15 @@ return [
         'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Internal Lead Notification Address
+    |--------------------------------------------------------------------------
+    |
+    | Destination address for incoming commercial leads from contact forms.
+    |
+    */
+
+    'notify_email' => env('NORRA_NOTIFY_EMAIL', env('MAIL_FROM_ADDRESS', 'contato@estudionorra.com')),
+
 ];
