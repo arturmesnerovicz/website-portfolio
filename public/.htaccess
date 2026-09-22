@@ -1,3 +1,11 @@
+# CloudLinux / LiteSpeed PHP 8.4 handler
+<IfModule mime_module>
+    AddHandler application/x-httpd-alt-php84 .php
+</IfModule>
+<IfModule !mime_module>
+    AddHandler application/x-httpd-alt-php84 .php
+</IfModule>
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
