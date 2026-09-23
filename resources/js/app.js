@@ -579,7 +579,7 @@ function initHeroParallax() {
     mm.add('(min-width: 768px)', () => {
         if (floatLeft) {
             gsap.to(floatLeft, {
-                y: -30,
+                y: -20,
                 rotation: -2,
                 ease: 'power1.out',
                 scrollTrigger: {
@@ -593,8 +593,8 @@ function initHeroParallax() {
 
         if (floatRight) {
             gsap.to(floatRight, {
-                y: 40,
-                rotation: -8,
+                y: 20,
+                rotation: -6,
                 ease: 'power1.out',
                 scrollTrigger: {
                     trigger: '#hero',
@@ -607,8 +607,8 @@ function initHeroParallax() {
 
         if (floatBottomRight) {
             gsap.to(floatBottomRight, {
-                y: -25,
-                rotation: 4,
+                y: -15,
+                rotation: 3,
                 ease: 'power1.out',
                 scrollTrigger: {
                     trigger: '#hero',

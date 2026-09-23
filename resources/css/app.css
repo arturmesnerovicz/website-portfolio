@@ -933,6 +933,53 @@ html {
 }
 
 /* ==========================================================================
+   Hero Floating Showcase Mockups - Proportional Responsive Scaling
+   Ensures mockups scale down smoothly on smaller desktops / MacBooks
+   and never overlap vertically or horizontally.
+   ========================================================================== */
+.hero-mockup-frame {
+    width: clamp(100px, 20vw, 140px);
+    aspect-ratio: 280 / 340;
+}
+
+@media (min-width: 640px) {
+    .hero-mockup-frame {
+        width: clamp(130px, 18vw, 175px);
+    }
+}
+
+@media (min-width: 1024px) {
+    .hero-mockup-frame {
+        /*
+          On desktop / laptops / MacBooks:
+          Scale width proportionally to BOTH viewport width and height.
+          With aspect ratio 280/340 (height = width * 340/280 ≈ 1.214 * width):
+          Using 26vh ensures height is at most 26vh * 1.214 = 31.5vh.
+          Both right-side mockups take at most 63vh combined, guaranteeing
+          generous breathing room and zero overlap on MacBooks and 13-16" laptops.
+        */
+        width: clamp(160px, min(17.5vw, 26vh), 280px);
+    }
+}
+
+.hero-mockup-slot {
+    width: clamp(100px, 20vw, 140px);
+}
+
+@media (min-width: 640px) {
+    .hero-mockup-slot {
+        width: clamp(130px, 18vw, 175px);
+    }
+}
+
+@media (min-width: 1024px) {
+    .hero-mockup-slot {
+        width: clamp(160px, min(17.5vw, 26vh), 280px);
+    }
+}
+
+
+/* ==========================================================================
    Site-wide Noise / Film Grain Overlay (Basic Agency Technique)
    ========================================================================== */
 .site-noise {
