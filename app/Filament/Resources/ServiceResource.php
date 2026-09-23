@@ -27,19 +27,32 @@ class ServiceResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('order_num')
+                    ->label('Número')
                     ->required(),
                 Forms\Components\TextInput::make('title')
+                    ->label('Título do Serviço')
                     ->required(),
                 Forms\Components\TextInput::make('category')
+                    ->label('Categoria')
                     ->required(),
                 Forms\Components\Textarea::make('description')
+                    ->label('Descrição')
                     ->required()
+                    ->rows(3)
                     ->columnSpanFull(),
-                Forms\Components\Textarea::make('deliverables')
+                Forms\Components\TagsInput::make('deliverables')
+                    ->label('Entregáveis / Tecnologias (Cards)')
+                    ->helperText('Pressione Enter ou vírgula após cada item para adicionar um novo card. Clique no "x" para remover.')
+                    ->placeholder('Adicionar card (ex: Next.js)...')
+                    ->separator(',')
+                    ->splitKeys(['Tab', 'Enter', ','])
                     ->columnSpanFull(),
                 Forms\Components\Toggle::make('is_active')
-                    ->required(),
+                    ->label('Ativo no site')
+                    ->required()
+                    ->default(true),
                 Forms\Components\TextInput::make('sort_order')
+                    ->label('Ordem de Exibição')
                     ->required()
                     ->numeric()
                     ->default(0),

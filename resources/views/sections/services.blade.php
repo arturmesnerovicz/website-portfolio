@@ -77,9 +77,14 @@
                                     <!-- Bottom Row: Deliverables Chips on Left, FALE CONOSCO Pill CTA on Right -->
                                     <div class="service-bottom-row flex flex-col sm:flex-row sm:items-center justify-between gap-5 sm:gap-4 pt-2 pb-1">
                                         <!-- Deliverables Chips -->
-                                        @if(!empty($service->deliverables) && is_array($service->deliverables))
+                                        @php
+                                            $deliverables = is_array($service->deliverables)
+                                                ? $service->deliverables
+                                                : (is_string($service->deliverables) ? array_filter(array_map('trim', explode(',', $service->deliverables))) : []);
+                                        @endphp
+                                        @if(!empty($deliverables))
                                             <div class="flex flex-wrap items-center gap-2">
-                                                @foreach($service->deliverables as $deliverable)
+                                                @foreach($deliverables as $deliverable)
                                                     <span class="service-chip px-3.5 py-1.5 rounded-[4px] text-xs font-normal border-0 text-[#ffffff] transition-all duration-500">
                                                         {{ $deliverable }}
                                                     </span>
