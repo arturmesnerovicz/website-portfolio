@@ -20,7 +20,7 @@ class HomeController extends Controller
      */
     public function index(Request $request): View
     {
-        $settings = SiteSetting::all()->pluck('value', 'key');
+        $settings = SiteSetting::getFormattedSettings();
         $heroSlides = HeroSlide::query()->where('is_active', true)->orderBy('order')->get();
         $services = Service::query()->where('is_active', true)->orderBy('sort_order')->get();
         $projects = Project::query()->where('is_featured', true)->orderBy('sort_order')->get();
@@ -42,13 +42,52 @@ class HomeController extends Controller
     }
 
     /**
-     * Generate sitemap.xml dynamically.
+     * Generate sitemap.xml dynamically with hreflang support.
      */
     public function sitemap(): Response
     {
+        $today = date('Y-m-d');
         $xml = '<?xml version="1.0" encoding="UTF-8"?>';
-        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-        $xml .= '<url><loc>'.url('/').'</loc><lastmod>'.date('Y-m-d').'</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>';
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">';
+
+        // Home PT & EN
+        $xml .= '<url>';
+        $xml .= '<loc>'.url('/').'</loc>';
+        $xml .= '<xhtml:link rel="alternate" hreflang="pt-BR" href="'.url('/').'"/>';
+        $xml .= '<xhtml:link rel="alternate" hreflang="en" href="'.url('/en').'"/>';
+        $xml .= '<lastmod>'.$today.'</lastmod>';
+        $xml .= '<changefreq>weekly</changefreq>';
+        $xml .= '<priority>1.0</priority>';
+        $xml .= '</url>';
+
+        $xml .= '<url>';
+        $xml .= '<loc>'.url('/en').'</loc>';
+        $xml .= '<xhtml:link rel="alternate" hreflang="pt-BR" href="'.url('/').'"/>';
+        $xml .= '<xhtml:link rel="alternate" hreflang="en" href="'.url('/en').'"/>';
+        $xml .= '<lastmod>'.$today.'</lastmod>';
+        $xml .= '<changefreq>weekly</changefreq>';
+        $xml .= '<priority>0.9</priority>';
+        $xml .= '</url>';
+
+        // Projects PT & EN
+        $xml .= '<url>';
+        $xml .= '<loc>'.url('/projetos').'</loc>';
+        $xml .= '<xhtml:link rel="alternate" hreflang="pt-BR" href="'.url('/projetos').'"/>';
+        $xml .= '<xhtml:link rel="alternate" hreflang="en" href="'.url('/en/projects').'"/>';
+        $xml .= '<lastmod>'.$today.'</lastmod>';
+        $xml .= '<changefreq>weekly</changefreq>';
+        $xml .= '<priority>0.8</priority>';
+        $xml .= '</url>';
+
+        $xml .= '<url>';
+        $xml .= '<loc>'.url('/en/projects').'</loc>';
+        $xml .= '<xhtml:link rel="alternate" hreflang="pt-BR" href="'.url('/projetos').'"/>';
+        $xml .= '<xhtml:link rel="alternate" hreflang="en" href="'.url('/en/projects').'"/>';
+        $xml .= '<lastmod>'.$today.'</lastmod>';
+        $xml .= '<changefreq>weekly</changefreq>';
+        $xml .= '<priority>0.8</priority>';
+        $xml .= '</url>';
+
         $xml .= '</urlset>';
 
         return response($xml, 200, ['Content-Type' => 'application/xml']);

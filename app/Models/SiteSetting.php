@@ -42,4 +42,30 @@ class SiteSetting extends Model
             ]
         );
     }
+
+    /**
+     * Get all settings mapped by key, automatically resolving locale variants (e.g. key_en when locale is en).
+     *
+     * @return array<string, mixed>
+     */
+    public static function getFormattedSettings(?string $locale = null): array
+    {
+        $locale = $locale ?? app()->getLocale();
+        $all = static::query()->pluck('value', 'key')->toArray();
+
+        $settings = [];
+        foreach ($all as $key => $val) {
+            if (str_ends_with($key, '_en')) {
+                continue;
+            }
+
+            if ($locale === 'en' && ! empty($all[$key.'_en'])) {
+                $settings[$key] = $all[$key.'_en'];
+            } else {
+                $settings[$key] = $val;
+            }
+        }
+
+        return $settings;
+    }
 }

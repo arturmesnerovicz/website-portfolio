@@ -2,10 +2,21 @@
 
 namespace App\Models;
 
+use App\Traits\HasNorraTranslations;
 use Illuminate\Database\Eloquent\Model;
 
 class Faq extends Model
 {
+    use HasNorraTranslations;
+
+    /**
+     * @var list<string>
+     */
+    public array $translatable = [
+        'question',
+        'answer',
+    ];
+
     /**
      * @var list<string>
      */

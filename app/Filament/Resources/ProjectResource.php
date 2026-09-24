@@ -7,12 +7,15 @@ use App\Models\Project;
 use App\Services\ImageOptimizer;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
 class ProjectResource extends Resource
 {
+    use Translatable;
+
     protected static ?string $model = Project::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';

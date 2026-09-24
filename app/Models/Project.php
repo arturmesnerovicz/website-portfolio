@@ -2,10 +2,23 @@
 
 namespace App\Models;
 
+use App\Traits\HasNorraTranslations;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
+    use HasNorraTranslations;
+
+    /**
+     * @var list<string>
+     */
+    public array $translatable = [
+        'title',
+        'category',
+        'short_description',
+        'full_description',
+    ];
+
     /**
      * @var list<string>
      */

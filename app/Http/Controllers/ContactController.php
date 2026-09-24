@@ -25,11 +25,11 @@ class ContactController extends Controller
             if ($request->expectsJson()) {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Mensagem enviada com sucesso! Em breve entraremos em contato.',
+                    'message' => __('Mensagem enviada com sucesso! Em breve entraremos em contato.'),
                 ]);
             }
 
-            return back()->with('success', 'Mensagem enviada com sucesso! Em breve entraremos em contato.');
+            return back()->with('success', __('Mensagem enviada com sucesso! Em breve entraremos em contato.'));
         }
 
         // 2. Validate input
@@ -72,7 +72,7 @@ class ContactController extends Controller
 
         try {
             // Client confirmation auto-reply
-            Mail::to($lead->email)->send(new LeadAutoReply($lead));
+            Mail::to($lead->email)->send(new LeadAutoReply($lead, app()->getLocale()));
         } catch (\Throwable $e) {
             Log::error('Failed to send client auto-reply email', [
                 'lead_id' => $lead->id,
@@ -80,7 +80,7 @@ class ContactController extends Controller
             ]);
         }
 
-        $successMessage = 'Mensagem enviada com sucesso! Obrigado pelo contato, responderemos em até 24 horas.';
+        $successMessage = __('Mensagem enviada com sucesso! Obrigado pelo contato, responderemos em até 24 horas.');
 
         if ($request->expectsJson()) {
             return response()->json([

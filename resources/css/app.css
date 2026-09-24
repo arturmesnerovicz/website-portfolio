@@ -144,11 +144,20 @@ html {
 [data-split] {
     perspective: 1200px;
     overflow: visible !important;
+    text-wrap: balance;
 }
 
 [data-split] div,
 [data-split] span {
     overflow: visible !important;
+}
+
+/* Fluid balanced typography for Manifesto statements to prevent orphan words and keep equal line lengths */
+.manifesto-statement {
+    text-wrap: balance;
+    word-break: normal;
+    overflow-wrap: break-word;
+    hyphens: none;
 }
 
 /* Active & Hover states for Services accordion - Invert with max 4px radius */

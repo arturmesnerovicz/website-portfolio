@@ -17,9 +17,9 @@ class LeadAutoReply extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public Lead $lead)
+    public function __construct(public Lead $lead, ?string $locale = null)
     {
-        //
+        $this->locale = $locale ?? app()->getLocale();
     }
 
     /**
@@ -28,7 +28,9 @@ class LeadAutoReply extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Recebemos a sua mensagem • Estúdio Norra',
+            subject: $this->locale === 'en'
+                ? 'We received your message • Estúdio Norra'
+                : 'Recebemos a sua mensagem • Estúdio Norra',
         );
     }
 
@@ -39,6 +41,9 @@ class LeadAutoReply extends Mailable
     {
         return new Content(
             view: 'emails.auto-reply',
+            with: [
+                'locale' => $this->locale,
+            ],
         );
     }
 

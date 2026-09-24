@@ -3,9 +3,9 @@
 
         <!-- Section Title: Penpot exact Alte Haas Grotesk 78px uppercase -->
         <div class="mb-10 sm:mb-14 lg:mb-[3.5vw]">
-            <span class="sr-only">Projetos Selecionados</span>
+            <span class="sr-only">{{ __('PROJETOS SELECIONADOS') }}</span>
             <h2 class="norra-reveal font-display font-bold text-[clamp(2.5rem,5.5vw,4.875rem)] leading-none uppercase tracking-[-1.5px] sm:tracking-[-2.5px] md:tracking-[-3px] lg:tracking-[-4px] text-[#101010]">
-                PROJETOS SELECIONADOS
+                {{ __('PROJETOS SELECIONADOS') }}
             </h2>
         </div>
 
@@ -102,10 +102,10 @@
 
         <!-- Bottom Link: 'Veja todos os projetos' matching Penpot with font-weight: bold, 48px desktop / 24px mobile, exact 4px line gap and 17px section bottom -->
         <div class="mt-7 sm:mt-8 lg:mt-[2.22vw] border-t border-[#a2a1a1]">
-            <a href="{{ route('projects.index') }}"
+            <a href="{{ route(app()->getLocale() === 'en' ? 'en.projects.index' : 'projects.index') }}"
                class="group flex items-center justify-between pt-1 pb-1 sm:pt-1.5 sm:pb-1.5 lg:pt-[4px] lg:pb-[4px] text-[#101010] hover:text-[var(--color-norra-red)] transition-colors">
                 <span class="font-sans font-bold text-[clamp(1.5rem,3.333vw,3rem)] leading-[1.2] tracking-[-0.5px] sm:tracking-[-1px] md:tracking-[-1.5px] lg:tracking-[-2px]">
-                    Veja todos os projetos
+                    {{ __('Veja todos os projetos') }}
                 </span>
                 <span class="text-[#101010] group-hover:translate-x-3 group-hover:text-[var(--color-norra-red)] transition-all duration-300 flex items-center flex-shrink-0">
                     <svg width="49" height="19" viewBox="0 0 49 19" fill="none" class="stroke-current stroke-2 sm:stroke-[3] w-[32px] sm:w-[42px] lg:w-[49px] h-auto">

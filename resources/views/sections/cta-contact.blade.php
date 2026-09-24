@@ -14,14 +14,11 @@
     <!-- Centered Content Matching Penpot 'Seção CTA Final' -->
     <div class="cta-content-wrap relative z-10 w-full max-w-[930px] mx-auto px-6 sm:px-8 py-20 lg:py-24 text-center space-y-6 sm:space-y-8">
         <h2 class="font-display font-bold text-[clamp(2.15rem,6.94vw,6.25rem)] leading-[1.1] uppercase tracking-[-1.5px] sm:tracking-[-2.5px] md:tracking-[-3.5px] lg:tracking-[-4.85px] text-[#ddddd5] text-center max-w-[930px] mx-auto select-none">
-            VAMOS CRIAR<br />
-            UMA EXPERIÊNCIA<br />
-            QUE MOVE<br />
-            SUA MARCA
+            {!! __('VAMOS CRIAR<br />UMA EXPERIÊNCIA<br />QUE MOVE<br />SUA MARCA') !!}
         </h2>
 
         <div class="pt-2 sm:pt-4 flex justify-center">
-            <x-btn-cta :text="$settings['cta_button_text'] ?? 'Nos conte a sua história'" size="lg" />
+            <x-btn-cta :text="$settings['cta_button_text'] ?? __('Nos conte a sua história')" size="lg" />
         </div>
     </div>
 </section>

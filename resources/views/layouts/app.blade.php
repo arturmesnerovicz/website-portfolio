@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth bg-[#101010] text-[#f5f5f5] antialiased">
+<html lang="{{ app()->getLocale() === 'en' ? 'en' : 'pt-BR' }}" class="scroll-smooth bg-[#101010] text-[#f5f5f5] antialiased">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +7,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Title & SEO Meta -->
-    <title>{{ $settings['seo_title'] ?? 'Estúdio Norra | Design e Desenvolvimento Web' }}</title>
-    <meta name="description" content="{{ $settings['seo_description'] ?? 'Estúdio de design e engenharia digital focado em websites modernos, interfaces imersivas e experiências de alto padrão.' }}">
-    <meta name="keywords" content="{{ $settings['seo_keywords'] ?? 'web design, desenvolvimento web, sites modernos, landing page, branding, 3D motion' }}">
+    <title>{{ $settings['seo_title'] ?? (app()->getLocale() === 'en' ? 'Estúdio Norra | Web Design & Digital Engineering' : 'Estúdio Norra | Design e Desenvolvimento Web') }}</title>
+    <meta name="description" content="{{ $settings['seo_description'] ?? (app()->getLocale() === 'en' ? 'Digital design and engineering studio crafting modern websites, immersive interfaces, and high-end brand experiences.' : 'Estúdio de design e engenharia digital focado em websites modernos, interfaces imersivas e experiências de alto padrão.') }}">
+    <meta name="keywords" content="{{ $settings['seo_keywords'] ?? (app()->getLocale() === 'en' ? 'web design, web development, modern websites, landing page, branding, 3D motion' : 'web design, desenvolvimento web, sites modernos, landing page, branding, 3D motion') }}">
     <link rel="canonical" href="{{ url()->current() }}">
+
+    <!-- Multilingual Alternate Links (hreflang for SEO) -->
+    <link rel="alternate" hreflang="pt-BR" href="{{ $urlPt ?? url('/') }}">
+    <link rel="alternate" hreflang="en" href="{{ $urlEn ?? url('/en') }}">
+    <link rel="alternate" hreflang="x-default" href="{{ url('/') }}">
 
     <!-- Favicon -->
     <link rel="icon" type="image/webp" href="{{ asset('storage/' . ($settings['brand_favicon'] ?? 'settings/favicons/1779475070756-vkuzh.webp')) }}">
@@ -20,15 +25,15 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:site_name" content="{{ $settings['site_name'] ?? 'Estúdio Norra' }}">
-    <meta property="og:title" content="{{ $settings['seo_title'] ?? 'Estúdio Norra | Design e Desenvolvimento Web' }}">
-    <meta property="og:description" content="{{ $settings['seo_description'] ?? 'Criamos experiências digitais exclusivas para marcas consolidadas e fundadores exigentes.' }}">
+    <meta property="og:title" content="{{ $settings['seo_title'] ?? (app()->getLocale() === 'en' ? 'Estúdio Norra | Web Design & Digital Engineering' : 'Estúdio Norra | Design e Desenvolvimento Web') }}">
+    <meta property="og:description" content="{{ $settings['seo_description'] ?? (app()->getLocale() === 'en' ? 'Crafting high-end digital experiences for ambitious brands and demanding founders.' : 'Criamos experiências digitais exclusivas para marcas consolidadas e fundadores exigentes.') }}">
     <meta property="og:image" content="{{ asset('assets/logos/logo.svg') }}">
-    <meta property="og:locale" content="pt_BR">
+    <meta property="og:locale" content="{{ app()->getLocale() === 'en' ? 'en_US' : 'pt_BR' }}">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ $settings['seo_title'] ?? 'Estúdio Norra | Design e Desenvolvimento Web' }}">
-    <meta name="twitter:description" content="{{ $settings['seo_description'] ?? 'Criamos experiências digitais exclusivas para marcas consolidadas e fundadores exigentes.' }}">
+    <meta name="twitter:title" content="{{ $settings['seo_title'] ?? (app()->getLocale() === 'en' ? 'Estúdio Norra | Web Design & Digital Engineering' : 'Estúdio Norra | Design e Desenvolvimento Web') }}">
+    <meta name="twitter:description" content="{{ $settings['seo_description'] ?? (app()->getLocale() === 'en' ? 'Crafting high-end digital experiences for ambitious brands and demanding founders.' : 'Criamos experiências digitais exclusivas para marcas consolidadas e fundadores exigentes.') }}">
     <meta name="twitter:image" content="{{ asset('assets/logos/logo.svg') }}">
 
     <!-- Fonts Preload -->

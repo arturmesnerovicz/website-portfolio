@@ -2,7 +2,7 @@
     <!-- Header Block Matching Penpot 'seção jornada' -->
     <div class="w-full px-[clamp(1.5rem,3.125vw,3.5rem)] flex-shrink-0">
         <h2 class="font-display font-bold text-[clamp(1.75rem,6.94vw,6.25rem)] leading-none uppercase tracking-[-1.5px] sm:tracking-[-2.5px] md:tracking-[-4px] lg:tracking-[-5px] xl:tracking-[-6px] text-[#ddddd5] text-center">
-            JORNADA DO PROJETO
+            {{ __('JORNADA DO PROJETO') }}
         </h2>
         <div class="w-full h-[1px] bg-[#ddddd5]/30 mt-2 sm:mt-2.5 md:mt-3.5 xl:mt-6"></div>
     </div>
@@ -33,7 +33,7 @@
                             <!-- (SCROLL) Indicator (Stage 1 only) -->
                             @if($loop->first)
                                 <div class="order-2 xl:order-1 flex items-center gap-1.5 sm:gap-2 font-sans text-[12px] sm:text-[13px] md:text-[14px] lg:text-[15px] font-normal tracking-normal sm:tracking-[-0.5px] lg:tracking-[-1px] text-[#ddddd5]/70 h-[24px]">
-                                    <span>(SCROLL)</span>
+                                    <span>{{ __('(SCROLL)') }}</span>
                                     <svg width="18" height="10" viewBox="0 0 24 10" fill="none" class="stroke-current stroke-2">
                                         <path d="M0 5H22M22 5L17 1M22 5L17 9" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
@@ -48,7 +48,7 @@
                                     {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
                                 </span>
                                 <span class="font-display font-bold text-lg sm:text-xl md:text-2xl lg:text-[28px] xl:text-[clamp(3.5rem,6.94vw,6.25rem)] text-[#ddddd5] uppercase block leading-none xl:leading-[0.88] tracking-[-0.5px] lg:tracking-[-1px]">
-                                    ETAPA
+                                    {{ __('ETAPA') }}
                                 </span>
                             </div>
                         </div>

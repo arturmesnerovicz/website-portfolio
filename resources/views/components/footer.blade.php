@@ -6,7 +6,7 @@
             
             <!-- Left: Brand Logo & Wordmark matching Penpot -->
             <div class="lg:col-span-6 space-y-6">
-                <a href="{{ url('/') }}" class="inline-flex items-center gap-4 group">
+                <a href="{{ app()->getLocale() === 'en' ? url('/en') : url('/') }}" class="inline-flex items-center gap-4 group">
                     <div class="w-14 h-14 rounded-full bg-[#101010] flex items-center justify-center p-3 text-[#ddddd5] shadow-md group-hover:bg-[#b70606] transition-colors">
                         <img src="{{ asset('assets/logos/logo-monogram.svg') }}" alt="Estúdio Norra Monogram" class="w-full h-full object-contain filter invert" />
                     </div>
@@ -15,7 +15,7 @@
                             ESTÚDIO NORRA
                         </span>
                         <span class="font-sans text-xs uppercase tracking-widest text-[#101010]/60 mt-1 block">
-                            Design & Engenharia Digital
+                            {{ __('Design & Engenharia Digital') }}
                         </span>
                     </div>
                 </a>
@@ -26,32 +26,32 @@
                 <!-- Col 1: EXPERTISE -->
                 <div class="space-y-4">
                     <p class="font-sans font-bold text-base sm:text-[18px] tracking-normal text-[#101010] leading-[1.2]">
-                        EXPERTISE
+                        {{ __('EXPERTISE') }}
                     </p>
                     <ul class="space-y-2 text-sm sm:text-[18px] font-sans font-normal text-[#101010]/75 leading-[1.2]">
-                        <li><a href="#expertise" class="hover:text-[#b70606] transition-colors">Web Design</a></li>
-                        <li><a href="#expertise" class="hover:text-[#b70606] transition-colors">Programação</a></li>
-                        <li><a href="#expertise" class="hover:text-[#b70606] transition-colors">3D e Motion</a></li>
+                        <li><a href="{{ request()->routeIs('home', 'en.home') ? '#expertise' : (app()->getLocale() === 'en' ? url('/en#expertise') : url('/#expertise')) }}" class="hover:text-[#b70606] transition-colors">{{ __('Web Design') }}</a></li>
+                        <li><a href="{{ request()->routeIs('home', 'en.home') ? '#expertise' : (app()->getLocale() === 'en' ? url('/en#expertise') : url('/#expertise')) }}" class="hover:text-[#b70606] transition-colors">{{ __('Web Desenvolvimento') }}</a></li>
+                        <li><a href="{{ request()->routeIs('home', 'en.home') ? '#expertise' : (app()->getLocale() === 'en' ? url('/en#expertise') : url('/#expertise')) }}" class="hover:text-[#b70606] transition-colors">{{ __('3D e Motion') }}</a></li>
                     </ul>
                 </div>
 
                 <!-- Col 2: EXPLORAR -->
                 <div class="space-y-4">
                     <p class="font-sans font-bold text-base sm:text-[18px] tracking-normal text-[#101010] leading-[1.2]">
-                        EXPLORAR
+                        {{ __('EXPLORAR') }}
                     </p>
                     <ul class="space-y-2 text-sm sm:text-[18px] font-sans font-normal text-[#101010]/75 leading-[1.2]">
-                        <li><a href="#expertise" class="hover:text-[#b70606] transition-colors">Expertise</a></li>
-                        <li><a href="#projetos" class="hover:text-[#b70606] transition-colors">Galeria</a></li>
-                        <li><a href="#manifesto" class="hover:text-[#b70606] transition-colors">Sobre</a></li>
-                        <li><a href="#projetos" class="hover:text-[#b70606] transition-colors">Projetos</a></li>
+                        <li><a href="{{ request()->routeIs('home', 'en.home') ? '#expertise' : (app()->getLocale() === 'en' ? url('/en#expertise') : url('/#expertise')) }}" class="hover:text-[#b70606] transition-colors">Expertise</a></li>
+                        <li><a href="{{ request()->routeIs('home', 'en.home') ? '#projetos' : '#todos-projetos' }}" class="hover:text-[#b70606] transition-colors">{{ __('Galeria') }}</a></li>
+                        <li><a href="{{ request()->routeIs('home', 'en.home') ? '#manifesto' : (app()->getLocale() === 'en' ? url('/en#manifesto') : url('/#manifesto')) }}" class="hover:text-[#b70606] transition-colors">{{ __('Sobre') }}</a></li>
+                        <li><a href="{{ route(app()->getLocale() === 'en' ? 'en.projects.index' : 'projects.index') }}" class="hover:text-[#b70606] transition-colors">{{ __('Projetos') }}</a></li>
                     </ul>
                 </div>
 
                 <!-- Col 3: Conexão -->
                 <div class="space-y-4">
                     <p class="font-sans font-bold text-base sm:text-[18px] tracking-normal text-[#101010] leading-[1.2]">
-                        Conexão
+                        {{ __('Conexão') }}
                     </p>
                     <ul class="space-y-2 text-sm sm:text-[18px] font-sans font-normal text-[#101010]/75 leading-[1.2]">
                         <li>
@@ -82,10 +82,10 @@
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs sm:text-[14px] text-[#101010]/70 font-normal">
             <div class="space-y-1">
                 <p class="font-sans font-normal leading-[1.2]">@ {{ date('Y') }} ESTÚDIO NORRA</p>
-                <p class="font-sans font-normal tracking-normal text-[#101010]/60 leading-[1.2]">MULTIDISCIPLINAR POR ESSÊNCIA - TODOS OS DIREITOS RESERVADOS</p>
+                <p class="font-sans font-normal tracking-normal text-[#101010]/60 leading-[1.2]">{{ __('MULTIDISCIPLINAR POR ESSÊNCIA - TODOS OS DIREITOS RESERVADOS') }}</p>
             </div>
             <div>
-                <p class="font-sans font-normal text-right leading-[1.2]">Onde o conceito torna-se arte</p>
+                <p class="font-sans font-normal text-right leading-[1.2]">{{ __('Onde o conceito torna-se arte') }}</p>
             </div>
         </div>
 

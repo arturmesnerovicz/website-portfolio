@@ -6,11 +6,11 @@
                 <!-- Left Column: 'Ficou com dúvida?' & CTA button (Desktop only, hidden on mobile to prevent duplicate CTA buttons) -->
                 <div class="hidden lg:block lg:col-span-4 space-y-6 lg:sticky lg:top-32 order-2 lg:order-1 pt-6 lg:pt-0 norra-reveal">
                     <h3 class="font-sans font-bold text-3xl sm:text-4xl lg:text-[40px] text-[#ddddd5] tracking-[-0.5px] sm:tracking-[-0.75px] lg:tracking-[-1px] leading-[1.2]">
-                        Ficou com<br class="hidden sm:inline" /> dúvida?
+                        {!! __('Ficou com<br class="hidden sm:inline" /> dúvida?') !!}
                     </h3>
 
                     <div>
-                        <x-btn-cta text="Fale Conosco" />
+                        <x-btn-cta :text="__('Fale Conosco')" />
                     </div>
                 </div>
 
@@ -18,7 +18,7 @@
                 <div class="lg:col-span-8 order-1 lg:order-2 space-y-12 sm:space-y-16">
                     <!-- Section Headline: 70px Penpot -->
                     <h2 class="font-sans font-bold text-[clamp(2rem,4.86vw,4.375rem)] leading-[1.15] text-[#ddddd5] tracking-[-0.5px] sm:tracking-[-1px] lg:tracking-[-2px] norra-reveal">
-                        Tudo que você precisa saber<br />para iniciarmos um projeto.
+                        {!! __('Tudo que você precisa saber<br />para iniciarmos um projeto.') !!}
                     </h2>
 
                     <!-- Questions List -->

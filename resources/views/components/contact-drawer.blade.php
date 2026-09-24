@@ -21,7 +21,7 @@
                     <div class="split-parent flex-1">
                         <h2 id="contact-drawer-title"
                             class="split-child font-sans font-bold text-[24px] sm:text-[30px] leading-[1.2] text-[#101010] tracking-[-0.5px] sm:tracking-[-1px]">
-                            Nos conte sobre seu projeto
+                            {{ __('Nos conte sobre seu projeto') }}
                         </h2>
                     </div>
 
@@ -29,7 +29,7 @@
                             id="drawer-close-btn"
                             onclick="closeContactModal()"
                             class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-[#101010]/60 hover:text-[#101010] hover:bg-black/5 transition-colors focus:outline-none"
-                            aria-label="Fechar formulário">
+                            aria-label="{{ __('Fechar') }}">
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="stroke-current stroke-2">
                             <path d="M1 1L13 13M1 13L13 1" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -53,7 +53,7 @@
                 @endif
 
                 <!-- Contact Form matching Penpot exact fields & dimensions with OH Architecture staggered reveal -->
-                <form id="contact-form" action="{{ route('contact.store') }}" method="POST" class="mt-6 sm:mt-8 space-y-4 sm:space-y-[18px]">
+                <form id="contact-form" action="{{ route(app()->getLocale() === 'en' ? 'en.contact.store' : 'contact.store') }}" method="POST" class="mt-6 sm:mt-8 space-y-4 sm:space-y-[18px]">
                     @csrf
 
                     <!-- Anti-spam Honeypot -->
@@ -67,7 +67,7 @@
                         <div class="split-parent">
                             <label for="drawer-name"
                                    class="split-child font-sans font-bold text-[15px] sm:text-[18px] leading-[1.2] tracking-[-0.25px] sm:tracking-[-1px] text-[#101010] mb-1.5">
-                                Nome completo
+                                {{ __('Nome completo') }}
                             </label>
                         </div>
                         <div class="drawer-input-item">
@@ -76,7 +76,7 @@
                                    name="name"
                                    required
                                    value="{{ old('name') }}"
-                                   placeholder="Seu nome"
+                                   placeholder="{{ __('Seu nome') }}"
                                    class="w-full h-[40px] px-3.5 bg-[#c1c1c1] rounded-[2px] text-[#101010] placeholder-[#101010]/40 font-sans text-sm sm:text-[15px] border border-transparent focus:border-[#101010] focus:ring-1 focus:ring-[#101010] focus:outline-none transition-all">
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                         <div class="split-parent">
                             <label for="drawer-email"
                                    class="split-child font-sans font-bold text-[15px] sm:text-[18px] leading-[1.2] tracking-[-0.25px] sm:tracking-[-1px] text-[#101010] mb-1.5">
-                                E-mail
+                                {{ __('E-mail') }}
                             </label>
                         </div>
                         <div class="drawer-input-item">
@@ -95,7 +95,7 @@
                                    name="email"
                                    required
                                    value="{{ old('email') }}"
-                                   placeholder="seuemail@empresa.com"
+                                   placeholder="{{ __('seuemail@empresa.com') }}"
                                    class="w-full h-[40px] px-3.5 bg-[#c1c1c1] rounded-[2px] text-[#101010] placeholder-[#101010]/40 font-sans text-sm sm:text-[15px] border border-transparent focus:border-[#101010] focus:ring-1 focus:ring-[#101010] focus:outline-none transition-all">
                         </div>
                     </div>
@@ -105,7 +105,7 @@
                         <div class="split-parent">
                             <label for="drawer-phone"
                                    class="split-child font-sans font-bold text-[15px] sm:text-[18px] leading-[1.2] tracking-[-0.25px] sm:tracking-[-1px] text-[#101010] mb-1.5">
-                                WhatsApp / Telefone
+                                {{ __('WhatsApp / Telefone') }}
                             </label>
                         </div>
                         <div class="drawer-input-item">
@@ -113,7 +113,7 @@
                                    id="drawer-phone"
                                    name="phone"
                                    value="{{ old('phone') }}"
-                                   placeholder="(00) 00000-0000"
+                                   placeholder="{{ __('(00) 00000-0000') }}"
                                    class="w-full h-[40px] px-3.5 bg-[#c1c1c1] rounded-[2px] text-[#101010] placeholder-[#101010]/40 font-sans text-sm sm:text-[15px] border border-transparent focus:border-[#101010] focus:ring-1 focus:ring-[#101010] focus:outline-none transition-all">
                         </div>
                     </div>
@@ -123,7 +123,7 @@
                         <div class="split-parent">
                             <label for="drawer-company"
                                    class="split-child font-sans font-bold text-[15px] sm:text-[18px] leading-[1.2] tracking-[-0.25px] sm:tracking-[-1px] text-[#101010] mb-1.5">
-                                Empresa / Marca
+                                {{ __('Empresa / Marca') }}
                             </label>
                         </div>
                         <div class="drawer-input-item">
@@ -131,7 +131,7 @@
                                    id="drawer-company"
                                    name="company"
                                    value="{{ old('company') }}"
-                                   placeholder="Nome da sua marca"
+                                   placeholder="{{ __('Nome da sua marca') }}"
                                    class="w-full h-[40px] px-3.5 bg-[#c1c1c1] rounded-[2px] text-[#101010] placeholder-[#101010]/40 font-sans text-sm sm:text-[15px] border border-transparent focus:border-[#101010] focus:ring-1 focus:ring-[#101010] focus:outline-none transition-all">
                         </div>
                     </div>
@@ -141,18 +141,18 @@
                         <div class="split-parent">
                             <label for="drawer-service"
                                    class="split-child font-sans font-bold text-[15px] sm:text-[18px] leading-[1.2] tracking-[-0.25px] sm:tracking-[-1px] text-[#101010] mb-1.5">
-                                Serviço de interesse
+                                {{ __('Serviço de interesse') }}
                             </label>
                         </div>
                         <div class="drawer-input-item relative">
                             <select id="drawer-service"
                                     name="service"
                                     class="w-full h-[40px] px-3.5 pr-8 bg-[#c1c1c1] rounded-[2px] text-[#101010] font-sans text-sm sm:text-[15px] border border-transparent focus:border-[#101010] focus:ring-1 focus:ring-[#101010] focus:outline-none transition-all appearance-none cursor-pointer">
-                                <option value="Web Design" {{ old('service') === 'Web Design' ? 'selected' : '' }}>Web Design</option>
-                                <option value="Web Desenvolvimento" {{ old('service') === 'Web Desenvolvimento' ? 'selected' : '' }}>Web Desenvolvimento</option>
-                                <option value="3D e Motion" {{ old('service') === '3D e Motion' ? 'selected' : '' }}>3D e Motion</option>
-                                <option value="Identidade Visual" {{ old('service') === 'Identidade Visual' ? 'selected' : '' }}>Identidade Visual</option>
-                                <option value="Projeto Completo" {{ old('service') === 'Projeto Completo' ? 'selected' : '' }}>Projeto Completo (Design + Dev)</option>
+                                <option value="Web Design" {{ old('service') === 'Web Design' ? 'selected' : '' }}>{{ __('Web Design') }}</option>
+                                <option value="Web Desenvolvimento" {{ old('service') === 'Web Desenvolvimento' ? 'selected' : '' }}>{{ __('Web Desenvolvimento') }}</option>
+                                <option value="3D e Motion" {{ old('service') === '3D e Motion' ? 'selected' : '' }}>{{ __('3D e Motion') }}</option>
+                                <option value="Identidade Visual" {{ old('service') === 'Identidade Visual' ? 'selected' : '' }}>{{ __('Identidade Visual') }}</option>
+                                <option value="Projeto Completo" {{ old('service') === 'Projeto Completo' ? 'selected' : '' }}>{{ __('Projeto Completo (Design + Dev)') }}</option>
                             </select>
                             <div class="absolute inset-y-0 right-0 flex items-center px-2.5 pointer-events-none text-[#101010]">
                                 <svg class="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
@@ -167,7 +167,7 @@
                         <div class="split-parent">
                             <label for="drawer-message"
                                    class="split-child font-sans font-bold text-[15px] sm:text-[18px] leading-[1.2] tracking-[-0.25px] sm:tracking-[-1px] text-[#101010] mb-1.5">
-                                Conte-nos um pouco sobre sua ideia
+                                {{ __('Conte-nos um pouco sobre sua ideia') }}
                             </label>
                         </div>
                         <div class="drawer-input-item">
@@ -175,7 +175,7 @@
                                       name="message"
                                       rows="4"
                                       required
-                                      placeholder="Descreva seu projeto, objetivos, prazos ou expectativas..."
+                                      placeholder="{{ __('Descreva seu projeto, objetivos, prazos ou expectativas...') }}"
                                       class="w-full h-[120px] p-3.5 bg-[#c1c1c1] rounded-[2px] text-[#101010] placeholder-[#101010]/40 font-sans text-sm sm:text-[15px] border border-transparent focus:border-[#101010] focus:ring-1 focus:ring-[#101010] focus:outline-none transition-all resize-none">{{ old('message') }}</textarea>
                         </div>
                     </div>
@@ -187,7 +187,7 @@
                                 id="drawer-submit-btn"
                                 class="drawer-cta-btn group">
                             <span class="drawer-cta-text-contain">
-                                <span class="drawer-cta-text">Enviar mensagem</span>
+                                <span class="drawer-cta-text">{{ __('Enviar mensagem') }}</span>
                             </span>
                             <span class="drawer-cta-aside">
                                 <span class="drawer-cta-aside-bg"></span>
@@ -201,12 +201,12 @@
                         </button>
 
                         <!-- WhatsApp Action Button (Falar pelo Whats) -->
-                        <a href="https://wa.me/{{ $settings['contact_whatsapp'] ?? '5567981530042' }}?text={{ urlencode('Olá! Gostaria de conversar sobre um projeto com o Estúdio Norra.') }}"
+                        <a href="https://wa.me/{{ $settings['contact_whatsapp'] ?? '5567981530042' }}?text={{ urlencode(__('Olá! Gostaria de conversar sobre um projeto com o Estúdio Norra.')) }}"
                            target="_blank"
                            rel="noopener noreferrer"
                            class="drawer-cta-btn group">
                             <span class="drawer-cta-text-contain">
-                                <span class="drawer-cta-text">Falar pelo Whats</span>
+                                <span class="drawer-cta-text">{{ __('Falar pelo Whats') }}</span>
                             </span>
                             <span class="drawer-cta-aside">
                                 <span class="drawer-cta-aside-bg"></span>

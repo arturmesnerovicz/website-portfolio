@@ -15,12 +15,12 @@
                 <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-6 mb-10 sm:mb-14">
                     <div>
                         <h1 class="norra-reveal is-revealed font-display font-bold text-[clamp(2.5rem,4.86vw,4.375rem)] leading-none uppercase tracking-[-0.75px] sm:tracking-[-1.5px] lg:tracking-[-2px] text-[#101010]">
-                            TODOS OS PROJETOS
+                            {{ __('TODOS OS PROJETOS') }}
                         </h1>
                     </div>
                     <div class="lg:text-right">
                         <p class="font-sans font-normal text-base sm:text-[18px] text-[#808080] leading-[1.2] max-w-[220px]">
-                            Todos os projetos que<br class="hidden sm:inline"> ajudaram marcas
+                            {!! __('Todos os projetos que<br class="hidden sm:inline"> ajudaram marcas') !!}
                         </p>
                     </div>
                 </div>
@@ -33,25 +33,25 @@
                                 data-filter="all"
                                 class="project-filter-btn font-sans font-bold text-xl sm:text-2xl lg:text-[28px] tracking-[-0.25px] sm:tracking-[-0.5px] lg:tracking-[-1px] leading-[1.2] transition-colors cursor-pointer bg-transparent border-none p-0 text-[#101010]"
                                 aria-pressed="true">
-                            Todos
+                            {{ __('Todos') }}
                         </button>
                         <button type="button"
                                 data-filter="Website"
                                 class="project-filter-btn font-sans font-bold text-xl sm:text-2xl lg:text-[28px] tracking-[-0.25px] sm:tracking-[-0.5px] lg:tracking-[-1px] leading-[1.2] transition-colors cursor-pointer bg-transparent border-none p-0 text-[#808080] hover:text-[#101010]"
                                 aria-pressed="false">
-                            Website
+                            {{ __('Website') }}
                         </button>
                         <button type="button"
                                 data-filter="Aplicativo"
                                 class="project-filter-btn font-sans font-bold text-xl sm:text-2xl lg:text-[28px] tracking-[-0.25px] sm:tracking-[-0.5px] lg:tracking-[-1px] leading-[1.2] transition-colors cursor-pointer bg-transparent border-none p-0 text-[#808080] hover:text-[#101010]"
                                 aria-pressed="false">
-                            Aplicativo
+                            {{ __('Aplicativo') }}
                         </button>
                         <button type="button"
                                 data-filter="Design 3D"
                                 class="project-filter-btn font-sans font-bold text-xl sm:text-2xl lg:text-[28px] tracking-[-0.25px] sm:tracking-[-0.5px] lg:tracking-[-1px] leading-[1.2] transition-colors cursor-pointer bg-transparent border-none p-0 text-[#808080] hover:text-[#101010]"
                                 aria-pressed="false">
-                            Design 3D
+                            {{ __('Design 3D') }}
                         </button>
                     </div>
 
@@ -181,18 +181,18 @@
                         </article>
                     @empty
                         <div class="col-span-full py-16 text-center text-[#808080]">
-                            <p class="font-sans text-xl">Nenhum projeto cadastrado no momento.</p>
+                            <p class="font-sans text-xl">{{ __('Nenhum projeto cadastrado no momento.') }}</p>
                         </div>
                     @endforelse
                 </div>
 
                 <!-- Empty State for Filters -->
                 <div id="no-projects-found" class="hidden py-20 text-center text-[#808080]">
-                    <p class="font-sans text-xl font-bold text-[#101010] mb-2">Nenhum projeto encontrado nesta categoria.</p>
+                    <p class="font-sans text-xl font-bold text-[#101010] mb-2">{{ __('Nenhum projeto encontrado nesta categoria.') }}</p>
                     <button type="button"
                             onclick="resetProjectFilter()"
                             class="text-sm font-sans font-bold uppercase tracking-wider text-[var(--color-norra-red)] hover:underline cursor-pointer">
-                        Ver todos os projetos
+                        {{ __('Ver todos os projetos') }}
                     </button>
                 </div>
 

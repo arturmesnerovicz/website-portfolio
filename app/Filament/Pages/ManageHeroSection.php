@@ -6,6 +6,8 @@ use App\Models\SiteSetting;
 use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -38,6 +40,8 @@ class ManageHeroSection extends Page implements HasForms
         $this->form->fill([
             'hero_title' => $settings['hero_title'] ?? "Criamos experiências\nque tornam a sua marca\nirresistível",
             'hero_subtitle' => $settings['hero_subtitle'] ?? 'Ajudamos marcas consolidadas criando uma experiência de website, que reflete aquilo que construíram e o que as tornam únicas.',
+            'hero_title_en' => $settings['hero_title_en'] ?? "We craft experiences\nthat make your brand\nirresistible",
+            'hero_subtitle_en' => $settings['hero_subtitle_en'] ?? 'We empower established brands by creating bespoke web experiences that reflect their ambition and what makes them unique.',
             'hero_image_left' => $settings['hero_image_left'] ?? null,
             'hero_image_right' => $settings['hero_image_right'] ?? null,
             'hero_image_bottom_right' => $settings['hero_image_bottom_right'] ?? null,
@@ -48,18 +52,35 @@ class ManageHeroSection extends Page implements HasForms
     {
         return $form
             ->schema([
-                Section::make('Textos Principais')
-                    ->description('Edite o título de impacto e o texto de apoio que aparecem na abertura do site.')
+                Section::make('Textos Principais (Bilingue)')
+                    ->description('Edite o título de impacto e o texto de apoio em Português e em Inglês.')
                     ->schema([
-                        Textarea::make('hero_title')
-                            ->label('Título Principal')
-                            ->rows(3)
-                            ->required()
-                            ->helperText('Dica: você pode dar quebras de linha com Enter para definir exatamente a diagramação das frases.'),
-                        Textarea::make('hero_subtitle')
-                            ->label('Subtítulo Editorial (Texto Inferior)')
-                            ->rows(3)
-                            ->required(),
+                        Tabs::make('Idiomas')
+                            ->tabs([
+                                Tab::make('Português')
+                                    ->schema([
+                                        Textarea::make('hero_title')
+                                            ->label('Título Principal (PT)')
+                                            ->rows(3)
+                                            ->required()
+                                            ->helperText('Dica: você pode dar quebras de linha com Enter para definir exatamente a diagramação das frases.'),
+                                        Textarea::make('hero_subtitle')
+                                            ->label('Subtítulo Editorial (PT)')
+                                            ->rows(3)
+                                            ->required(),
+                                    ]),
+                                Tab::make('English')
+                                    ->schema([
+                                        Textarea::make('hero_title_en')
+                                            ->label('Headline (EN)')
+                                            ->rows(3)
+                                            ->helperText('Título em inglês exibido na versão /en do site.'),
+                                        Textarea::make('hero_subtitle_en')
+                                            ->label('Editorial Subtitle (EN)')
+                                            ->rows(3)
+                                            ->helperText('Subtítulo de apoio em inglês exibido na versão /en do site.'),
+                                    ]),
+                            ]),
                     ]),
 
                 Section::make('Dispositivos Flutuantes (Mockups)')

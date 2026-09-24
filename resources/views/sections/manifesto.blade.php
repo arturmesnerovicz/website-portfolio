@@ -3,16 +3,40 @@
         <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
 
             @php
-                $manifestoHeadline = $settings['manifesto_headline'] ?? "Acreditamos que grandes\nfundadores merecem uma\npresença digital a altura do\nque estão construindo.";
+                $rawHeadline = $settings['manifesto_headline'] ?? 'Acreditamos que grandes fundadores merecem uma presença digital a altura do que estão construindo.';
+                $rawP1 = $settings['manifesto_p1'] ?? 'Muitas empresas desenvolveram marcas incríveis, mas seu website não reflete isso ainda.';
 
-                // If headline has no explicit line breaks, ensure "que estão construindo" breaks harmoniously
-                if (!str_contains($manifestoHeadline, "\n")) {
-                    $manifestoHeadline = preg_replace(
-                        '/( a altura do)\s+(que estão construindo)/iu',
-                        "$1\n$2",
-                        $manifestoHeadline
+                // Typographic line-balancer: normalizes text across all screen sizes,
+                // binds short prepositions and the last word with non-breaking spaces
+                // to prevent orphan words (like isolated "do") regardless of screen width.
+                $formatBalanced = function (?string $text): string {
+                    if (empty($text)) {
+                        return '';
+                    }
+
+                    // 1. Collapse any line breaks or multiple spaces into a single space
+                    $clean = preg_replace('/\s+/u', ' ', trim($text));
+
+                    // 2. Prevent orphan/stranded words by binding vulnerable prepositions/articles (PT & EN)
+                    $clean = preg_replace(
+                        '/\b(do|da|de|no|na|a|o|e|em|por|com)\s+(que|uma|um|sua|seu|altura|nossos|nossa|marcas|empresas)\b/iu',
+                        '$1&nbsp;$2',
+                        $clean
                     );
-                }
+                    $clean = preg_replace(
+                        '/\b(what|that|in|on|at|to|for|of|and|is)\s+(they|a|the|our|their)\b/iu',
+                        '$1&nbsp;$2',
+                        $clean
+                    );
+
+                    // 3. Prevent single orphan word at the end: bind the last two words
+                    $clean = preg_replace('/\s+([^\s&]+)$/u', '&nbsp;$1', $clean);
+
+                    return $clean;
+                };
+
+                $manifestoHeadline = $formatBalanced($rawHeadline);
+                $manifestoP1 = $formatBalanced($rawP1);
 
                 $manifestoStats = [
                     ['num' => $settings['manifesto_metric_number'] ?? '1k+', 'label' => $settings['manifesto_metric_label'] ?? 'designs entregues'],
@@ -88,12 +112,12 @@
             <!-- Right Column: Big Manifesto Statement & Studio Signature with Nog 3D split text -->
             <div class="md:col-span-7 lg:col-span-8 order-1 md:order-2 flex flex-col items-start lg:items-end">
                 <div class="space-y-8 sm:space-y-10 max-w-[774px] w-full lg:mr-16 xl:mr-24">
-                    <h2 data-split class="font-sans font-bold text-[clamp(1.75rem,3.47vw,3.125rem)] leading-[1.18] text-[#ddddd5] tracking-[-0.5px] sm:tracking-[-0.75px] lg:tracking-[-1px] hyphens-none">
-                        {!! nl2br(e($manifestoHeadline)) !!}
+                    <h2 data-split class="manifesto-statement font-sans font-bold text-[clamp(1.75rem,3.47vw,3.125rem)] leading-[1.18] text-[#ddddd5] tracking-[-0.5px] sm:tracking-[-0.75px] lg:tracking-[-1px] hyphens-none text-balance [text-wrap:balance]">
+                        {!! $manifestoHeadline !!}
                     </h2>
 
-                    <p data-split class="font-sans font-bold text-[clamp(1.75rem,3.47vw,3.125rem)] leading-[1.18] text-[#ddddd5] tracking-[-0.5px] sm:tracking-[-0.75px] lg:tracking-[-1px]">
-                        {{ $settings['manifesto_p1'] ?? 'Muitas empresas desenvolveram marcas incríveis, mas seu website não reflete isso ainda.' }}
+                    <p data-split class="manifesto-statement font-sans font-bold text-[clamp(1.75rem,3.47vw,3.125rem)] leading-[1.18] text-[#ddddd5] tracking-[-0.5px] sm:tracking-[-0.75px] lg:tracking-[-1px] text-balance [text-wrap:balance]">
+                        {!! $manifestoP1 !!}
                     </p>
 
                     <!-- Studio Norra Signature with High-Contrast Monogram (aligned with text block) -->

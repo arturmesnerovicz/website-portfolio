@@ -15,7 +15,7 @@ class ProjectController extends Controller
      */
     public function index(Request $request): View
     {
-        $settings = SiteSetting::all()->pluck('value', 'key');
+        $settings = SiteSetting::getFormattedSettings();
         $socialLinks = SocialLink::query()->where('is_active', true)->orderBy('sort_order')->get();
         $projects = Project::query()->orderBy('sort_order')->get();
 
