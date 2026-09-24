@@ -48,7 +48,7 @@ class ContentSeeder extends Seeder
             ['key' => 'hero_image_bottom_right', 'value' => 'hero-tablet-bottom.png', 'group' => 'hero', 'type' => 'image', 'label' => 'Mockup Inferior Direito'],
 
             // Manifesto Section
-            ['key' => 'manifesto_headline', 'value' => 'Entendemos que grandes fundadores merecem uma presença digital a altura do que estão construindo.', 'group' => 'manifesto', 'type' => 'textarea', 'label' => 'Manchete do Manifesto'],
+            ['key' => 'manifesto_headline', 'value' => "Acreditamos que grandes\nfundadores merecem uma\npresença digital a altura do\nque estão construindo.", 'group' => 'manifesto', 'type' => 'textarea', 'label' => 'Manchete do Manifesto'],
             ['key' => 'manifesto_p1', 'value' => 'Muitas empresas desenvolveram marcas incríveis, mas seu website não reflete isso ainda.', 'group' => 'manifesto', 'type' => 'textarea', 'label' => 'Primeiro Parágrafo do Manifesto'],
             ['key' => 'manifesto_metric_number', 'value' => '1k+', 'group' => 'manifesto', 'type' => 'text', 'label' => 'Métrica 1 - Número'],
             ['key' => 'manifesto_metric_label', 'value' => 'designs entregues', 'group' => 'manifesto', 'type' => 'text', 'label' => 'Métrica 1 - Legenda'],

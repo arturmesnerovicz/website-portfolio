@@ -3,7 +3,17 @@
         <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
 
             @php
-                $manifestoHeadline = $settings['manifesto_headline'] ?? "Entendemos que grandes\nfundadores merecem uma\npresença digital a altura do\nque estão construindo.";
+                $manifestoHeadline = $settings['manifesto_headline'] ?? "Acreditamos que grandes\nfundadores merecem uma\npresença digital a altura do\nque estão construindo.";
+
+                // If headline has no explicit line breaks, ensure "que estão construindo" breaks harmoniously
+                if (!str_contains($manifestoHeadline, "\n")) {
+                    $manifestoHeadline = preg_replace(
+                        '/( a altura do)\s+(que estão construindo)/iu',
+                        "$1\n$2",
+                        $manifestoHeadline
+                    );
+                }
+
                 $manifestoStats = [
                     ['num' => $settings['manifesto_metric_number'] ?? '1k+', 'label' => $settings['manifesto_metric_label'] ?? 'designs entregues'],
                     ['num' => $settings['manifesto_stat2_number'] ?? '98%', 'label' => $settings['manifesto_stat2_label'] ?? 'satisfação comprovada'],

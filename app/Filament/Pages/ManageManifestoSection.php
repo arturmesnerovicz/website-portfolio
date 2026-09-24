@@ -37,7 +37,7 @@ class ManageManifestoSection extends Page implements HasForms
         $settings = SiteSetting::where('group', 'manifesto')->pluck('value', 'key')->toArray();
 
         $this->form->fill([
-            'manifesto_headline' => $settings['manifesto_headline'] ?? "Entendemos que grandes\nfundadores merecem uma\npresença digital a altura do\nque estão construindo.",
+            'manifesto_headline' => $settings['manifesto_headline'] ?? "Acreditamos que grandes\nfundadores merecem uma\npresença digital a altura do\nque estão construindo.",
             'manifesto_p1' => $settings['manifesto_p1'] ?? 'Muitas empresas desenvolveram marcas incríveis, mas seu website não reflete isso ainda.',
             'manifesto_metric_number' => $settings['manifesto_metric_number'] ?? '1k+',
             'manifesto_metric_label' => $settings['manifesto_metric_label'] ?? 'designs entregues',

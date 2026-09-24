@@ -24,6 +24,7 @@ class HomeTest extends TestCase
         $response->assertSee('Ficou com');
         $response->assertSee('Hub Arquitetura');
         $response->assertSee('Web Design');
+        $response->assertSee("presença digital a altura do<br />\nque estão construindo.", false);
     }
 
     public function test_sitemap_returns_valid_xml(): void
