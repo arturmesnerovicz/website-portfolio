@@ -19,25 +19,33 @@ CustomEase.create('ease-menu', '.7, 0, .22, 1');
 CustomEase.create('ease-secondary', '0.16, 1, 0.35, 1');
 
 export function initAllNorraComponents() {
-    initHeaderScroll();
-    initMobileMenu();
-    initContactForm();
-    initFloatingWhatsApp();
-    initModalKeyHandlers();
-    initHeroParallax();
-    initJourneyScroll();
-    initFaqCtaTransition();
-    init3DTextSplit();
-    initTextReveals();
-    initManifestoBeamCycle();
-    initProjectsSection();
-    initProjectsFilterPage();
+    try { initHeaderScroll(); } catch (e) { console.error('initHeaderScroll:', e); }
+    try { initMobileMenu(); } catch (e) { console.error('initMobileMenu:', e); }
+    try { initContactForm(); } catch (e) { console.error('initContactForm:', e); }
+    try { initFloatingWhatsApp(); } catch (e) { console.error('initFloatingWhatsApp:', e); }
+    try { initModalKeyHandlers(); } catch (e) { console.error('initModalKeyHandlers:', e); }
+    try { initHeroParallax(); } catch (e) { console.error('initHeroParallax:', e); }
+    try { initJourneyScroll(); } catch (e) { console.error('initJourneyScroll:', e); }
+    try { initFaqCtaTransition(); } catch (e) { console.error('initFaqCtaTransition:', e); }
+    try { init3DTextSplit(); } catch (e) { console.error('init3DTextSplit:', e); }
+    try { initTextReveals(); } catch (e) { console.error('initTextReveals:', e); }
+    try { initManifestoBeamCycle(); } catch (e) { console.error('initManifestoBeamCycle:', e); }
+    try { initProjectsSection(); } catch (e) { console.error('initProjectsSection:', e); }
+    try { initProjectsFilterPage(); } catch (e) { console.error('initProjectsFilterPage:', e); }
 }
 window.initAllNorraComponents = initAllNorraComponents;
 
 document.addEventListener('DOMContentLoaded', () => {
-    initAllNorraComponents();
-    initPageTransition();
+    try {
+        initAllNorraComponents();
+    } catch (e) {
+        console.error('initAllNorraComponents:', e);
+    }
+    try {
+        initPageTransition();
+    } catch (e) {
+        console.error('initPageTransition:', e);
+    }
 });
 
 
@@ -210,6 +218,14 @@ function initMobileMenu() {
                 if (footer) gsap.set(footer, { clearProps: 'all' });
             }
         });
+    };
+
+    const toggleMenu = () => {
+        if (isOpen) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
     };
 
     window.closeMobileMenuDirectly = () => {
