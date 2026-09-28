@@ -7,9 +7,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Title & SEO Meta -->
-    <title>{{ $settings['seo_title'] ?? (app()->getLocale() === 'en' ? 'Estúdio Norra | Web Design & Digital Engineering' : 'Estúdio Norra | Design e Desenvolvimento Web') }}</title>
-    <meta name="description" content="{{ $settings['seo_description'] ?? (app()->getLocale() === 'en' ? 'Digital design and engineering studio crafting modern websites, immersive interfaces, and high-end brand experiences.' : 'Estúdio de design e engenharia digital focado em websites modernos, interfaces imersivas e experiências de alto padrão.') }}">
-    <meta name="keywords" content="{{ $settings['seo_keywords'] ?? (app()->getLocale() === 'en' ? 'web design, web development, modern websites, landing page, branding, 3D motion' : 'web design, desenvolvimento web, sites modernos, landing page, branding, 3D motion') }}">
+    <title>{{ app()->getLocale() === 'en' ? ($settings['seo_title_en'] ?? 'Estúdio Norra | Web Design & Digital Engineering') : ($settings['seo_title'] ?? 'Estúdio Norra | Design e Desenvolvimento Web') }}</title>
+    <meta name="description" content="{{ app()->getLocale() === 'en' ? ($settings['seo_description_en'] ?? 'Digital design and engineering studio crafting modern websites, immersive interfaces, and high-end brand experiences.') : ($settings['seo_description'] ?? 'Estúdio de design e engenharia digital focado em websites modernos, interfaces imersivas e experiências de alto padrão.') }}">
+    <meta name="keywords" content="{{ app()->getLocale() === 'en' ? ($settings['seo_keywords_en'] ?? 'web design, web development, modern websites, landing page, branding, 3D motion') : ($settings['seo_keywords'] ?? 'web design, desenvolvimento web, sites modernos, landing page, branding, 3D motion') }}">
     <link rel="canonical" href="{{ url()->current() }}">
 
     <!-- Multilingual Alternate Links (hreflang for SEO) -->
@@ -25,15 +25,15 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:site_name" content="{{ $settings['site_name'] ?? 'Estúdio Norra' }}">
-    <meta property="og:title" content="{{ $settings['seo_title'] ?? (app()->getLocale() === 'en' ? 'Estúdio Norra | Web Design & Digital Engineering' : 'Estúdio Norra | Design e Desenvolvimento Web') }}">
-    <meta property="og:description" content="{{ $settings['seo_description'] ?? (app()->getLocale() === 'en' ? 'Crafting high-end digital experiences for ambitious brands and demanding founders.' : 'Criamos experiências digitais exclusivas para marcas consolidadas e fundadores exigentes.') }}">
+    <meta property="og:title" content="{{ app()->getLocale() === 'en' ? ($settings['seo_title_en'] ?? 'Estúdio Norra | Web Design & Digital Engineering') : ($settings['seo_title'] ?? 'Estúdio Norra | Design e Desenvolvimento Web') }}">
+    <meta property="og:description" content="{{ app()->getLocale() === 'en' ? ($settings['seo_description_en'] ?? 'Crafting high-end digital experiences for ambitious brands and demanding founders.') : ($settings['seo_description'] ?? 'Criamos experiências digitais exclusivas para marcas consolidadas e fundadores exigentes.') }}">
     <meta property="og:image" content="{{ asset('assets/logos/logo.svg') }}">
     <meta property="og:locale" content="{{ app()->getLocale() === 'en' ? 'en_US' : 'pt_BR' }}">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ $settings['seo_title'] ?? (app()->getLocale() === 'en' ? 'Estúdio Norra | Web Design & Digital Engineering' : 'Estúdio Norra | Design e Desenvolvimento Web') }}">
-    <meta name="twitter:description" content="{{ $settings['seo_description'] ?? (app()->getLocale() === 'en' ? 'Crafting high-end digital experiences for ambitious brands and demanding founders.' : 'Criamos experiências digitais exclusivas para marcas consolidadas e fundadores exigentes.') }}">
+    <meta name="twitter:title" content="{{ app()->getLocale() === 'en' ? ($settings['seo_title_en'] ?? 'Estúdio Norra | Web Design & Digital Engineering') : ($settings['seo_title'] ?? 'Estúdio Norra | Design e Desenvolvimento Web') }}">
+    <meta name="twitter:description" content="{{ app()->getLocale() === 'en' ? ($settings['seo_description_en'] ?? 'Crafting high-end digital experiences for ambitious brands and demanding founders.') : ($settings['seo_description'] ?? 'Criamos experiências digitais exclusivas para marcas consolidadas e fundadores exigentes.') }}">
     <meta name="twitter:image" content="{{ asset('assets/logos/logo.svg') }}">
 
     <!-- Fonts Preload -->
@@ -107,7 +107,7 @@
        rel="noopener noreferrer"
        id="whatsapp-floating-btn"
        class="whatsapp-floating-btn is-dark-bg"
-       aria-label="Fale Conosco pelo WhatsApp">
+       aria-label="{{ __('Fale Conosco pelo WhatsApp') }}">
         <svg class="whatsapp-floating-icon" viewBox="0 0 24 24" fill="currentColor">
             <path d="M17.472 14.382c-.301-.15-1.78-.879-2.056-.98-.276-.1-.476-.15-.677.15-.2.302-.777.98-.952 1.18-.176.2-.351.226-.652.075-.3-.15-1.268-.468-2.416-1.493-.894-.799-1.498-1.787-1.674-2.088-.176-.301-.019-.464.132-.614.136-.135.301-.351.452-.527.15-.175.2-.3.301-.501.1-.2.05-.376-.025-.526-.075-.15-.677-1.634-.927-2.235-.244-.587-.492-.507-.677-.517l-.577-.01c-.2 0-.527.075-.802.376s-1.054 1.03-1.054 2.511 1.079 2.912 1.23 3.113c.15.2 2.123 3.243 5.143 4.547.719.31 1.28.497 1.718.636.722.23 1.378.197 1.898.12.578-.087 1.78-.727 2.03-1.43.25-.703.25-1.305.176-1.43-.075-.126-.276-.201-.577-.351zM12.042 21.998c-1.802 0-3.57-.486-5.12-1.408l-.367-.218-3.805.998 1.016-3.71-.24-.382c-1.013-1.613-1.548-3.483-1.548-5.399 0-5.464 4.446-9.91 9.913-9.91 2.646 0 5.134 1.03 7.006 2.902 1.872 1.872 2.902 4.36 2.902 7.008 0 5.466-4.446 9.919-9.757 9.919zm8.413-18.332C18.204 1.417 15.244.25 12.042.25 5.558.25.28 5.528.28 12.012c0 2.072.541 4.096 1.568 5.875L0 23.75l6.023-1.58c1.718.937 3.65 1.43 5.617 1.43h.005c6.484 0 11.762-5.279 11.762-11.763 0-3.142-1.224-6.096-3.452-8.324z"/>
         </svg>

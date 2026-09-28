@@ -61,6 +61,9 @@ class SiteSetting extends Model
 
             if ($locale === 'en' && ! empty($all[$key.'_en'])) {
                 $settings[$key] = $all[$key.'_en'];
+            } elseif ($locale === 'en' && is_string($val)) {
+                $trans = __($val, [], 'en');
+                $settings[$key] = $trans;
             } else {
                 $settings[$key] = $val;
             }

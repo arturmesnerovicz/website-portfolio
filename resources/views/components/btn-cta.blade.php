@@ -1,11 +1,12 @@
 @props([
-    'text' => 'Fale Conosco',
+    'text' => null,
     'type' => 'button',
     'onclick' => 'openContactModal()',
     'size' => 'default',
 ])
 
 @php
+    $buttonText = $text ?? __('Fale Conosco');
     $sizeClass = match($size) {
         'lg' => 'faq-cta-btn--lg',
         'sm' => 'faq-cta-btn--sm',
@@ -17,7 +18,7 @@
         onclick="{{ $onclick }}"
         {{ $attributes->merge(['class' => 'faq-cta-btn ' . $sizeClass]) }}>
     <span class="faq-cta-text-contain">
-        <span class="faq-cta-text">{{ $text }}</span>
+        <span class="faq-cta-text">{{ $buttonText }}</span>
     </span>
     <span class="faq-cta-aside">
         <span class="faq-cta-aside-bg"></span>

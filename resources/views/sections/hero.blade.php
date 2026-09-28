@@ -56,7 +56,7 @@
                 }
             @endphp
             <h1 class="norra-reveal hero-headline font-display font-bold text-[clamp(1.75rem,min(4.5vw,6.5vh),4.0625rem)] leading-[1.1] tracking-[-0.5px] sm:tracking-[-0.75px] md:tracking-[-1.31px] text-[#ddddd5] hyphens-none">
-                {!! nl2br(e($heroTitle)) !!}
+                {!! nl2br(e(__($heroTitle))) !!}
             </h1>
         </div>
 
@@ -65,7 +65,7 @@
             <!-- Bottom-Left: Editorial Paragraph (486px matching Penpot) -->
             <div class="max-w-[486px] text-left">
                 <p class="norra-reveal text-base sm:text-lg md:text-xl lg:text-[clamp(1.125rem,1.5vw,1.5rem)] text-[#ddddd5]/80 font-normal leading-[1.25] tracking-normal sm:tracking-[-0.5px] lg:tracking-[-1px] font-sans">
-                    {{ $settings['hero_subtitle'] ?? 'Ajudamos marcas consolidadas craindo uma experiência de website, que reflete aquilo que construíram e o que as tornam únicas.' }}
+                    {{ __($settings['hero_subtitle'] ?? 'Ajudamos marcas consolidadas craindo uma experiência de website, que reflete aquilo que construíram e o que as tornam únicas.') }}
                 </p>
             </div>
 

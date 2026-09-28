@@ -37,6 +37,22 @@ export async function prefetchPage(url) {
 }
 
 /**
+ * Normalizes URL path for precise comparison (removes trailing slashes)
+ */
+function normalizeUrl(url) {
+    try {
+        const u = new URL(url, window.location.origin);
+        let path = u.pathname;
+        if (path.length > 1 && path.endsWith('/')) {
+            path = path.slice(0, -1);
+        }
+        return u.origin + path;
+    } catch (_) {
+        return url.split('#')[0];
+    }
+}
+
+/**
  * Updates navbar links and active classes to match the new document
  */
 function updateNavbar(newDoc) {
@@ -53,16 +69,43 @@ function updateNavbar(newDoc) {
     if (currentMobileNav && newMobileNav) {
         currentMobileNav.innerHTML = newMobileNav.innerHTML;
     }
+
+    // 3. Language Switchers (Desktop & Mobile)
+    const currentDesktopLang = document.querySelector('#site-header .nav-lang-switcher');
+    const newDesktopLang = newDoc.querySelector('#site-header .nav-lang-switcher');
+    if (currentDesktopLang && newDesktopLang) {
+        currentDesktopLang.innerHTML = newDesktopLang.innerHTML;
+    }
+
+    const currentMobileLang = document.querySelector('#mobile-menu .nav-lang-switcher');
+    const newMobileLang = newDoc.querySelector('#mobile-menu .nav-lang-switcher');
+    if (currentMobileLang && newMobileLang) {
+        currentMobileLang.innerHTML = newMobileLang.innerHTML;
+    }
+
+    // 4. Brand Logo href
+    const currentLogo = document.querySelector('#site-header a[aria-label]');
+    const newLogo = newDoc.querySelector('#site-header a[aria-label]');
+    if (currentLogo && newLogo) {
+        currentLogo.href = newLogo.href;
+    }
 }
 
 /**
  * Closes mobile drawer if it was open when transition was triggered
  */
 function closeMobileMenuIfOpen() {
-    const btn = document.getElementById('mobile-menu-btn');
-    const menu = document.getElementById('mobile-menu');
-    if (btn && menu && !menu.classList.contains('hidden') && btn.getAttribute('aria-expanded') === 'true') {
-        btn.click();
+    if (typeof window.closeMobileMenuDirectly === 'function') {
+        window.closeMobileMenuDirectly();
+    } else {
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const backdrop = document.getElementById('mobile-menu-backdrop');
+        if (btn && menu) {
+            menu.classList.add('hidden');
+            backdrop?.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+        }
     }
 }
 
@@ -72,15 +115,20 @@ function closeMobileMenuIfOpen() {
 export async function transitionTo(targetUrl, isPopState = false) {
     if (isTransitioning) return;
 
-    const currentCleanUrl = window.location.href.split('#')[0];
-    const targetCleanUrl = targetUrl.split('#')[0];
+    const currentNorm = normalizeUrl(window.location.href);
+    const targetNorm = normalizeUrl(targetUrl);
     const targetHash = targetUrl.includes('#') ? targetUrl.split('#')[1] : null;
 
     // If staying on the same page, simply smooth-scroll to the anchor if present
-    if (currentCleanUrl === targetCleanUrl) {
+    if (currentNorm === targetNorm) {
+        closeMobileMenuIfOpen();
         if (targetHash) {
             const targetEl = document.getElementById(targetHash);
             if (targetEl) {
+                if (typeof window.revealSection === 'function') {
+                    const parent = targetEl.closest('section, footer') || targetEl;
+                    window.revealSection(parent);
+                }
                 targetEl.scrollIntoView({ behavior: 'smooth' });
                 if (!isPopState) {
                     window.history.pushState(null, '', targetUrl);
@@ -94,12 +142,28 @@ export async function transitionTo(targetUrl, isPopState = false) {
     document.body.classList.add('is-loading');
     closeMobileMenuIfOpen();
 
+    // Safety watchdog timer: force reset if anything gets stuck or takes longer than 2.8s
+    const safetyTimer = setTimeout(() => {
+        if (isTransitioning) {
+            console.warn('Norra page transition timeout failsafe triggered');
+            isTransitioning = false;
+            document.body.style.overflow = '';
+            document.body.classList.remove('is-loading');
+            document.querySelectorAll('.exo-viewport-frame').forEach(f => f.remove());
+        }
+    }, 2800);
+
     try {
         // 1. Fetch HTML (or use cached version)
+        const targetCleanUrl = targetUrl.split('#')[0];
         let html = pageCache.get(targetCleanUrl);
         if (!html) {
             const res = await fetch(targetCleanUrl);
             if (!res.ok) {
+                clearTimeout(safetyTimer);
+                isTransitioning = false;
+                document.body.style.overflow = '';
+                document.body.classList.remove('is-loading');
                 window.location.href = targetUrl;
                 return;
             }
@@ -116,6 +180,10 @@ export async function transitionTo(targetUrl, isPopState = false) {
         const outgoingContent = document.getElementById('exo-page-content');
 
         if (!incomingContentSource || !pageContainer || !outgoingContent) {
+            clearTimeout(safetyTimer);
+            isTransitioning = false;
+            document.body.style.overflow = '';
+            document.body.classList.remove('is-loading');
             window.location.href = targetUrl;
             return;
         }
@@ -125,7 +193,9 @@ export async function transitionTo(targetUrl, isPopState = false) {
         document.body.style.overflow = 'hidden';
 
         // Kill existing ScrollTriggers and revert pin spacers before animating out
-        ScrollTrigger.getAll().forEach(st => st.kill(true));
+        try {
+            ScrollTrigger.getAll().forEach(st => st.kill(true));
+        } catch (_) {}
 
         // 4. Create Outgoing Viewport Frame
         const outgoingFrame = document.createElement('div');
@@ -166,52 +236,63 @@ export async function transitionTo(targetUrl, isPopState = false) {
                 duration: duration
             },
             onComplete: () => {
-                // Instantly scroll window to top before replacing elements in normal DOM flow
-                window.scrollTo(0, 0);
+                try {
+                    // Instantly scroll window to top before replacing elements in normal DOM flow
+                    window.scrollTo(0, 0);
 
-                // Restore incoming content to natural document flow with zero leftover transforms
-                incomingContent.style.width = '';
-                incomingContent.style.marginTop = '';
-                incomingContent.style.transform = '';
-                incomingContent.style.transformOrigin = '';
-                incomingContent.style.willChange = '';
-                pageContainer.innerHTML = '';
-                pageContainer.appendChild(incomingContent);
+                    // Restore incoming content to natural document flow with zero leftover transforms
+                    incomingContent.style.width = '';
+                    incomingContent.style.marginTop = '';
+                    incomingContent.style.transform = '';
+                    incomingContent.style.transformOrigin = '';
+                    incomingContent.style.willChange = '';
+                    pageContainer.innerHTML = '';
+                    pageContainer.appendChild(incomingContent);
 
-                // Clean up temporary viewport frames
-                outgoingFrame.remove();
-                incomingFrame.remove();
+                    // Clean up temporary viewport frames
+                    outgoingFrame.remove();
+                    incomingFrame.remove();
 
-                // Restore scrolling and loading state
-                document.body.style.overflow = '';
-                document.body.classList.remove('is-loading');
+                    // Restore scrolling and loading state
+                    document.body.style.overflow = '';
+                    document.body.classList.remove('is-loading');
 
-                // Update URL, history & document metadata
-                if (!isPopState) {
-                    window.history.pushState(null, '', targetUrl);
+                    // Update URL, history & document metadata
+                    if (!isPopState) {
+                        window.history.pushState(null, '', targetUrl);
+                    }
+                    document.title = newDoc.title;
+
+                    // Sync Navbar links
+                    updateNavbar(newDoc);
+
+                    // Re-initialize all Norra components and refresh ScrollTrigger
+                    if (typeof window.initAllNorraComponents === 'function') {
+                        window.initAllNorraComponents();
+                    }
+                    ScrollTrigger.refresh();
+
+                    // If link contained an anchor hash on the new page, smoothly scroll to it and reveal
+                    if (targetHash) {
+                        setTimeout(() => {
+                            const targetEl = document.getElementById(targetHash);
+                            if (targetEl) {
+                                if (typeof window.revealSection === 'function') {
+                                    const parent = targetEl.closest('section, footer') || targetEl;
+                                    window.revealSection(parent);
+                                }
+                                targetEl.scrollIntoView({ behavior: 'smooth' });
+                            }
+                        }, 80);
+                    }
+                } catch (err) {
+                    console.error('Error during transition onComplete:', err);
+                } finally {
+                    clearTimeout(safetyTimer);
+                    isTransitioning = false;
+                    document.body.style.overflow = '';
+                    document.body.classList.remove('is-loading');
                 }
-                document.title = newDoc.title;
-
-                // Sync Navbar links
-                updateNavbar(newDoc);
-
-                // If link contained an anchor hash on the new page, smoothly scroll to it
-                if (targetHash) {
-                    setTimeout(() => {
-                        const targetEl = document.getElementById(targetHash);
-                        if (targetEl) {
-                            targetEl.scrollIntoView({ behavior: 'smooth' });
-                        }
-                    }, 50);
-                }
-
-                // Re-initialize all Norra components and refresh ScrollTrigger
-                if (typeof window.initAllNorraComponents === 'function') {
-                    window.initAllNorraComponents();
-                }
-                ScrollTrigger.refresh();
-
-                isTransitioning = false;
             }
         });
 
@@ -264,6 +345,10 @@ export async function transitionTo(targetUrl, isPopState = false) {
         );
 
     } catch (err) {
+        clearTimeout(safetyTimer);
+        isTransitioning = false;
+        document.body.style.overflow = '';
+        document.body.classList.remove('is-loading');
         console.error('Page transition fallback triggered:', err);
         window.location.href = targetUrl;
     }
@@ -298,16 +383,29 @@ export function initPageTransition() {
         // Only handle internal origin
         if (targetUrl.origin !== window.location.origin) return;
 
-        const isSamePath = (targetUrl.pathname.replace(/\/$/, '') === window.location.pathname.replace(/\/$/, ''));
+        const currentNorm = normalizeUrl(window.location.href);
+        const targetNorm = normalizeUrl(targetUrl.href);
+        const isSamePath = (currentNorm === targetNorm);
 
-        // If clicking an anchor on the exact same page, let browser/app smooth-scroll
+        // If clicking an anchor on the exact same page, smooth-scroll and close mobile drawer
         if (isSamePath && targetUrl.hash) {
+            closeMobileMenuIfOpen();
+            const targetEl = document.querySelector(targetUrl.hash);
+            if (targetEl) {
+                if (typeof window.revealSection === 'function') {
+                    const parent = targetEl.closest('section, footer') || targetEl;
+                    window.revealSection(parent);
+                }
+                targetEl.scrollIntoView({ behavior: 'smooth' });
+                window.history.pushState(null, '', targetUrl.href);
+            }
             return;
         }
 
-        // If clicking link to current exact URL without hash, scroll to top
+        // If clicking link to current exact URL without hash, scroll to top and close mobile drawer
         if (isSamePath && !targetUrl.hash) {
             e.preventDefault();
+            closeMobileMenuIfOpen();
             window.scrollTo({ top: 0, behavior: 'smooth' });
             return;
         }

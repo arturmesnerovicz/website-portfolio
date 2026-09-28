@@ -68,7 +68,7 @@
                                     </video>
                                 @else
                                     <img src="{{ $stepImage }}"
-                                         alt="Etapa {{ $loop->iteration }}"
+                                         alt="{{ __('Etapa') }} {{ $loop->iteration }}"
                                          class="w-full h-full object-cover"
                                          loading="lazy">
                                 @endif
@@ -76,7 +76,7 @@
 
                             <!-- Descriptive Text corresponding to stage (order-2 on mobile & all tablets to sit below image, order-1 on desktop xl+) -->
                             <p class="order-2 xl:order-1 journey-desc-text font-sans font-normal text-[19px] sm:text-[20px] md:text-[24px] lg:text-[26px] xl:text-[clamp(1.125rem,2.5vw,2.375rem)] leading-[1.45] sm:leading-[1.5] md:leading-[1.35] lg:leading-[1.3] xl:leading-[1.2] tracking-normal sm:tracking-[-0.3px] md:tracking-[-0.5px] lg:tracking-[-0.75px] xl:tracking-[-2px] text-[#ddddd5] mt-3.5 sm:mt-4 md:mt-5 lg:mt-6 xl:mt-0 max-w-full xl:max-w-[964px]">
-                                {{ $step->description }}
+                                {{ __($step->description) }}
                             </p>
                         </div>
 

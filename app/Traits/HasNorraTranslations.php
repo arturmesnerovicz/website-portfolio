@@ -17,8 +17,15 @@ trait HasNorraTranslations
     {
         $raw = $this->getAttributes()[$attribute] ?? null;
 
-        // If the attribute contains a plain string (not a JSON structure), return it directly
+        // If the attribute contains a plain string (not a JSON structure)
         if (! empty($raw) && ! str_starts_with(trim((string) $raw), '{')) {
+            if ($locale !== 'pt_BR' && $locale !== 'pt') {
+                $translated = __($raw, [], $locale);
+                if ($translated !== $raw) {
+                    return $translated;
+                }
+            }
+
             return $raw;
         }
 

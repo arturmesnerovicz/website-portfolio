@@ -41,7 +41,7 @@
                         {{ __('EXPLORAR') }}
                     </p>
                     <ul class="space-y-2 text-sm sm:text-[18px] font-sans font-normal text-[#101010]/75 leading-[1.2]">
-                        <li><a href="{{ request()->routeIs('home', 'en.home') ? '#expertise' : (app()->getLocale() === 'en' ? url('/en#expertise') : url('/#expertise')) }}" class="hover:text-[#b70606] transition-colors">Expertise</a></li>
+                        <li><a href="{{ request()->routeIs('home', 'en.home') ? '#expertise' : (app()->getLocale() === 'en' ? url('/en#expertise') : url('/#expertise')) }}" class="hover:text-[#b70606] transition-colors">{{ __('Expertise') }}</a></li>
                         <li><a href="{{ request()->routeIs('home', 'en.home') ? '#projetos' : '#todos-projetos' }}" class="hover:text-[#b70606] transition-colors">{{ __('Galeria') }}</a></li>
                         <li><a href="{{ request()->routeIs('home', 'en.home') ? '#manifesto' : (app()->getLocale() === 'en' ? url('/en#manifesto') : url('/#manifesto')) }}" class="hover:text-[#b70606] transition-colors">{{ __('Sobre') }}</a></li>
                         <li><a href="{{ route(app()->getLocale() === 'en' ? 'en.projects.index' : 'projects.index') }}" class="hover:text-[#b70606] transition-colors">{{ __('Projetos') }}</a></li>

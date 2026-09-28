@@ -3,8 +3,8 @@
         <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
 
             @php
-                $rawHeadline = $settings['manifesto_headline'] ?? 'Acreditamos que grandes fundadores merecem uma presença digital a altura do que estão construindo.';
-                $rawP1 = $settings['manifesto_p1'] ?? 'Muitas empresas desenvolveram marcas incríveis, mas seu website não reflete isso ainda.';
+                $rawHeadline = __($settings['manifesto_headline'] ?? 'Acreditamos que grandes fundadores merecem uma presença digital a altura do que estão construindo.');
+                $rawP1 = __($settings['manifesto_p1'] ?? 'Muitas empresas desenvolveram marcas incríveis, mas seu website não reflete isso ainda.');
 
                 // Typographic line-balancer: normalizes text across all screen sizes,
                 // binds short prepositions and the last word with non-breaking spaces
@@ -39,9 +39,9 @@
                 $manifestoP1 = $formatBalanced($rawP1);
 
                 $manifestoStats = [
-                    ['num' => $settings['manifesto_metric_number'] ?? '1k+', 'label' => $settings['manifesto_metric_label'] ?? 'designs entregues'],
-                    ['num' => $settings['manifesto_stat2_number'] ?? '98%', 'label' => $settings['manifesto_stat2_label'] ?? 'satisfação comprovada'],
-                    ['num' => $settings['manifesto_stat3_number'] ?? '10+', 'label' => $settings['manifesto_stat3_label'] ?? 'anos de excelência'],
+                    ['num' => $settings['manifesto_metric_number'] ?? '1k+', 'label' => __($settings['manifesto_metric_label'] ?? 'designs entregues')],
+                    ['num' => $settings['manifesto_stat2_number'] ?? '98%', 'label' => __($settings['manifesto_stat2_label'] ?? 'satisfação comprovada')],
+                    ['num' => $settings['manifesto_stat3_number'] ?? '10+', 'label' => __($settings['manifesto_stat3_label'] ?? 'anos de excelência')],
                 ];
             @endphp
 
@@ -49,7 +49,7 @@
             <div class="md:col-span-5 lg:col-span-4 flex flex-col md:flex-row items-start gap-5 md:gap-4 order-2 md:order-1 pt-0.5 w-full">
                 <!-- Progress Line: Horizontal on mobile (full width), Vertical on desktop & tablet (320px) -->
                 <div class="manifesto-progress-track relative w-full h-[1.5px] md:w-[1.5px] md:h-[320px] bg-[#ddddd5]/20 flex-shrink-0 overflow-hidden"
-                     title="Carregamento da próxima informação">
+                     title="{{ __('Carregamento da próxima informação') }}">
                     <div id="manifesto-progress-fill"
                          class="manifesto-progress-fill absolute top-0 left-0 w-0 h-full md:w-full md:h-0 bg-[#b60e0e] origin-left md:origin-top will-change-transform"
                          style="box-shadow: 0 0 8px rgba(182, 14, 14, 0.7);"></div>
@@ -63,7 +63,7 @@
                           data-stats="{{ json_encode($manifestoStats) }}"
                           data-index="0"
                           onclick="window.cycleManifestoStatNext()"
-                          title="Clique para avançar estatística">
+                          title="{{ __('Clique para avançar estatística') }}">
                         <span id="manifesto-stat-num" class="font-display font-bold text-5xl sm:text-[50px] text-[#ddddd5] tracking-[-0.5px] sm:tracking-[-1px] leading-[1.2] block transition-colors duration-300">
                             {{ $manifestoStats[0]['num'] }}
                         </span>
@@ -78,7 +78,7 @@
                         <button type="button"
                                 id="manifesto-arrow-prev"
                                 onclick="window.cycleManifestoStatPrev()"
-                                aria-label="Estatística anterior"
+                                aria-label="{{ __('Estatística anterior') }}"
                                 class="manifesto-nav-arrow flex items-center justify-center md:justify-start w-8 h-8 md:w-5 md:h-5 text-[#ddddd5]/50 hover:text-[#ddddd5] transition-colors focus:outline-none group">
                             <!-- Desktop/Tablet: Up Arrow -->
                             <svg width="10" height="10" viewBox="0 0 10 10" fill="none" class="hidden md:block transition-transform group-hover:-translate-y-0.5">
@@ -94,7 +94,7 @@
                         <button type="button"
                                 id="manifesto-arrow-next"
                                 onclick="window.cycleManifestoStatNext()"
-                                aria-label="Próxima estatística"
+                                aria-label="{{ __('Próxima estatística') }}"
                                 class="manifesto-nav-arrow flex items-center justify-center md:justify-start w-8 h-8 md:w-5 md:h-5 text-[#ddddd5]/50 hover:text-[#ddddd5] transition-colors focus:outline-none group">
                             <!-- Desktop/Tablet: Down Arrow -->
                             <svg width="10" height="10" viewBox="0 0 10 10" fill="none" class="hidden md:block transition-transform group-hover:translate-y-0.5">

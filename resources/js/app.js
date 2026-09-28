@@ -31,9 +31,7 @@ export function initAllNorraComponents() {
     initTextReveals();
     initManifestoBeamCycle();
     initProjectsSection();
-    if (typeof window.initProjectsFilterPage === 'function') {
-        window.initProjectsFilterPage();
-    }
+    initProjectsFilterPage();
 }
 window.initAllNorraComponents = initAllNorraComponents;
 
@@ -214,11 +212,19 @@ function initMobileMenu() {
         });
     };
 
-    const toggleMenu = () => {
+    window.closeMobileMenuDirectly = () => {
         if (isOpen) {
             closeMenu();
-        } else {
-            openMenu();
+        } else if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+            backdrop?.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+            if (openIcon && closeIcon) {
+                openIcon.classList.remove('opacity-0', '-rotate-90', 'pointer-events-none');
+                openIcon.classList.add('opacity-100', 'rotate-0');
+                closeIcon.classList.add('opacity-0', 'rotate-90', 'pointer-events-none');
+                closeIcon.classList.remove('opacity-100', 'rotate-0');
+            }
         }
     };
 
@@ -228,9 +234,12 @@ function initMobileMenu() {
         backdrop.addEventListener('click', closeMenu);
     }
 
-    // Close when clicking any nav link
-    document.querySelectorAll('.mobile-nav-link').forEach(link => {
-        link.addEventListener('click', closeMenu);
+    // Close when clicking any mobile nav link (delegated on document so dynamically swapped links always close the menu)
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('.mobile-nav-link');
+        if (link && isOpen) {
+            closeMenu();
+        }
     });
 
     // Close on escape key
@@ -248,11 +257,13 @@ function initMobileMenu() {
     }, { passive: true });
 }
 
-// 3. Project Preview Modal (matching norra-spa full-length website presentation)
+// 3. Project Preview Modal (supports full website image or motion/demo video)
 window.openProjectModal = function(data) {
     const modal = document.getElementById('project-modal');
     const card = document.getElementById('project-modal-card');
     const modalImg = document.getElementById('modal-image');
+    const modalVideoContainer = document.getElementById('modal-video-container');
+    const modalVideo = document.getElementById('modal-video');
 
     if (!modal) return;
 
@@ -267,15 +278,41 @@ window.openProjectModal = function(data) {
     }
 
     const title = project.title || project.name || 'Projeto';
+    const rawVideo = project.modal_video_url || project.modal_video || '';
     const rawImg = project.modal_image_url || project.full_image_url || project.mockup_image || project.cover_image || project.imageUrl || '';
 
-    if (modalImg) {
-        let resolvedImg = rawImg;
-        if (resolvedImg && !resolvedImg.startsWith('http') && !resolvedImg.startsWith('/')) {
-            resolvedImg = '/storage/' + resolvedImg;
+    // Check if project has video for the modal popup (Motions, 3D animations, full video presentation)
+    if (rawVideo && modalVideo && modalVideoContainer) {
+        let resolvedVideo = rawVideo;
+        if (!resolvedVideo.startsWith('http') && !resolvedVideo.startsWith('/')) {
+            resolvedVideo = '/storage/' + resolvedVideo;
         }
-        modalImg.src = resolvedImg || '';
-        modalImg.alt = `Design completo do projeto ${title}`;
+
+        modalVideo.src = resolvedVideo;
+        modalVideoContainer.classList.remove('hidden');
+        if (modalImg) modalImg.classList.add('hidden');
+
+        // Play video
+        const playPromise = modalVideo.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {});
+        }
+    } else {
+        if (modalVideoContainer) modalVideoContainer.classList.add('hidden');
+        if (modalVideo) {
+            modalVideo.pause();
+            modalVideo.src = '';
+        }
+
+        if (modalImg) {
+            let resolvedImg = rawImg;
+            if (resolvedImg && !resolvedImg.startsWith('http') && !resolvedImg.startsWith('/')) {
+                resolvedImg = '/storage/' + resolvedImg;
+            }
+            modalImg.src = resolvedImg || '';
+            modalImg.alt = `Design completo do projeto ${title}`;
+            modalImg.classList.remove('hidden');
+        }
     }
 
     modal.classList.remove('hidden');
@@ -299,7 +336,13 @@ window.openProjectModal = function(data) {
 window.closeProjectModal = function() {
     const modal = document.getElementById('project-modal');
     const card = document.getElementById('project-modal-card');
+    const modalVideo = document.getElementById('modal-video');
     if (!modal) return;
+
+    if (modalVideo) {
+        modalVideo.pause();
+        modalVideo.currentTime = 0;
+    }
 
     modal.classList.remove('opacity-100');
     modal.classList.add('opacity-0');
@@ -313,6 +356,7 @@ window.closeProjectModal = function() {
         document.body.style.overflow = '';
         const modalImg = document.getElementById('modal-image');
         if (modalImg) modalImg.src = '';
+        if (modalVideo) modalVideo.src = '';
     }, 300);
 };
 
@@ -469,6 +513,215 @@ export function initProjectsSection() {
 }
 window.initProjectsSection = initProjectsSection;
 
+// 3.2 Projects Filter & Dynamic Pagination Controller (Projects Page)
+export function initProjectsFilterPage() {
+    const filterContainer = document.getElementById('project-filters');
+    const projectGrid = document.getElementById('projects-grid');
+    if (!filterContainer || !projectGrid) return;
+
+    const filterButtons = document.querySelectorAll('.project-filter-btn');
+    const projectCards = Array.from(document.querySelectorAll('.project-grid-card'));
+    const noProjectsMsg = document.getElementById('no-projects-found');
+    const paginationContainer = document.getElementById('projects-pagination');
+
+    if (!filterButtons.length || !projectCards.length) return;
+
+    const ITEMS_PER_PAGE = 6;
+    let currentFilter = 'all';
+    let currentPage = 1;
+
+    function getFilteredCards() {
+        return projectCards.filter(card => {
+            if (currentFilter === 'all') return true;
+
+            let tags = [];
+            try {
+                tags = JSON.parse(card.getAttribute('data-tags') || '[]');
+            } catch (e) {
+                tags = [];
+            }
+            const category = card.getAttribute('data-category') || '';
+            const title = card.getAttribute('data-title') || '';
+            const allTerms = [...tags, category, title].map(t => (t || '').toLowerCase().trim());
+            const filter = currentFilter.toLowerCase().trim();
+
+            if (filter === 'website' || filter === 'web site' || filter === 'web') {
+                return allTerms.some(t => t.includes('web') || t.includes('site'));
+            }
+            if (filter === 'aplicativo' || filter === 'app' || filter === 'application' || filter === 'mobile') {
+                return allTerms.some(t => t.includes('app') || t.includes('aplicativo') || t.includes('ui/ux') || t.includes('frontend'));
+            }
+            if (filter === 'design 3d' || filter === '3d' || filter === '3d design' || filter === 'motion') {
+                return allTerms.some(t => t.includes('3d') || t.includes('motion'));
+            }
+
+            return allTerms.some(t => t === filter || t.includes(filter));
+        });
+    }
+
+    function renderPagination(totalItems) {
+        if (!paginationContainer) return;
+        const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+
+        // If 6 or fewer projects, deactivate/hide pagination
+        if (totalItems <= ITEMS_PER_PAGE || totalPages <= 1) {
+            paginationContainer.innerHTML = '';
+            paginationContainer.classList.add('opacity-0', 'pointer-events-none');
+            return;
+        }
+
+        paginationContainer.classList.remove('opacity-0', 'pointer-events-none');
+        let html = '';
+
+        for (let i = 1; i <= totalPages; i++) {
+            const isActive = (i === currentPage);
+            if (isActive) {
+                html += `<button type="button" class="w-[17px] h-[17px] bg-[#101010] text-[#ddddd5] flex items-center justify-center font-sans font-bold text-[13.6px] leading-none select-none border-none p-0 cursor-default" aria-current="page">${i}</button>`;
+            } else {
+                html += `<button type="button" data-page="${i}" class="project-page-btn w-[17px] h-[17px] text-[#101010] hover:text-[#b70606] flex items-center justify-center font-sans font-bold text-[13.6px] leading-none select-none cursor-pointer transition-colors border-none bg-transparent p-0">${i}</button>`;
+            }
+        }
+
+        paginationContainer.innerHTML = html;
+    }
+
+    function updateDisplay(scrollUp = false) {
+        const matchingCards = getFilteredCards();
+        const totalMatching = matchingCards.length;
+        const totalPages = Math.max(1, Math.ceil(totalMatching / ITEMS_PER_PAGE));
+
+        if (currentPage > totalPages) {
+            currentPage = 1;
+        }
+
+        const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+        const endIndex = startIndex + ITEMS_PER_PAGE;
+
+        // Update cards visibility
+        projectCards.forEach(card => {
+            const indexInMatching = matchingCards.indexOf(card);
+            const isVisible = (indexInMatching >= startIndex && indexInMatching < endIndex);
+
+            if (isVisible) {
+                card.style.display = '';
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 20);
+            } else {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(8px)';
+                setTimeout(() => {
+                    if (!matchingCards.includes(card) || matchingCards.indexOf(card) < startIndex || matchingCards.indexOf(card) >= endIndex) {
+                        card.style.display = 'none';
+                    }
+                }, 200);
+            }
+        });
+
+        // Empty state
+        if (noProjectsMsg) {
+            if (totalMatching === 0) {
+                setTimeout(() => {
+                    noProjectsMsg.classList.remove('hidden');
+                }, 210);
+            } else {
+                noProjectsMsg.classList.add('hidden');
+            }
+        }
+
+        renderPagination(totalMatching);
+
+        // Re-observe visible project cards for mobile/tablet in-view video autoplay
+        if (typeof window.initProjectsSection === 'function') {
+            window.initProjectsSection();
+        }
+
+        // Refresh GSAP ScrollTrigger so the CTA pin accounts for new content height
+        if (typeof ScrollTrigger !== 'undefined') {
+            setTimeout(() => {
+                ScrollTrigger.refresh();
+            }, 250);
+        }
+
+        if (scrollUp) {
+            const target = document.getElementById('todos-projetos');
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }
+
+    function setFilter(selectedCategory) {
+        currentFilter = selectedCategory;
+        currentPage = 1;
+
+        filterButtons.forEach(btn => {
+            const category = btn.getAttribute('data-filter');
+            const isActive = (category.toLowerCase() === selectedCategory.toLowerCase());
+
+            btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+            if (isActive) {
+                btn.classList.remove('text-[#808080]');
+                btn.classList.add('text-[#101010]');
+            } else {
+                btn.classList.remove('text-[#101010]');
+                btn.classList.add('text-[#808080]');
+            }
+        });
+
+        updateDisplay(false);
+    }
+
+    window.goToPage = function(pageNum) {
+        currentPage = pageNum;
+        updateDisplay(true);
+    };
+
+    window.resetProjectFilter = function() {
+        setFilter('all');
+    };
+
+    // Attach click listeners to filter buttons
+    filterButtons.forEach(button => {
+        button.onclick = function() {
+            const filter = this.getAttribute('data-filter');
+            setFilter(filter);
+        };
+    });
+
+    // Pagination delegated click handling
+    if (paginationContainer) {
+        paginationContainer.onclick = function(e) {
+            const pageBtn = e.target.closest('.project-page-btn');
+            if (pageBtn) {
+                const pageNum = parseInt(pageBtn.getAttribute('data-page'), 10);
+                if (!isNaN(pageNum)) {
+                    window.goToPage(pageNum);
+                }
+            }
+        };
+    }
+
+    // Reset filter button in empty state
+    const resetBtn = document.getElementById('reset-project-filter-btn');
+    if (resetBtn) {
+        resetBtn.onclick = function() {
+            window.resetProjectFilter();
+        };
+    }
+
+    // Check if query param exists (e.g. ?filtro=Website)
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialFilter = urlParams.get('filtro') || urlParams.get('categoria') || urlParams.get('servico');
+    if (initialFilter) {
+        setFilter(initialFilter);
+    } else {
+        updateDisplay(false);
+    }
+}
+window.initProjectsFilterPage = initProjectsFilterPage;
+
 // 4. Toast Notifications
 window.showToast = function(title, message, isError = false) {
     const toast = document.getElementById('norra-toast');
@@ -520,6 +773,7 @@ function initContactForm() {
 
             const submitBtn = document.getElementById('drawer-submit-btn') || document.getElementById('submit-btn');
             const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+            const isEn = document.documentElement.lang === 'en';
             if (submitBtn) {
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = `
@@ -527,7 +781,7 @@ function initContactForm() {
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    <span>Enviando...</span>
+                    <span>${isEn ? 'Sending...' : 'Enviando...'}</span>
                 `;
             }
 
@@ -547,14 +801,18 @@ function initContactForm() {
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    window.showToast('Mensagem Enviada!', data.message || 'Recebemos suas informações com sucesso. Em até 24 horas entraremos em contato!', false);
+                    const successTitle = isEn ? 'Message Sent!' : 'Mensagem Enviada!';
+                    const successDefault = isEn ? 'We have received your details successfully. We will get in touch within 24 hours!' : 'Recebemos suas informações com sucesso. Em até 24 horas entraremos em contato!';
+                    window.showToast(successTitle, data.message || successDefault, false);
                     form.reset();
                     if (typeof window.closeContactModal === 'function') {
                         setTimeout(window.closeContactModal, 1200);
                     }
                 } else {
-                    const errorMsg = data.message || (data.errors ? Object.values(data.errors).flat().join(', ') : 'Ocorreu um erro ao enviar sua mensagem. Tente novamente.');
-                    window.showToast('Erro no Envio', errorMsg, true);
+                    const errorTitle = isEn ? 'Error Sending' : 'Erro no Envio';
+                    const errorDefault = isEn ? 'An error occurred while sending your message. Please try again.' : 'Ocorreu um erro ao enviar sua mensagem. Tente novamente.';
+                    const errorMsg = data.message || (data.errors ? Object.values(data.errors).flat().join(', ') : errorDefault);
+                    window.showToast(errorTitle, errorMsg, true);
                 }
             } catch (err) {
                 // Fallback to regular submit if fetch throws network error

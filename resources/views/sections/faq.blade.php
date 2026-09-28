@@ -37,7 +37,7 @@
                                     <div class="flex items-center justify-between gap-6">
                                         <div class="faq-title-wrap min-w-0 flex-1">
                                             <span class="faq-title block font-sans font-normal text-lg sm:text-xl md:text-[24px] tracking-normal sm:tracking-[-0.5px] lg:tracking-[-1px] leading-[1.2]">
-                                                {{ $faq->question }}
+                                                {{ __($faq->question) }}
                                             </span>
                                         </div>
 
@@ -61,7 +61,7 @@
                                         <div class="overflow-hidden">
                                             <div class="faq-accordion-content pt-4 sm:pt-5 pb-5 sm:pb-4 min-w-0">
                                                 @php
-                                                    $faqWords = preg_split('/\s+/', trim($faq->answer ?? ''));
+                                                    $faqWords = preg_split('/\s+/', trim(__($faq->answer ?? '')));
                                                 @endphp
                                                 <p class="faq-desc font-sans font-normal text-base sm:text-[18px] leading-relaxed tracking-normal max-w-2xl pr-6 flex flex-wrap transition-colors duration-500">
                                                     @foreach($faqWords as $wIdx => $word)

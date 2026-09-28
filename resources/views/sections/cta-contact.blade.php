@@ -18,7 +18,7 @@
         </h2>
 
         <div class="pt-2 sm:pt-4 flex justify-center">
-            <x-btn-cta :text="$settings['cta_button_text'] ?? __('Nos conte a sua história')" size="lg" />
+            <x-btn-cta :text="__($settings['cta_button_text'] ?? 'Nos conte a sua história')" size="lg" />
         </div>
     </div>
 </section>

@@ -32,6 +32,7 @@ class Project extends Model
         'full_description',
         'cover_image',
         'mockup_image',
+        'modal_video',
         'highlight_video',
         'gallery',
         'tags',
@@ -55,8 +56,25 @@ class Project extends Model
      */
     protected $appends = [
         'modal_image_url',
+        'modal_video_url',
         'cover_image_url',
     ];
+
+    /**
+     * Video URL for modal preview (motion, reel, full demo).
+     */
+    public function getModalVideoUrlAttribute(): ?string
+    {
+        if (! empty($this->modal_video)) {
+            if (str_starts_with($this->modal_video, 'http://') || str_starts_with($this->modal_video, 'https://') || str_starts_with($this->modal_video, '/')) {
+                return $this->modal_video;
+            }
+
+            return asset('storage/'.$this->modal_video);
+        }
+
+        return null;
+    }
 
     /**
      * Full-length project screenshot/image for modal preview.

@@ -30,6 +30,7 @@
                         'short_description' => $project->short_description,
                         'full_description' => $project->full_description,
                         'modal_image_url' => $project->modal_image_url,
+                        'modal_video_url' => $project->modal_video_url,
                         'tags' => is_array($project->tags) ? $project->tags : [],
                     ];
                 @endphp
@@ -83,11 +84,11 @@
                             <!-- Project Details: Top-aligned, moved close to the image (gap 2.74%), font-weight: bold title -->
                             <div class="w-full lg:w-[32.6%] space-y-3 sm:space-y-4 pt-1 sm:pt-2 lg:pt-[1.6vw]">
                                 <h3 class="font-sans font-bold text-2xl sm:text-[26px] lg:text-[28px] text-[#101010] tracking-[-0.5px] sm:tracking-[-0.75px] md:tracking-[-1px] leading-[1.2]">
-                                    {{ $project->title }}
+                                    {{ __($project->title) }}
                                 </h3>
 
                                 <p class="font-sans font-normal text-sm sm:text-base lg:text-[18px] text-[#101010]/80 tracking-normal sm:tracking-[-0.25px] md:tracking-[-0.5px] lg:tracking-[-1px] leading-[1.2]">
-                                    {{ $project->short_description }}
+                                    {{ __($project->short_description) }}
                                 </p>
                             </div>
                         </div>

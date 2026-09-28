@@ -51,14 +51,21 @@ class ProjectResource extends Resource
                     ->saveUploadedFileUsing(fn ($file): string => ImageOptimizer::optimizeAndStore($file, 'projects', 2400, 90))
                     ->required(),
                 Forms\Components\FileUpload::make('mockup_image')
-                    ->label('Imagem do Site Completo (Pop-up)')
+                    ->label('Imagem do Projeto (Pop-up)')
                     ->helperText('Aparece no pop-up quando o projeto não tem URL. Print do site completo, mockup ou prancha. É redimensionada até 4000px e convertida para WebP mantendo máxima qualidade e leveza.')
                     ->image()
                     ->maxSize(25600)
                     ->directory('projects')
                     ->saveUploadedFileUsing(fn ($file): string => ImageOptimizer::optimizeAndStore($file, 'projects', 4000, 92)),
+                Forms\Components\FileUpload::make('modal_video')
+                    ->label('Vídeo do Pop-up (Motion / Demonstração)')
+                    ->helperText('Vídeo exibido no pop-up quando o projeto não possui URL externa. Ideal para motions, animações 3D ou vídeos de apresentação (MP4, WebM, MOV até 100MB). Se preenchido, o pop-up exibirá este vídeo com player integrado.')
+                    ->acceptedFileTypes(['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime'])
+                    ->directory('projects/videos')
+                    ->maxSize(102400),
                 Forms\Components\FileUpload::make('highlight_video')
-                    ->label('Vídeo de Highlights')
+                    ->label('Vídeo de Highlights (Hover do Card)')
+                    ->helperText('Vídeo curto que toca ao passar o mouse sobre o card na Home e na página de Projetos.')
                     ->acceptedFileTypes(['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime'])
                     ->directory('projects/videos')
                     ->maxSize(51200),
