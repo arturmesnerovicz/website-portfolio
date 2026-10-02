@@ -14,10 +14,11 @@ class Mup3Seeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Create or update Project MUP3
-        Project::updateOrCreate(
-            ['slug' => 'mup3'],
-            [
+        // 1. Create Project MUP3 only if it doesn't exist yet
+        $existingProject = Project::where('slug', 'mup3')->first();
+        if (! $existingProject) {
+            Project::create([
+                'slug' => 'mup3',
                 'title' => [
                     'pt' => 'MUP3',
                     'pt_BR' => 'MUP3',
@@ -45,10 +46,10 @@ class Mup3Seeder extends Seeder
                 'link_url' => null,
                 'is_featured' => true,
                 'sort_order' => 1,
-            ]
-        );
+            ]);
+        }
 
-        // 2. Initial Settings for MUP3 Showcase
+        // 2. Initial Settings for MUP3 Showcase (ONLY if missing, NEVER overwrite existing user settings)
         $availableModels = Product3dModel::where('is_active', true)->orderBy('sort_order')->get();
         $model1Slug = $availableModels->first()?->slug ?? 'cabo-carnes';
         $model2Slug = $availableModels->skip(1)->first()?->slug ?? ($availableModels->first()?->slug ?? 'stam_803_29i');
@@ -103,14 +104,15 @@ class Mup3Seeder extends Seeder
         ];
 
         foreach ($settings as $key => $val) {
-            SiteSetting::updateOrCreate(
-                ['key' => $key],
-                [
+            $existing = SiteSetting::where('key', $key)->first();
+            if (! $existing) {
+                SiteSetting::create([
+                    'key' => $key,
                     'value' => $val,
                     'group' => str_starts_with($key, 'site_noise') ? 'general' : 'mup3_showcase',
                     'type' => str_contains($key, 'enabled') ? 'boolean' : 'text',
-                ]
-            );
+                ]);
+            }
         }
     }
 }
