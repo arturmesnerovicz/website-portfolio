@@ -33,9 +33,15 @@
                         'modal_video_url' => $project->modal_video_url,
                         'tags' => is_array($project->tags) ? $project->tags : [],
                     ];
+                    $isMup3 = ($project->slug === 'mup3');
+                    $mup3Url = route(app()->getLocale() === 'en' ? 'en.projects.mup3' : 'projects.mup3');
                 @endphp
                 <article class="project-card group">
-                    @if($hasUrl)
+                    @if($isMup3)
+                        <a href="{{ $mup3Url }}"
+                           class="block text-inherit no-underline cursor-pointer"
+                           aria-label="{{ $project->title }}">
+                    @elseif($hasUrl)
                         <a href="{{ $project->link_url }}"
                            target="_blank"
                            rel="noopener noreferrer"
@@ -92,7 +98,7 @@
                                 </p>
                             </div>
                         </div>
-                    @if($hasUrl)
+                    @if($isMup3 || $hasUrl)
                         </a>
                     @else
                         </div>

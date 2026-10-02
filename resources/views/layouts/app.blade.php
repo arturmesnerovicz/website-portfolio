@@ -74,7 +74,13 @@
 <body class="min-h-screen bg-[#101010] text-[#f5f5f5] font-sans selection:bg-[#b70606] selection:text-white flex flex-col relative overflow-x-hidden">
 
     <!-- Subtle Film Grain / Noise Overlay (Basic Agency Style) -->
-    <div class="site-noise" style="--noise-bg: url('{{ asset('assets/noise.png') }}');" aria-hidden="true"></div>
+    @php
+        $noiseEnabled = ($settings['site_noise_enabled'] ?? '1') !== '0';
+        $noiseOpacity = $settings['site_noise_opacity'] ?? '0.05';
+    @endphp
+    @if($noiseEnabled)
+        <div class="site-noise" style="--noise-bg: url('{{ asset('assets/noise.png') }}'); --site-noise-opacity: {{ $noiseOpacity }};" aria-hidden="true"></div>
+    @endif
 
     <!-- Canvas Flow Field Preloader -->
     @include('components.preloader')

@@ -30,6 +30,26 @@ export function initAllNorraComponents() {
     try { init3DTextSplit(); } catch (e) { console.error('init3DTextSplit:', e); }
     try { initTextReveals(); } catch (e) { console.error('initTextReveals:', e); }
     try { initManifestoBeamCycle(); } catch (e) { console.error('initManifestoBeamCycle:', e); }
+    try {
+        if (document.getElementById('experiencia-3d')) {
+            import('./product-3d').then(({ initProduct3DSection, cleanupProduct3D }) => {
+                window.cleanupProduct3D = cleanupProduct3D;
+                try { initProduct3DSection(); } catch (e) { console.error('initProduct3DSection:', e); }
+            });
+        } else if (typeof window.cleanupProduct3D === 'function') {
+            window.cleanupProduct3D();
+        }
+    } catch (e) { console.error('initProduct3DSection:', e); }
+    try {
+        if (document.getElementById('mup3-presentation')) {
+            import('./mup3-showcase').then(({ initMup3Showcase, cleanupMup3Showcase }) => {
+                window.cleanupMup3Showcase = cleanupMup3Showcase;
+                try { initMup3Showcase(); } catch (e) { console.error('initMup3Showcase:', e); }
+            });
+        } else if (typeof window.cleanupMup3Showcase === 'function') {
+            window.cleanupMup3Showcase();
+        }
+    } catch (e) { console.error('initMup3Showcase:', e); }
     try { initProjectsSection(); } catch (e) { console.error('initProjectsSection:', e); }
     try { initProjectsFilterPage(); } catch (e) { console.error('initProjectsFilterPage:', e); }
 }

@@ -89,6 +89,8 @@
                                 'modal_video_url' => $project->modal_video_url,
                                 'tags' => $tagsArray,
                             ];
+                            $isMup3 = ($project->slug === 'mup3');
+                            $mup3Url = route(app()->getLocale() === 'en' ? 'en.projects.mup3' : 'projects.mup3');
                         @endphp
 
                         <article class="project-grid-card group flex flex-col transition-all duration-400 ease-out"
@@ -98,7 +100,11 @@
                             
                             <!-- Project Media Box: No hover zoom, rounded-[4px], bg-[#b1b2b5], aspect 661/441 (~1.5) -->
                             <div class="w-full aspect-[661/441] overflow-hidden rounded-[4px] bg-[#b1b2b5] relative block cursor-pointer shadow-sm">
-                                @if($hasUrl)
+                                @if($isMup3)
+                                    <a href="{{ $mup3Url }}"
+                                       class="block w-full h-full text-inherit"
+                                       aria-label="Ver projeto {{ $project->title }}">
+                                @elseif($hasUrl)
                                     <a href="{{ $project->link_url }}"
                                        target="_blank"
                                        rel="noopener noreferrer"
@@ -134,7 +140,7 @@
                                         </video>
                                     @endif
 
-                                @if($hasUrl)
+                                @if($isMup3 || $hasUrl)
                                     </a>
                                 @else
                                     </div>
@@ -145,7 +151,12 @@
                             <div class="pt-3 sm:pt-4 flex flex-col space-y-2">
                                 <!-- Title: TeX Gyre Heros Bold 28px #101010 -->
                                 <h2 class="font-sans font-bold text-2xl sm:text-[28px] text-[#101010] tracking-[-0.5px] sm:tracking-[-0.75px] md:tracking-[-1px] leading-[1.2]">
-                                    @if($hasUrl)
+                                    @if($isMup3)
+                                        <a href="{{ $mup3Url }}"
+                                           class="hover:text-[var(--color-norra-red)] transition-colors">
+                                            {{ $project->title }}
+                                        </a>
+                                    @elseif($hasUrl)
                                         <a href="{{ $project->link_url }}"
                                            target="_blank"
                                            rel="noopener noreferrer"

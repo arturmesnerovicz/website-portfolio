@@ -1,3 +1,9 @@
+@if(request()->has('nopreloader'))
+    <script>
+        document.body.classList.remove('is-loading');
+        window.dispatchEvent(new CustomEvent('norra-preloader-done'));
+    </script>
+@else
 <div id="norra-preloader" class="norra-preloader" aria-hidden="true">
     <div id="norra-preloader-mask" class="norra-preloader-mask">
         <!-- Layer 1: Base Faint Monogram Icon (Unloaded state: #ddddd5 at low opacity / subtle grey) -->
@@ -248,3 +254,4 @@
     }
 })();
 </script>
+@endif

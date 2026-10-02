@@ -998,7 +998,7 @@ html {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 9999;
+    z-index: 5;
     overflow: hidden;
 }
 
@@ -1013,7 +1013,7 @@ html {
     background-position: 50%;
     content: "";
     will-change: transform;
-    opacity: var(--site-noise-opacity, 0.85);
+    opacity: var(--site-noise-opacity, 0.05);
 }
 
 @keyframes siteNoise {
@@ -1215,5 +1215,48 @@ body.is-loading {
         font-size: 11.5px;
     }
 }
+
+/* 3D Interactive Configurator Styles */
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+@keyframes spin-slow {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin-slow {
+    animation: spin-slow 12s linear infinite;
+}
+
+#product-3d-stage canvas {
+    touch-action: pan-y;
+}
+
+/* Ensure 3D arenas are isolated and always sit above background film grain */
+#product-3d-container,
+#mup3-card-container-1,
+#mup3-card-container-2,
+.product-3d-clean-stage {
+    position: relative;
+    z-index: 10;
+}
+
+/* Fix model switcher active tab hover: active text must strictly stay solid black over the white indicator pill */
+.product-model-tab[aria-selected="true"],
+.product-model-tab[aria-selected="true"]:hover {
+    color: #000000 !important;
+}
+
+
 
 

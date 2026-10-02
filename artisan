@@ -4,10 +4,16 @@
 use Illuminate\Foundation\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 
-define('LARAVEL_START', microtime(true));
+// Ensure PHP CLI child processes (such as artisan serve) load custom ini directives (100MB upload limits)
+$customIniDir = (getenv('PHP_INI_SCAN_DIR') ?: '').':'.__DIR__;
+putenv('PHP_INI_SCAN_DIR='.$customIniDir);
+$_ENV['PHP_INI_SCAN_DIR'] = $customIniDir;
+$_SERVER['PHP_INI_SCAN_DIR'] = $customIniDir;
 
 // Register the Composer autoloader...
 require __DIR__.'/vendor/autoload.php';
+
+\Illuminate\Foundation\Console\ServeCommand::$passthroughVariables[] = 'PHP_INI_SCAN_DIR';
 
 // Bootstrap Laravel and handle the command...
 /** @var Application $app */

@@ -28,5 +28,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->call(ContentSeeder::class);
+        $this->call(Product3dSeeder::class);
+        $this->call(Mup3Seeder::class);
     }
 }

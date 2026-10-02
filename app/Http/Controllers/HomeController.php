@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Faq;
 use App\Models\HeroSlide;
 use App\Models\JourneyStep;
+use App\Models\Product3dModel;
 use App\Models\Project;
 use App\Models\Service;
 use App\Models\SiteSetting;
@@ -29,6 +30,30 @@ class HomeController extends Controller
         $faqs = Faq::query()->where('is_active', true)->orderBy('sort_order')->get();
         $socialLinks = SocialLink::query()->where('is_active', true)->orderBy('sort_order')->get();
 
+        $product3dEnabled = filter_var($settings['section_3d_enabled'] ?? true, FILTER_VALIDATE_BOOLEAN);
+        $product3dPayload = null;
+
+        if ($product3dEnabled) {
+            $models = Product3dModel::query()
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+
+            if ($models->isNotEmpty()) {
+                $defaultSlug = $settings['section_3d_default_model'] ?? null;
+                $initialModel = ($defaultSlug ? $models->firstWhere('slug', $defaultSlug) : null)
+                    ?? $models->firstWhere('is_initial', true)
+                    ?? $models->first();
+
+                $product3dPayload = [
+                    'enabled' => true,
+                    'allowZoom' => filter_var($settings['section_3d_allow_zoom'] ?? true, FILTER_VALIDATE_BOOLEAN),
+                    'initialModelSlug' => $initialModel?->slug,
+                    'models' => $models->map(fn (Product3dModel $m) => $m->toFrontendPayload())->values()->all(),
+                ];
+            }
+        }
+
         return view('pages.home', [
             'settings' => $settings,
             'heroSlides' => $heroSlides,
@@ -38,6 +63,8 @@ class HomeController extends Controller
             'journeySteps' => $journeySteps,
             'faqs' => $faqs,
             'socialLinks' => $socialLinks,
+            'product3dPayload' => $product3dPayload,
+            'product3dEnabled' => $product3dEnabled && ! empty($product3dPayload),
         ]);
     }
 

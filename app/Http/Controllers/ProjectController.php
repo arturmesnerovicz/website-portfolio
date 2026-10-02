@@ -25,4 +25,22 @@ class ProjectController extends Controller
             'projects' => $projects,
         ]);
     }
+
+    /**
+     * Display a specific project presentation or redirect if external.
+     */
+    public function show(Request $request, string $slug): mixed
+    {
+        if ($slug === 'mup3') {
+            return app(Mup3Controller::class)->index($request);
+        }
+
+        $project = Project::query()->where('slug', $slug)->firstOrFail();
+
+        if (! empty($project->link_url) && $project->link_url !== '#') {
+            return redirect()->away($project->link_url);
+        }
+
+        return redirect()->route(app()->getLocale() === 'en' ? 'en.projects.index' : 'projects.index');
+    }
 }
