@@ -11,7 +11,7 @@
 
         <!-- Projects Rows (Listed on Home) -->
         <div class="space-y-12 sm:space-y-16 lg:space-y-[3.5vw]">
-            @foreach($projects->take(3) as $index => $project)
+            @foreach($projects as $index => $project)
                 @php
                     $hasUrl = !empty($project->link_url) && $project->link_url !== '#';
                     $externalUrl = $hasUrl ? $project->link_url : '#';

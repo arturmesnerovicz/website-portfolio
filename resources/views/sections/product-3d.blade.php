@@ -59,7 +59,7 @@
                 <!-- Product Model Selector Track (Solid Background, Zero Stroke) -->
                 <div id="product-3d-model-switcher" class="relative flex items-center p-1 bg-[#1c1c1e] rounded-[4px] select-none" role="tablist" aria-label="Modelos 3D">
                     <!-- Sliding Rail Highlight Pill -->
-                    <div id="product-model-indicator" class="absolute top-1 bottom-1 rounded-[2px] bg-white pointer-events-none z-0 shadow-sm transition-opacity duration-200"></div>
+                    <div id="product-model-indicator" class="absolute left-0 top-1 bottom-1 rounded-[2px] bg-white pointer-events-none z-0 shadow-sm transition-opacity duration-200"></div>
 
                     @if(!empty($product3dPayload['models']))
                         @foreach($product3dPayload['models'] as $idx => $model)
@@ -67,7 +67,7 @@
                                 $isInitial = ($model['slug'] === ($initialModel['slug'] ?? ''));
                             @endphp
                             <button type="button"
-                                    class="product-model-tab relative z-10 px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-[2px] text-xs sm:text-sm font-medium transition-colors duration-200 cursor-pointer {{ $isInitial ? 'text-black font-semibold' : 'text-[#a1a1a6] hover:text-white' }}"
+                                    class="product-model-tab relative z-10 inline-flex items-center justify-center text-center px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-[2px] text-xs sm:text-sm font-medium transition-colors duration-200 cursor-pointer whitespace-nowrap {{ $isInitial ? 'text-black font-semibold' : 'text-[#a1a1a6] hover:text-white' }}"
                                     data-model-slug="{{ $model['slug'] }}"
                                     role="tab"
                                     aria-selected="{{ $isInitial ? 'true' : 'false' }}">

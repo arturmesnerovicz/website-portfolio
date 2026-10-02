@@ -1025,15 +1025,12 @@ function setupDomControls(config, has3D) {
 
     function moveIndicator(targetTab, duration = 0.38, ease = 'power3.out') {
         if (!targetTab || !indicator || !switcher) return;
-        const trackRect = switcher.getBoundingClientRect();
-        const tabRect = targetTab.getBoundingClientRect();
-        if (tabRect.width === 0) return;
-
-        const x = tabRect.left - trackRect.left;
-        const width = tabRect.width;
+        const x = targetTab.offsetLeft;
+        const width = targetTab.offsetWidth;
+        if (width === 0) return;
 
         if (duration === 0) {
-            gsap.set(indicator, { x, width, opacity: 1 });
+            gsap.set(indicator, { x: x, width: width, opacity: 1 });
         } else {
             gsap.to(indicator, {
                 x: x,
@@ -1061,17 +1058,18 @@ function setupDomControls(config, has3D) {
     }
 
     // Position indicator immediately on setup
-    moveIndicator(currentActiveTab, 0);
     updateTabVisuals(currentActiveTab);
+    moveIndicator(currentActiveTab, 0);
 
     // Re-verify after layout and fonts load to ensure exact pixel alignment
     requestAnimationFrame(() => {
-        moveIndicator(currentActiveTab, 0);
         updateTabVisuals(currentActiveTab);
+        moveIndicator(currentActiveTab, 0);
     });
 
     if (document.fonts?.ready) {
         document.fonts.ready.then(() => {
+            updateTabVisuals(currentActiveTab);
             moveIndicator(currentActiveTab, 0);
         });
     }
@@ -1089,12 +1087,11 @@ function setupDomControls(config, has3D) {
 
             currentActiveTab = tab;
 
-            tabs.forEach(t => t.setAttribute('aria-selected', 'false'));
-            tab.setAttribute('aria-selected', 'true');
+            // Update visual active classes FIRST so font-weight and layout width are settled
+            updateTabVisuals(tab);
 
             // Smooth sliding rail animation
-            moveIndicator(tab, 0.4, 'power3.out');
-            updateTabVisuals(tab);
+            moveIndicator(tab, 0.38, 'power3.out');
 
             const selectedModel = config.models.find(m => m.slug === slug);
             if (!selectedModel) return;

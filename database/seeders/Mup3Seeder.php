@@ -14,15 +14,14 @@ class Mup3Seeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Create Project MUP3 only if it doesn't exist yet
-        $existingProject = Project::where('slug', 'mup3')->first();
-        if (! $existingProject) {
-            Project::create([
-                'slug' => 'mup3',
+        // 1. Create or update Project MUP3 as a featured project
+        Project::updateOrCreate(
+            ['slug' => 'mup3'],
+            [
                 'title' => [
-                    'pt' => 'MUP3',
-                    'pt_BR' => 'MUP3',
-                    'en' => 'MUP3',
+                    'pt' => 'Apresentação MUP3',
+                    'pt_BR' => 'Apresentação MUP3',
+                    'en' => 'MUP3 Presentation',
                 ],
                 'client' => 'Norra Lab',
                 'year' => '2026',
@@ -44,10 +43,10 @@ class Mup3Seeder extends Seeder
                 'cover_image' => 'projects/1783959091061-MacBook_Mockup_2.webp',
                 'tags' => ['Design 3D', 'Website'],
                 'link_url' => null,
-                'is_featured' => false,
-                'sort_order' => 99,
-            ]);
-        }
+                'is_featured' => true,
+                'sort_order' => 4,
+            ]
+        );
 
         // 2. Initial Settings for MUP3 Showcase (ONLY if missing, NEVER overwrite existing user settings)
         $availableModels = Product3dModel::where('is_active', true)->orderBy('sort_order')->get();
