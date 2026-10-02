@@ -10,171 +10,106 @@ class Product3dSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Settings
-        $settings = [
+        // 1. Remove any AI-generated mock models
+        Product3dModel::whereIn('slug', ['faca-chef', 'faca-santoku'])->delete();
+
+        // 2. Settings (only create if missing, NEVER overwrite existing user custom configurations)
+        $defaultSettings = [
             'section_3d_enabled' => '1',
+            'section_3d_allow_zoom' => '1',
             'section_3d_eyebrow' => 'DESIGN & ENGENHARIA',
             'section_3d_title' => "Estrutura unibody.\nUma obra única.",
-            'section_3d_description' => 'Apresentamos a precisão cirúrgica em Three.js. Explore proporções milimétricas, alterne modelos e personalize ligas metálicas, empunhaduras e acabamentos sob medida em tempo real.',
+            'section_3d_subtitle' => 'Explore cada detalhe de engenharia e customize acabamentos exclusivos sob medida em tempo real.',
             'section_3d_eyebrow_en' => 'DESIGN & ENGINEERING',
             'section_3d_title_en' => "Unibody craft.\nA single work of art.",
-            'section_3d_description_en' => 'Experience surgical precision in Three.js. Explore millimeter proportions, switch models and customize bespoke blade metals, custom grips and finishes in real time.',
-            'section_3d_default_model' => 'faca-chef',
+            'section_3d_subtitle_en' => 'Explore millimeter precision, switch models and customize bespoke finishes in real time.',
+            'section_3d_default_model' => 'cabo-carnes',
         ];
 
-        foreach ($settings as $key => $val) {
-            SiteSetting::updateOrCreate(
-                ['key' => $key],
-                [
+        foreach ($defaultSettings as $key => $val) {
+            $existing = SiteSetting::where('key', $key)->first();
+            if (! $existing) {
+                SiteSetting::create([
+                    'key' => $key,
                     'value' => $val,
                     'group' => 'product_3d',
-                    'type' => str_contains($key, 'enabled') ? 'boolean' : 'text',
-                ]
-            );
+                    'type' => str_contains($key, 'enabled') || str_contains($key, 'allow_zoom') ? 'boolean' : 'text',
+                ]);
+            } elseif ($key === 'section_3d_default_model' && in_array($existing->value, ['faca-chef', 'faca-santoku', ''])) {
+                $existing->update(['value' => 'cabo-carnes']);
+            }
         }
 
-        // 2. Chef Knife
+        // 3. User's Real 3D Models
+        // Model 1: Cabo Ágilis
         Product3dModel::updateOrCreate(
-            ['slug' => 'faca-chef'],
+            ['slug' => 'cabo-carnes'],
             [
                 'name' => [
-                    'pt' => 'Faca do Chef Norra 8"',
-                    'pt_BR' => 'Faca do Chef Norra 8"',
-                    'en' => 'Norra Chef Knife 8"',
+                    'pt' => 'Cabo Ágilis',
+                    'pt_BR' => 'Cabo Ágilis',
+                    'en' => 'Agilis Handle',
                 ],
                 'badge' => [
-                    'pt' => 'EDIÇÃO LIMITADA',
-                    'pt_BR' => 'EDIÇÃO LIMITADA',
-                    'en' => 'LIMITED EDITION',
+                    'pt' => null,
+                    'pt_BR' => null,
+                    'en' => null,
                 ],
                 'subtitle' => [
-                    'pt' => 'Aço Damasco & Empunhadura Ergonômica',
-                    'pt_BR' => 'Aço Damasco & Empunhadura Ergonômica',
-                    'en' => 'Damascus Steel & Ergonomic Grip',
+                    'pt' => null,
+                    'pt_BR' => null,
+                    'en' => null,
                 ],
                 'description' => [
-                    'pt' => 'Geometria milimetricamente forjada com balanço cirúrgico. Selecione o acabamento da empunhadura e o tratamento de superfície da lâmina.',
-                    'pt_BR' => 'Geometria milimetricamente forjada com balanço cirúrgico. Selecione o acabamento da empunhadura e o tratamento de superfície da lâmina.',
-                    'en' => 'Millimeter-forged geometry with surgical balance. Customize handle materials and blade surface finishes in real time.',
+                    'pt' => 'Os cabos da Linha Ágilis foram desenvolvidos para proporcionar conforto anatômico, segurança no manuseio da lâmina e ergonomia avançada.',
+                    'pt_BR' => 'Os cabos da Linha Ágilis foram desenvolvidos para proporcionar conforto anatômico, segurança no manuseio da lâmina e ergonomia avançada.',
+                    'en' => 'The Agilis line handles were developed to provide anatomical comfort, blade handling safety, and advanced ergonomics.',
                 ],
-                'glb_file' => 'product3d/models/faca-chef.glb',
-                'thumbnail' => 'product3d/thumbnails/faca-chef.webp',
+                'glb_file' => 'product3d/models/01M3XMFJ0GWFTQGRTH7E5R3YR7.glb',
+                'thumbnail' => null,
                 'is_active' => true,
                 'is_initial' => true,
                 'sort_order' => 1,
                 'camera_settings' => [
-                    'position' => [0, 0, 4.3],
                     'fov' => 40,
-                    'target' => [0, 0, 0],
+                    'distance' => 4.2,
+                    'allow_zoom' => true,
                 ],
                 'transform_settings' => [
-                    'scale' => 1.0,
-                    'rotation' => [0.12, -0.35, 0],
-                    'position' => [0, 0, 0],
+                    'scale' => '0.8',
                 ],
                 'parts' => [
                     [
-                        'id' => 'part-cabo',
-                        'name' => 'Cabo & Empunhadura',
-                        'mesh_name' => 'Handle',
+                        'name' => 'Cabo',
+                        'mesh_name' => 'cabo',
                         'type' => 'color',
                         'options' => [
                             [
-                                'id' => 'cabo-ebano',
-                                'name' => 'Ébano Noturno',
-                                'color' => '#121212',
-                                'roughness' => 0.42,
-                                'metalness' => 0.05,
-                                'material_type' => 'physical',
-                                'is_default' => true,
-                            ],
-                            [
-                                'id' => 'cabo-verde',
-                                'name' => 'Verde Oliva',
-                                'color' => '#243527',
-                                'roughness' => 0.45,
-                                'metalness' => 0.05,
-                                'material_type' => 'physical',
-                                'is_default' => false,
-                            ],
-                            [
-                                'id' => 'cabo-bordeaux',
-                                'name' => 'Bordeaux Nobre',
-                                'color' => '#421520',
-                                'roughness' => 0.40,
-                                'metalness' => 0.1,
-                                'material_type' => 'physical',
-                                'is_default' => false,
-                            ],
-                            [
-                                'id' => 'cabo-imbuia',
-                                'name' => 'Imbuia Nobre',
-                                'color' => '#54331d',
-                                'roughness' => 0.55,
-                                'metalness' => 0.0,
-                                'material_type' => 'standard',
-                                'is_default' => false,
-                            ],
-                        ],
-                    ],
-                    [
-                        'id' => 'part-lamina',
-                        'name' => 'Lâmina & Aço',
-                        'mesh_name' => 'Blade',
-                        'type' => 'material',
-                        'options' => [
-                            [
-                                'id' => 'lamina-satin',
-                                'name' => 'Aço Inox Satinado',
-                                'color' => '#e2e2e2',
-                                'roughness' => 0.18,
-                                'metalness' => 0.95,
-                                'material_type' => 'physical',
-                                'is_default' => true,
-                            ],
-                            [
-                                'id' => 'lamina-black',
-                                'name' => 'Black Titanium DLC',
-                                'color' => '#1c1c1e',
-                                'roughness' => 0.28,
-                                'metalness' => 0.90,
-                                'material_type' => 'physical',
-                                'is_default' => false,
-                            ],
-                            [
-                                'id' => 'lamina-gold',
-                                'name' => 'Nitreto Dourado',
-                                'color' => '#d4af37',
-                                'roughness' => 0.22,
-                                'metalness' => 0.92,
-                                'material_type' => 'physical',
-                                'is_default' => false,
-                            ],
-                        ],
-                    ],
-                    [
-                        'id' => 'part-guarda',
-                        'name' => 'Guarda & Bolster',
-                        'mesh_name' => 'Bolster',
-                        'type' => 'material',
-                        'options' => [
-                            [
-                                'id' => 'bolster-latao',
-                                'name' => 'Latão Polido',
-                                'color' => '#d4af37',
-                                'roughness' => 0.22,
-                                'metalness' => 0.92,
-                                'material_type' => 'physical',
-                                'is_default' => true,
-                            ],
-                            [
-                                'id' => 'bolster-inox',
-                                'name' => 'Inox Escovado',
+                                'name' => 'Branco',
                                 'color' => '#cccccc',
-                                'roughness' => 0.25,
-                                'metalness' => 0.95,
+                                'roughness' => '0.8',
+                                'metalness' => 0,
+                                'material_type' => 'physical',
+                                'is_default' => true,
+                                'texture' => null,
+                            ],
+                            [
+                                'name' => 'Ébano escuro',
+                                'color' => '#000000',
+                                'roughness' => '0.8',
+                                'metalness' => 0,
                                 'material_type' => 'physical',
                                 'is_default' => false,
+                                'texture' => null,
+                            ],
+                            [
+                                'name' => 'Verde',
+                                'color' => '#1c9c4d',
+                                'roughness' => '0.8',
+                                'metalness' => 0,
+                                'material_type' => 'physical',
+                                'is_default' => false,
+                                'texture' => null,
                             ],
                         ],
                     ],
@@ -182,130 +117,115 @@ class Product3dSeeder extends Seeder
             ]
         );
 
-        // 3. Santoku Knife
+        // Model 2: Stam 803
         Product3dModel::updateOrCreate(
-            ['slug' => 'faca-santoku'],
+            ['slug' => 'stam_803_29i'],
             [
                 'name' => [
-                    'pt' => 'Faca Santoku Norra 7"',
-                    'pt_BR' => 'Faca Santoku Norra 7"',
-                    'en' => 'Norra Santoku Knife 7"',
+                    'pt' => 'Stam 803',
+                    'pt_BR' => 'Stam 803',
+                    'en' => 'Stam 803',
                 ],
                 'badge' => [
-                    'pt' => 'HERANÇA JAPONESA',
-                    'pt_BR' => 'HERANÇA JAPONESA',
-                    'en' => 'JAPANESE HERITAGE',
+                    'pt' => 'stam 803 29i',
+                    'pt_BR' => 'stam 803 29i',
+                    'en' => 'stam 803 29i',
                 ],
                 'subtitle' => [
-                    'pt' => 'Lâmina Sheep\'s Foot & Wa-Handle',
-                    'pt_BR' => 'Lâmina Sheep\'s Foot & Wa-Handle',
-                    'en' => 'Sheep\'s Foot Blade & Octagonal Wa-Handle',
+                    'pt' => null,
+                    'pt_BR' => null,
+                    'en' => null,
                 ],
                 'description' => [
-                    'pt' => 'Inspirada na tradição culinária oriental. Geometria versátil para legumes, carnes e peixes com empunhadura octogonal facetada.',
-                    'pt_BR' => 'Inspirada na tradição culinária oriental. Geometria versátil para legumes, carnes e peixes com empunhadura octogonal facetada.',
-                    'en' => 'Inspired by Japanese culinary tradition. Versatile geometry with an octagonal faceted Wa-handle for unmatched control.',
+                    'pt' => 'Gabarito auxiliar para perfuração e instalação de fechadura stam 803/29i em portas de madeira.',
+                    'pt_BR' => 'Gabarito auxiliar para perfuração e instalação de fechadura stam 803/29i em portas de madeira.',
+                    'en' => 'Auxiliary jig for drilling and installing Stam 803/29i lock in wooden doors.',
                 ],
-                'glb_file' => 'product3d/models/faca-santoku.glb',
-                'thumbnail' => 'product3d/thumbnails/faca-santoku.webp',
+                'glb_file' => 'product3d/models/01M3XN083WV9FQVHCCDK7V2AXV.glb',
+                'thumbnail' => null,
                 'is_active' => true,
                 'is_initial' => false,
                 'sort_order' => 2,
                 'camera_settings' => [
-                    'position' => [0, 0, 4.3],
                     'fov' => 40,
-                    'target' => [0, 0, 0],
+                    'distance' => 4.2,
+                    'allow_zoom' => true,
                 ],
                 'transform_settings' => [
-                    'scale' => 1.05,
-                    'rotation' => [0.12, -0.35, 0],
-                    'position' => [0, 0, 0],
+                    'scale' => '0.2',
                 ],
                 'parts' => [
                     [
-                        'id' => 'part-cabo-wa',
-                        'name' => 'Cabo Octogonal Wa',
-                        'mesh_name' => 'Handle',
+                        'name' => 'gabarito',
+                        'mesh_name' => 'stam_803_29i',
                         'type' => 'color',
                         'options' => [
                             [
-                                'id' => 'cabo-nogueira',
-                                'name' => 'Nogueira Escura',
-                                'color' => '#5a341a',
-                                'roughness' => 0.55,
-                                'metalness' => 0.02,
-                                'material_type' => 'standard',
+                                'name' => 'Laranja',
+                                'color' => '#ff5000',
+                                'roughness' => 0.4,
+                                'metalness' => 0,
+                                'material_type' => 'physical',
                                 'is_default' => true,
-                            ],
-                            [
-                                'id' => 'cabo-fumee',
-                                'name' => 'Carvalho Fumê',
-                                'color' => '#26221f',
-                                'roughness' => 0.50,
-                                'metalness' => 0.05,
-                                'material_type' => 'standard',
-                                'is_default' => false,
-                            ],
-                            [
-                                'id' => 'cabo-betula',
-                                'name' => 'Bétula Dourada',
-                                'color' => '#b5966d',
-                                'roughness' => 0.60,
-                                'metalness' => 0.0,
-                                'material_type' => 'standard',
-                                'is_default' => false,
+                                'texture' => null,
                             ],
                         ],
                     ],
+                ],
+            ]
+        );
+
+        // Model 3: Stam 1601
+        Product3dModel::updateOrCreate(
+            ['slug' => 'stam-1601'],
+            [
+                'name' => [
+                    'pt' => 'Stam 1601',
+                    'pt_BR' => 'Stam 1601',
+                    'en' => 'Stam 1601',
+                ],
+                'badge' => [
+                    'pt' => 'stam_1601',
+                    'pt_BR' => 'stam_1601',
+                    'en' => 'stam_1601',
+                ],
+                'subtitle' => [
+                    'pt' => null,
+                    'pt_BR' => null,
+                    'en' => null,
+                ],
+                'description' => [
+                    'pt' => 'Gabarito auxiliar para perfuração e instalação de fechadura stam 1601 em portas de madeira.',
+                    'pt_BR' => 'Gabarito auxiliar para perfuração e instalação de fechadura stam 1601 em portas de madeira.',
+                    'en' => 'Auxiliary jig for drilling and installing Stam 1601 lock in wooden doors.',
+                ],
+                'glb_file' => 'product3d/models/01M3XSVGKFNWJKV23GFECQ4RK3.glb',
+                'thumbnail' => null,
+                'is_active' => false,
+                'is_initial' => false,
+                'sort_order' => 3,
+                'camera_settings' => [
+                    'fov' => 40,
+                    'distance' => 4.2,
+                    'allow_zoom' => true,
+                ],
+                'transform_settings' => [
+                    'scale' => '1.0',
+                ],
+                'parts' => [
                     [
-                        'id' => 'part-lamina-santoku',
-                        'name' => 'Lâmina Santoku',
-                        'mesh_name' => 'Blade',
-                        'type' => 'material',
+                        'name' => 'Cor',
+                        'mesh_name' => 'stam_1601',
+                        'type' => 'color',
                         'options' => [
                             [
-                                'id' => 'lamina-vg10',
-                                'name' => 'Aço Japonês VG10',
-                                'color' => '#cccccc',
-                                'roughness' => 0.22,
-                                'metalness' => 0.92,
+                                'name' => 'Laranja',
+                                'color' => '#6370ff',
+                                'roughness' => 0.4,
+                                'metalness' => 0,
                                 'material_type' => 'physical',
                                 'is_default' => true,
-                            ],
-                            [
-                                'id' => 'lamina-carbono',
-                                'name' => 'Damasco Carbono',
-                                'color' => '#252528',
-                                'roughness' => 0.30,
-                                'metalness' => 0.88,
-                                'material_type' => 'physical',
-                                'is_default' => false,
-                            ],
-                        ],
-                    ],
-                    [
-                        'id' => 'part-colarinho',
-                        'name' => 'Colarinho & Virola',
-                        'mesh_name' => 'Bolster',
-                        'type' => 'material',
-                        'options' => [
-                            [
-                                'id' => 'colarinho-bufalo',
-                                'name' => 'Chifre de Búfalo Preto',
-                                'color' => '#1f1f1f',
-                                'roughness' => 0.35,
-                                'metalness' => 0.40,
-                                'material_type' => 'physical',
-                                'is_default' => true,
-                            ],
-                            [
-                                'id' => 'colarinho-latao',
-                                'name' => 'Latão Dourado',
-                                'color' => '#c5a059',
-                                'roughness' => 0.15,
-                                'metalness' => 0.95,
-                                'material_type' => 'physical',
-                                'is_default' => false,
+                                'texture' => null,
                             ],
                         ],
                     ],

@@ -141,7 +141,7 @@ class Product3dTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('Modelos 3D');
-        $response->assertSee('Faca do Chef Norra');
+        $response->assertSee('Cabo Ágilis');
     }
 
     public function test_admin_can_access_manage_product_3d_section_page(): void
@@ -175,7 +175,7 @@ class Product3dTest extends TestCase
         $response = $this->actingAs($admin)->get('/admin/estudio-3d/product3d-models/'.$model->id.'/edit');
 
         $response->assertStatus(200);
-        $response->assertSee('faca-chef');
+        $response->assertSee($model->slug);
     }
 
     public function test_glb_upload_validation_accepts_lowercase_and_uppercase_files(): void

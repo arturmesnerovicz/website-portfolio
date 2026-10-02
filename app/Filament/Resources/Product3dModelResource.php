@@ -61,12 +61,12 @@ class Product3dModelResource extends Resource
                                                 Grid::make(3)->schema([
                                                     TextInput::make('name')
                                                         ->label('Nome do Produto')
-                                                        ->placeholder('ex: Faca do Chef Norra')
+                                                        ->placeholder('ex: Cabo Ágilis')
                                                         ->helperText('📍 Onde aparece: Título principal do produto no canto inferior esquerdo do visualizador 3D e botão da aba no topo.')
                                                         ->required(),
                                                     TextInput::make('slug')
                                                         ->label('Slug (Identificador URL)')
-                                                        ->placeholder('ex: faca-chef')
+                                                        ->placeholder('ex: cabo-agilis')
                                                         ->helperText('📍 Técnico: Identificador único usado internamente na alternância de modelos 3D.')
                                                         ->required()
                                                         ->unique(ignoreRecord: true),
