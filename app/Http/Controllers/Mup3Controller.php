@@ -29,10 +29,11 @@ class Mup3Controller extends Controller
         $model1 = $models->firstWhere('slug', $slug1) ?? $models->first();
         $model2 = $models->firstWhere('slug', $slug2) ?? ($models->skip(1)->first() ?? $model1);
 
+        $isEn = app()->getLocale() === 'en';
         $showcase = [
-            'title' => $settings['mup3_title'] ?? 'YOUR CARDS, PROTECTED',
-            'description' => $settings['mup3_description'] ?? 'Our cutting-edge security features, and team of specialists, are monitoring your spend 24/7. We\'ve helped prevent more than £475m worth of fraud in 2023 alone.',
-            'cta_text' => $settings['mup3_cta_text'] ?? 'Learn more',
+            'title' => ($isEn && ! empty($settings['mup3_title_en'])) ? $settings['mup3_title_en'] : ($settings['mup3_title'] ?? 'YOUR CARDS, PROTECTED'),
+            'description' => ($isEn && ! empty($settings['mup3_description_en'])) ? $settings['mup3_description_en'] : ($settings['mup3_description'] ?? 'Our cutting-edge security features, and team of specialists, are monitoring your spend 24/7. We\'ve helped prevent more than £475m worth of fraud in 2023 alone.'),
+            'cta_text' => ($isEn && ! empty($settings['mup3_cta_text_en'])) ? $settings['mup3_cta_text_en'] : ($settings['mup3_cta_text'] ?? 'Learn more'),
             'cta_url' => $settings['mup3_cta_url'] ?? '#contato',
             'card1' => [
                 'title' => $settings['mup3_card1_title'] ?? 'Air Force 1 Low Supr...',

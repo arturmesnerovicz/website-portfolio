@@ -14,6 +14,16 @@ class ImageOptimizerTest extends TestCase
         ini_set('memory_limit', '512M');
         Storage::fake('public');
 
+        if (! extension_loaded('gd') || ! function_exists('imagewebp')) {
+            $file = UploadedFile::fake()->create('website-full-preview.png', 100, 'image/png');
+            $storedPath = ImageOptimizer::optimizeAndStore($file, 'projects', 1200, 92);
+
+            $this->assertStringStartsWith('projects/', $storedPath);
+            Storage::disk('public')->assertExists($storedPath);
+
+            return;
+        }
+
         // Create a 2000x1000 fake PNG image with maxDimension 1200
         $file = UploadedFile::fake()->image('website-full-preview.png', 2000, 1000);
 

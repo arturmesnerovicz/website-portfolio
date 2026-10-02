@@ -33,7 +33,7 @@
                         'modal_video_url' => $project->modal_video_url,
                         'tags' => is_array($project->tags) ? $project->tags : [],
                     ];
-                    $isMup3 = ($project->slug === 'mup3');
+                    $isMup3 = in_array(strtolower($project->slug), ['mup3', 'mup-3'], true);
                     $mup3Url = route(app()->getLocale() === 'en' ? 'en.projects.mup3' : 'projects.mup3');
                 @endphp
                 <article class="project-card group">

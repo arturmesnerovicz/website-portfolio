@@ -115,6 +115,25 @@ class HomeController extends Controller
         $xml .= '<priority>0.8</priority>';
         $xml .= '</url>';
 
+        // MUP3 Showcase PT & EN
+        $xml .= '<url>';
+        $xml .= '<loc>'.url('/projetos/mup3').'</loc>';
+        $xml .= '<xhtml:link rel="alternate" hreflang="pt-BR" href="'.url('/projetos/mup3').'"/>';
+        $xml .= '<xhtml:link rel="alternate" hreflang="en" href="'.url('/en/projects/mup3').'"/>';
+        $xml .= '<lastmod>'.$today.'</lastmod>';
+        $xml .= '<changefreq>weekly</changefreq>';
+        $xml .= '<priority>0.85</priority>';
+        $xml .= '</url>';
+
+        $xml .= '<url>';
+        $xml .= '<loc>'.url('/en/projects/mup3').'</loc>';
+        $xml .= '<xhtml:link rel="alternate" hreflang="pt-BR" href="'.url('/projetos/mup3').'"/>';
+        $xml .= '<xhtml:link rel="alternate" hreflang="en" href="'.url('/en/projects/mup3').'"/>';
+        $xml .= '<lastmod>'.$today.'</lastmod>';
+        $xml .= '<changefreq>weekly</changefreq>';
+        $xml .= '<priority>0.85</priority>';
+        $xml .= '</url>';
+
         $xml .= '</urlset>';
 
         return response($xml, 200, ['Content-Type' => 'application/xml']);

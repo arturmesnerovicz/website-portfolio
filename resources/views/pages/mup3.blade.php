@@ -43,11 +43,14 @@
                         </div>
 
                         <!-- 3D Interactive Canvas -->
-                        <canvas id="mup3-card-canvas-1" class="w-full h-full block outline-none cursor-grab active:cursor-grabbing relative z-10"></canvas>
+                        <canvas id="mup3-card-canvas-1" class="w-full h-full block outline-none cursor-grab active:cursor-grabbing relative z-10 canvas-3d-unblur is-loading-model"></canvas>
 
-                        <!-- Subtle 3D Loading Spinner -->
-                        <div id="mup3-card-loader-1" class="absolute inset-0 z-15 flex items-center justify-center bg-[#ffffff] transition-opacity duration-300 opacity-0 pointer-events-none">
-                            <div class="w-7 h-7 border-2 border-black/20 border-t-black rounded-full animate-spin"></div>
+                        <!-- Subtle 3D Loading Spinner with Backdrop Blur & Pulse Ring -->
+                        <div id="mup3-card-loader-1" class="absolute inset-0 z-15 flex flex-col items-center justify-center bg-white/60 backdrop-blur-md transition-all duration-500 opacity-0 pointer-events-none">
+                            <div class="relative flex items-center justify-center">
+                                <div class="w-10 h-10 rounded-full border border-black/10 animate-pulse-ring absolute"></div>
+                                <div class="w-7 h-7 border-2 border-black/15 border-t-black rounded-full animate-spin"></div>
+                            </div>
                         </div>
 
                         <!-- Fallback Thumbnail if WebGL is unavailable -->
@@ -107,11 +110,14 @@
                         </div>
 
                         <!-- 3D Interactive Canvas -->
-                        <canvas id="mup3-card-canvas-2" class="w-full h-full block outline-none cursor-grab active:cursor-grabbing relative z-10"></canvas>
+                        <canvas id="mup3-card-canvas-2" class="w-full h-full block outline-none cursor-grab active:cursor-grabbing relative z-10 canvas-3d-unblur is-loading-model"></canvas>
 
-                        <!-- Subtle 3D Loading Spinner -->
-                        <div id="mup3-card-loader-2" class="absolute inset-0 z-15 flex items-center justify-center bg-[#ffffff] transition-opacity duration-300 opacity-0 pointer-events-none">
-                            <div class="w-7 h-7 border-2 border-black/20 border-t-black rounded-full animate-spin"></div>
+                        <!-- Subtle 3D Loading Spinner with Backdrop Blur & Pulse Ring -->
+                        <div id="mup3-card-loader-2" class="absolute inset-0 z-15 flex flex-col items-center justify-center bg-white/60 backdrop-blur-md transition-all duration-500 opacity-0 pointer-events-none">
+                            <div class="relative flex items-center justify-center">
+                                <div class="w-10 h-10 rounded-full border border-black/10 animate-pulse-ring absolute"></div>
+                                <div class="w-7 h-7 border-2 border-black/15 border-t-black rounded-full animate-spin"></div>
+                            </div>
                         </div>
 
                         <!-- Fallback Thumbnail if WebGL is unavailable -->

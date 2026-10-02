@@ -1257,6 +1257,46 @@ body.is-loading {
     color: #000000 !important;
 }
 
+/* 3D Model Loading & Unblur Transition Effects */
+.canvas-3d-unblur {
+    will-change: filter, opacity, transform;
+    transition: filter 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.canvas-3d-unblur.is-loading-model {
+    filter: blur(14px);
+    opacity: 0.25;
+    transform: scale(0.975);
+}
+
+.canvas-3d-unblur.is-loaded-model {
+    filter: blur(0px);
+    opacity: 1;
+    transform: scale(1);
+}
+
+@keyframes loaderPulseRing {
+    0% {
+        transform: scale(0.85);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.15;
+    }
+    100% {
+        transform: scale(0.85);
+        opacity: 0.7;
+    }
+}
+
+.animate-pulse-ring {
+    animation: loaderPulseRing 2.4s ease-in-out infinite;
+}
+
+
 
 
 

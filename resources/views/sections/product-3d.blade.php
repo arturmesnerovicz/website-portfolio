@@ -94,15 +94,18 @@
 
             <!-- Central 3D Canvas Stage -->
             <div id="product-3d-stage" class="absolute inset-0 z-10 w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing">
-                <canvas id="product-3d-canvas" class="w-full h-full block outline-none"></canvas>
+                <canvas id="product-3d-canvas" class="w-full h-full block outline-none canvas-3d-unblur is-loading-model"></canvas>
 
                 <!-- Subtle Contact Shadow Plane Underneath -->
                 <div class="absolute bottom-16 sm:bottom-20 left-1/2 -translate-x-1/2 w-[65%] max-w-[500px] h-[35px] bg-black/60 rounded-[100%] blur-[24px] pointer-events-none -z-1"></div>
 
-                <!-- Sleek Minimalist Loading Indicator -->
-                <div id="product-3d-loader" class="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#121212]/90 transition-opacity duration-300 opacity-0 pointer-events-none">
-                    <div class="w-8 h-8 rounded-full border-2 border-white/20 border-t-white animate-spin mb-3"></div>
-                    <span class="text-xs uppercase tracking-[0.2em] text-[#a1a1a6] font-mono">
+                <!-- Sleek Minimalist Loading Indicator with Elegant Pulse & Backdrop Blur -->
+                <div id="product-3d-loader" class="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#121212]/50 backdrop-blur-md transition-all duration-500 opacity-0 pointer-events-none">
+                    <div class="relative flex items-center justify-center mb-3">
+                        <div class="w-10 h-10 rounded-full border border-white/10 animate-pulse-ring absolute"></div>
+                        <div class="w-7 h-7 rounded-full border-2 border-white/15 border-t-white animate-spin"></div>
+                    </div>
+                    <span class="text-[11px] uppercase tracking-[0.25em] text-[#a1a1a6] font-mono">
                         {{ app()->getLocale() === 'en' ? 'Loading 3D...' : 'Carregando 3D...' }}
                     </span>
                 </div>

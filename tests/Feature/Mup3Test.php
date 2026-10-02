@@ -141,4 +141,42 @@ class Mup3Test extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Aparência &amp; Efeitos', false);
     }
+
+    public function test_mup_hyphen_slug_routes_to_showcase_page(): void
+    {
+        $response = $this->get('/projetos/mup-3');
+
+        $response->assertStatus(200);
+        $response->assertSee('mup3-presentation', false);
+    }
+
+    public function test_mup3_english_route_uses_english_settings(): void
+    {
+        SiteSetting::set('mup3_title_en', 'BESPOKE 3D HARDWARE SHOWCASE', 'mup3_showcase');
+        SiteSetting::set('mup3_description_en', 'Explore millimeter accuracy and bespoke finishes.', 'mup3_showcase');
+        SiteSetting::set('mup3_cta_text_en', 'Explore Products', 'mup3_showcase');
+
+        $response = $this->get('/en/projects/mup3');
+
+        $response->assertStatus(200);
+        $response->assertSee('BESPOKE 3D HARDWARE SHOWCASE');
+        $response->assertSee('Explore millimeter accuracy and bespoke finishes.');
+        $response->assertSee('Explore Products');
+    }
+
+    public function test_contact_form_submission_creates_lead_from_mup3_page(): void
+    {
+        $response = $this->postJson('/contato', [
+            'name' => 'Cliente MUP3',
+            'email' => 'cliente@mup3.com',
+            'message' => 'Gostaria de um orçamento para apresentação 3D',
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJson(['success' => true]);
+        $this->assertDatabaseHas('leads', [
+            'email' => 'cliente@mup3.com',
+            'name' => 'Cliente MUP3',
+        ]);
+    }
 }

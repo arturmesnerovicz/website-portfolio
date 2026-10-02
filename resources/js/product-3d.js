@@ -184,7 +184,7 @@ function setupThreeScene(container, canvas) {
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.15;
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
 }
 
 /**
@@ -481,6 +481,12 @@ function loadModel(modelData) {
         loaderEl.classList.remove('opacity-0', 'pointer-events-none');
     }
 
+    const canvas = document.getElementById('product-3d-canvas');
+    if (canvas && !currentModelGroup) {
+        canvas.classList.remove('is-loaded-model');
+        canvas.classList.add('is-loading-model');
+    }
+
     // Check if model is already cached in memory
     if (modelCache.has(modelData.slug)) {
         applyLoadedModel(modelCache.get(modelData.slug), modelData);
@@ -509,6 +515,14 @@ function loadModel(modelData) {
  */
 function applyLoadedModel(gltf, modelData) {
     hideFallback();
+
+    const canvas = document.getElementById('product-3d-canvas');
+    if (canvas) {
+        requestAnimationFrame(() => {
+            canvas.classList.remove('is-loading-model');
+            canvas.classList.add('is-loaded-model');
+        });
+    }
 
     const newGroup = gltf.scene.clone(true);
     newGroup.name = `Instance_${modelData.slug}`;

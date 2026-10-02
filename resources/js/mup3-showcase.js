@@ -82,7 +82,7 @@ function createCardViewer(containerId, canvasId, loaderId, fallbackId, modelData
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
 
     // Configurable Studio Lighting
     const lightMult = parseFloat(local3d.light_intensity) || 1.2;
@@ -141,6 +141,10 @@ function createCardViewer(containerId, canvasId, loaderId, fallbackId, modelData
 
     // Load Model
     if (loaderEl) loaderEl.classList.remove('opacity-0', 'pointer-events-none');
+    if (canvas) {
+        canvas.classList.remove('is-loaded-model');
+        canvas.classList.add('is-loading-model');
+    }
 
     const loader = new GLTFLoader();
     loader.load(
@@ -254,6 +258,12 @@ function createCardViewer(containerId, canvasId, loaderId, fallbackId, modelData
 
             if (loaderEl) {
                 loaderEl.classList.add('opacity-0', 'pointer-events-none');
+            }
+            if (canvas) {
+                requestAnimationFrame(() => {
+                    canvas.classList.remove('is-loading-model');
+                    canvas.classList.add('is-loaded-model');
+                });
             }
         },
         undefined,

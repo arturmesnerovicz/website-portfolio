@@ -31,7 +31,7 @@ class ProjectController extends Controller
      */
     public function show(Request $request, string $slug): mixed
     {
-        if ($slug === 'mup3') {
+        if (in_array(strtolower($slug), ['mup3', 'mup-3'], true)) {
             return app(Mup3Controller::class)->index($request);
         }
 
