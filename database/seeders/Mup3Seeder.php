@@ -44,8 +44,8 @@ class Mup3Seeder extends Seeder
                 'cover_image' => 'projects/1783959091061-MacBook_Mockup_2.webp',
                 'tags' => ['Design 3D', 'Website'],
                 'link_url' => null,
-                'is_featured' => true,
-                'sort_order' => 1,
+                'is_featured' => false,
+                'sort_order' => 99,
             ]);
         }
 

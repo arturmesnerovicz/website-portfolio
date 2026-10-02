@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -27,7 +28,9 @@ class DatabaseSeeder extends Seeder
             );
         }
 
-        $this->call(ContentSeeder::class);
+        if (Project::count() === 0) {
+            $this->call(ContentSeeder::class);
+        }
         $this->call(Product3dSeeder::class);
         $this->call(Mup3Seeder::class);
     }

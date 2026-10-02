@@ -22,8 +22,16 @@
     }
 @endphp
 
-<section id="experiencia-3d" data-bg="light" class="py-12 sm:py-16 lg:py-[3.5vw] bg-[#ddddd5] text-[#101010] relative w-full overflow-hidden select-none">
-    <div class="w-full px-4 sm:px-6 lg:px-[3.125vw]">
+<div id="experiencia-3d" class="pt-12 sm:pt-16 lg:pt-[3.5vw] relative w-full overflow-hidden select-none">
+    <!-- Top Divider Line with Arrow Indicator matching Projects Flow -->
+    <div class="w-full flex items-center gap-2 sm:gap-2.5 lg:gap-[10px] mb-6 sm:mb-8 lg:mb-10">
+        <div class="flex-1 h-[1px] bg-[#a2a1a1]"></div>
+        <span class="text-[#101010] flex-shrink-0 flex items-center">
+            <svg width="31" height="12" viewBox="0 0 31 12" fill="none" class="stroke-current stroke-2 w-[24px] sm:w-[31px] h-auto">
+                <path d="M0 6H29M29 6L21 1M29 6L21 11" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </span>
+    </div>
         
         <!-- Section Header (Penpot & Projects Section Typography Harmony) -->
         <div class="max-w-4xl mb-8 sm:mb-12 lg:mb-14">
@@ -154,10 +162,8 @@
 
         </div>
 
-    </div>
-
     <!-- Data Payload for Three.js Configurator -->
     <script type="application/json" id="product-3d-data">
         {!! json_encode($product3dPayload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
-</section>
+</div>

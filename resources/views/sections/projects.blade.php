@@ -107,6 +107,11 @@
             @endforeach
         </div>
 
+        <!-- 3D Interactive Showcase Section -->
+        @if(!empty($product3dEnabled))
+            @include('sections.product-3d')
+        @endif
+
         <!-- Bottom Link: 'Veja todos os projetos' matching Penpot with font-weight: bold, 48px desktop / 24px mobile, exact 4px line gap and 17px section bottom -->
         <div class="mt-7 sm:mt-8 lg:mt-[2.22vw] border-t border-[#a2a1a1]">
             <a href="{{ route(app()->getLocale() === 'en' ? 'en.projects.index' : 'projects.index') }}"
