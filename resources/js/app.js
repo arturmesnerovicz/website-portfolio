@@ -26,7 +26,6 @@ export function initAllNorraComponents() {
     try { initModalKeyHandlers(); } catch (e) { console.error('initModalKeyHandlers:', e); }
     try { initHeroParallax(); } catch (e) { console.error('initHeroParallax:', e); }
     try { initJourneyScroll(); } catch (e) { console.error('initJourneyScroll:', e); }
-    try { initFaqCtaTransition(); } catch (e) { console.error('initFaqCtaTransition:', e); }
     try { init3DTextSplit(); } catch (e) { console.error('init3DTextSplit:', e); }
     try { initTextReveals(); } catch (e) { console.error('initTextReveals:', e); }
     try { initManifestoBeamCycle(); } catch (e) { console.error('initManifestoBeamCycle:', e); }
@@ -1163,8 +1162,7 @@ function init3DTextSplit() {
                 ease: 'norra-out',
                 paused: true, // Controlled by section reveal
                 onComplete: () => {
-                    gsap.set(split.words, { clearProps: 'all' });
-                    split.revert();
+                    gsap.set(split.words, { clearProps: 'transform,opacity,rotateX' });
                 },
             });
 
@@ -1313,79 +1311,6 @@ function initManifestoBeamCycle() {
             manifestoProgressTween?.pause();
         } else {
             manifestoProgressTween?.resume();
-        }
-    });
-}
-
-// 12. Fluid Transition to CTA Scroll (Storey Architecture style - supports #faq and #todos-projetos)
-function initFaqCtaTransition() {
-    const triggerSection = document.getElementById('faq') || document.getElementById('todos-projetos');
-    const ctaSection = document.getElementById('contato');
-
-    if (!triggerSection || !ctaSection) return;
-
-    const inner = triggerSection.querySelector('.faq-inner-container') || triggerSection.querySelector('.projects-inner-container') || triggerSection;
-    const overlay = triggerSection.querySelector('.faq-dim-overlay') || triggerSection.querySelector('.projects-dim-overlay');
-
-    const mm = gsap.matchMedia();
-
-    // Desktop and Tablet transition
-    mm.add('(min-width: 768px)', () => {
-        // Pin trigger section at bottom of viewport so CTA smoothly ascends over it
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: triggerSection,
-                start: 'bottom bottom',
-                end: '+=100%',
-                pin: true,
-                pinSpacing: true,
-                scrub: 0.8,
-                anticipatePin: 1,
-                invalidateOnRefresh: true,
-            },
-        });
-
-        // 1. Content recedes: translates slightly upward, subtle scale down, and atmospheric dim
-        tl.to(inner, {
-            y: -100,
-            scale: 0.96,
-            ease: 'none',
-        }, 0);
-
-        if (overlay) {
-            tl.to(overlay, {
-                opacity: 0.65,
-                ease: 'none',
-            }, 0);
-        }
-    });
-
-    // Mobile transition (< 768px)
-    mm.add('(max-width: 767px)', () => {
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: triggerSection,
-                start: 'bottom bottom',
-                end: '+=100%',
-                pin: true,
-                pinSpacing: true,
-                scrub: 0.6,
-                anticipatePin: 1,
-                invalidateOnRefresh: true,
-            },
-        });
-
-        tl.to(inner, {
-            y: -40,
-            scale: 0.98,
-            ease: 'none',
-        }, 0);
-
-        if (overlay) {
-            tl.to(overlay, {
-                opacity: 0.5,
-                ease: 'none',
-            }, 0);
         }
     });
 }

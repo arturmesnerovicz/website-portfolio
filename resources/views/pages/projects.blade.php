@@ -2,11 +2,7 @@
 
 @section('content')
     <!-- Projects Page Container: Penpot exact #DDDDD5 stone background, edge-to-edge margins, scroll curtain transition -->
-    <section id="todos-projetos" data-bg="light" class="pt-28 sm:pt-36 lg:pt-40 pb-24 sm:pb-32 md:pb-40 lg:pb-[40vh] bg-[#ddddd5] text-[#101010] relative z-10 w-full overflow-hidden">
-        
-        <!-- Atmospheric Ambient Dim Overlay during CTA reveal scroll (identical to FAQ) -->
-        <div class="projects-dim-overlay absolute inset-0 bg-black opacity-0 pointer-events-none z-10"></div>
-
+    <section id="todos-projetos" data-bg="light" class="pt-28 sm:pt-36 lg:pt-40 pb-24 sm:pb-32 md:pb-40 bg-[#ddddd5] text-[#101010] relative z-10 w-full overflow-hidden">
         <div class="projects-inner-container w-full relative z-0">
             <!-- Full-width container touching viewport margins (clamp 1.5rem to 3.125vw) -->
             <div class="w-full px-4 sm:px-6 lg:px-[clamp(1.5rem,3.125vw,3.5rem)]">

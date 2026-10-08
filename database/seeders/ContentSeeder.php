@@ -66,14 +66,15 @@ class ContentSeeder extends Seeder
             ['key' => 'contact_whatsapp', 'value' => '5567981530042', 'group' => 'contact', 'type' => 'text', 'label' => 'Número do WhatsApp'],
             ['key' => 'contact_email', 'value' => 'contato@estudionorra.com', 'group' => 'contact', 'type' => 'text', 'label' => 'E-mail de Contato'],
 
-            // SEO
+            // SEO & Social Share
             ['key' => 'seo_title', 'value' => 'Estúdio Norra | Design e Desenvolvimento Web de Alto Padrão', 'group' => 'seo', 'type' => 'text', 'label' => 'Título SEO'],
             ['key' => 'seo_description', 'value' => 'Estúdio de design e engenharia digital focado em websites modernos, interfaces imersivas, modelagem 3D e experiências exclusivas para marcas que querem liderar seu mercado.', 'group' => 'seo', 'type' => 'textarea', 'label' => 'Descrição SEO'],
             ['key' => 'seo_keywords', 'value' => 'estúdio norra, web design, desenvolvimento web, design 3d, sites responsivos, websites modernos, interfaces de alto padrão', 'group' => 'seo', 'type' => 'textarea', 'label' => 'Palavras-chave SEO'],
+            ['key' => 'og_image', 'value' => null, 'group' => 'seo', 'type' => 'image', 'label' => 'Imagem Open Graph (WhatsApp, LinkedIn, Redes Sociais)'],
         ];
 
         foreach ($settings as $setting) {
-            SiteSetting::updateOrCreate(['key' => $setting['key']], $setting);
+            SiteSetting::firstOrCreate(['key' => $setting['key']], $setting);
         }
     }
 
@@ -107,7 +108,7 @@ class ContentSeeder extends Seeder
         ];
 
         foreach ($slides as $slide) {
-            HeroSlide::updateOrCreate(['image_path' => $slide['image_path']], $slide);
+            HeroSlide::firstOrCreate(['image_path' => $slide['image_path']], $slide);
         }
     }
 
@@ -161,10 +162,8 @@ class ContentSeeder extends Seeder
             ],
         ];
 
-        Service::query()->whereNotIn('title', ['Web Design', 'Programação', '3D & Motion'])->delete();
-
         foreach ($services as $service) {
-            Service::updateOrCreate(['order_num' => $service['order_num']], $service);
+            Service::firstOrCreate(['order_num' => $service['order_num']], $service);
         }
     }
 
@@ -234,7 +233,7 @@ class ContentSeeder extends Seeder
         ];
 
         foreach ($projects as $project) {
-            Project::updateOrCreate(['slug' => $project['slug']], $project);
+            Project::firstOrCreate(['slug' => $project['slug']], $project);
         }
     }
 
@@ -273,10 +272,8 @@ class ContentSeeder extends Seeder
             ],
         ];
 
-        JourneyStep::whereNotIn('step_num', ['01', '02', '03'])->delete();
-
         foreach ($steps as $step) {
-            JourneyStep::updateOrCreate(['step_num' => $step['step_num']], $step);
+            JourneyStep::firstOrCreate(['step_num' => $step['step_num']], $step);
         }
     }
 
@@ -322,7 +319,7 @@ class ContentSeeder extends Seeder
         ];
 
         foreach ($faqs as $faq) {
-            Faq::updateOrCreate(['question' => $faq['question']], $faq);
+            Faq::firstOrCreate(['question' => $faq['question']], $faq);
         }
     }
 
@@ -356,7 +353,7 @@ class ContentSeeder extends Seeder
         ];
 
         foreach ($links as $link) {
-            SocialLink::updateOrCreate(['platform' => $link['platform']], $link);
+            SocialLink::firstOrCreate(['platform' => $link['platform']], $link);
         }
     }
 }

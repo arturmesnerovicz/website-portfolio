@@ -24,8 +24,8 @@ class HomeController extends Controller
         $settings = SiteSetting::getFormattedSettings();
         $heroSlides = HeroSlide::query()->where('is_active', true)->orderBy('order')->get();
         $services = Service::query()->where('is_active', true)->orderBy('sort_order')->get();
-        $projects = Project::query()->where('is_featured', true)->orderBy('sort_order')->get();
-        $allProjects = Project::query()->orderBy('sort_order')->get();
+        $projects = Project::query()->where('is_active', true)->where('is_featured', true)->orderBy('sort_order')->get();
+        $allProjects = Project::query()->where('is_active', true)->orderBy('sort_order')->get();
         $journeySteps = JourneyStep::query()->where('is_active', true)->orderBy('sort_order')->get();
         $faqs = Faq::query()->where('is_active', true)->orderBy('sort_order')->get();
         $socialLinks = SocialLink::query()->where('is_active', true)->orderBy('sort_order')->get();

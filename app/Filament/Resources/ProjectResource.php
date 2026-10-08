@@ -84,8 +84,14 @@ class ProjectResource extends Resource
                     ->label('URL do Site (Link Externo)')
                     ->helperText('Se preenchido, o clique no projeto abre a URL em nova aba. Se deixado vazio, o clique abre o pop-up com a imagem completa do projeto.')
                     ->url(),
+                Forms\Components\Toggle::make('is_active')
+                    ->label('Exibir no Site (Ativo)')
+                    ->helperText('Se desmarcado, o projeto não será exibido no site (nem na Home nem em Projetos), mas continuará salvo no painel.')
+                    ->default(true),
                 Forms\Components\Toggle::make('is_featured')
-                    ->required(),
+                    ->label('Em Destaque (Home)')
+                    ->helperText('Se marcado, exibe o projeto na seção de Projetos Selecionados da Home.')
+                    ->default(false),
                 Forms\Components\TextInput::make('sort_order')
                     ->required()
                     ->numeric()
@@ -111,8 +117,14 @@ class ProjectResource extends Resource
                 Tables\Columns\ImageColumn::make('mockup_image'),
                 Tables\Columns\TextColumn::make('link_url')
                     ->searchable(),
+                Tables\Columns\IconColumn::make('is_active')
+                    ->label('Ativo')
+                    ->boolean()
+                    ->sortable(),
                 Tables\Columns\IconColumn::make('is_featured')
-                    ->boolean(),
+                    ->label('Destaque')
+                    ->boolean()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('sort_order')
                     ->numeric()
                     ->sortable(),

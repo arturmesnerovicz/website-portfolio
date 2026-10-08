@@ -1,4 +1,4 @@
-<section id="contato" data-bg="dark" class="cta-section bg-[#101010] relative z-20 w-full min-h-screen lg:h-screen lg:min-h-[100svh] -mt-[100vh] flex items-center justify-center overflow-hidden will-change-transform">
+<section id="contato" data-bg="dark" class="cta-section bg-[#101010] relative z-20 w-full min-h-screen lg:min-h-[100svh] flex items-center justify-center overflow-hidden py-24 sm:py-32 lg:py-40">
     <!-- Full-width Photographic Studio Background (Developer Desk / Estúdio Norra) -->
     <div class="cta-bg-wrap absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <picture>

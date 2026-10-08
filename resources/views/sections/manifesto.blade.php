@@ -112,11 +112,11 @@
             <!-- Right Column: Big Manifesto Statement & Studio Signature with Nog 3D split text -->
             <div class="md:col-span-7 lg:col-span-8 order-1 md:order-2 flex flex-col items-start lg:items-end">
                 <div class="space-y-8 sm:space-y-10 max-w-[774px] w-full lg:mr-16 xl:mr-24">
-                    <h2 data-split class="manifesto-statement font-sans font-bold text-[clamp(1.75rem,3.47vw,3.125rem)] leading-[1.18] text-[#ddddd5] tracking-[-0.5px] sm:tracking-[-0.75px] lg:tracking-[-1px] hyphens-none text-balance [text-wrap:balance]">
+                    <h2 data-split class="manifesto-statement font-sans font-bold text-[clamp(1.75rem,3.47vw,3.125rem)] leading-[1.18] text-[#ddddd5] tracking-[-0.5px] sm:tracking-[-0.75px] lg:tracking-[-1px] hyphens-none">
                         {!! $manifestoHeadline !!}
                     </h2>
 
-                    <p data-split class="manifesto-statement font-sans font-bold text-[clamp(1.75rem,3.47vw,3.125rem)] leading-[1.18] text-[#ddddd5] tracking-[-0.5px] sm:tracking-[-0.75px] lg:tracking-[-1px] text-balance [text-wrap:balance]">
+                    <p data-split class="manifesto-statement font-sans font-bold text-[clamp(1.75rem,3.47vw,3.125rem)] leading-[1.18] text-[#ddddd5] tracking-[-0.5px] sm:tracking-[-0.75px] lg:tracking-[-1px]">
                         {!! $manifestoP1 !!}
                     </p>
 

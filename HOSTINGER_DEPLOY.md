@@ -53,11 +53,11 @@ Este guia descreve o processo simplificado para publicar a nova aplicação web 
    ```bash
    chmod -R 775 storage bootstrap/cache database
    ```
-3. Execute as migrações e popule o conteúdo:
+3. Execute as migrações do banco de dados:
    ```bash
    php artisan migrate --force
-   php artisan db:seed --force
    ```
+   > **Atenção:** Em atualizações e deploys rotineiros, **NUNCA** execute `db:seed`. O comando `migrate --force` já aplica novas tabelas e atualizações estruturais sem tocar em textos, imagens ou configurações alteradas no painel administrativo.
 
 ---
 

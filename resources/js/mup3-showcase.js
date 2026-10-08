@@ -66,7 +66,7 @@ function createCardViewer(containerId, canvasId, loaderId, fallbackId, modelData
     // Camera with configurable FOV and distance
     const fov = parseFloat(local3d.fov) || 40;
     const camera = new THREE.PerspectiveCamera(fov, width / height, 0.1, 100);
-    const camDist = parseFloat(local3d.camera_distance) || modelData.cameraSettings?.distance || 3.8;
+    const camDist = parseFloat(local3d.camera_distance) || 3.7;
     camera.position.set(0, 0, camDist);
 
     const renderer = new THREE.WebGLRenderer({
@@ -163,11 +163,10 @@ function createCardViewer(containerId, canvasId, loaderId, fallbackId, modelData
             root.position.z -= center.z;
 
             const maxDim = Math.max(size.x, size.y, size.z);
-            const targetSize = 2.45; // Prominent size in container
+            const targetSize = 2.55; // Prominent size in container
             const baseScale = maxDim > 0 ? (targetSize / maxDim) : 1.0;
-            const customScale = parseFloat(modelData.transformSettings?.scale) || 1.0;
             const localScale = parseFloat(local3d.scale) || 1.0;
-            const finalScale = baseScale * customScale * localScale;
+            const finalScale = baseScale * localScale;
 
             const group = new THREE.Group();
             group.add(root);

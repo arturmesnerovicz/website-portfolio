@@ -144,7 +144,6 @@ html {
 [data-split] {
     perspective: 1200px;
     overflow: visible !important;
-    text-wrap: balance;
 }
 
 [data-split] div,
@@ -154,7 +153,7 @@ html {
 
 /* Fluid balanced typography for Manifesto statements to prevent orphan words and keep equal line lengths */
 .manifesto-statement {
-    text-wrap: balance;
+    text-wrap: normal;
     word-break: normal;
     overflow-wrap: break-word;
     hyphens: none;

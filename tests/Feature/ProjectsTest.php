@@ -82,4 +82,28 @@ class ProjectsTest extends TestCase
         $response->assertDontSee('id="modal-tags"', false);
         $response->assertDontSee('id="modal-cta-btn"', false);
     }
+
+    public function test_inactive_projects_do_not_appear_in_projects_page_or_home(): void
+    {
+        Project::create([
+            'title' => 'Projeto Desativado Oculto',
+            'slug' => 'projeto-desativado-oculto',
+            'client' => 'Cliente Oculto',
+            'year' => '2025',
+            'category' => 'Web Site',
+            'cover_image' => 'projects/hidden-cover.webp',
+            'link_url' => null,
+            'is_active' => false,
+            'is_featured' => true,
+            'sort_order' => 1,
+        ]);
+
+        $responseHome = $this->get('/');
+        $responseHome->assertStatus(200);
+        $responseHome->assertDontSee('Projeto Desativado Oculto');
+
+        $responseProjects = $this->get('/projetos');
+        $responseProjects->assertStatus(200);
+        $responseProjects->assertDontSee('Projeto Desativado Oculto');
+    }
 }

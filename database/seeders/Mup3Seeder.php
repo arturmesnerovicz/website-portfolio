@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Product3dModel;
 use App\Models\Project;
 use App\Models\SiteSetting;
 use Illuminate\Database\Seeder;
@@ -14,8 +13,8 @@ class Mup3Seeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Create or update Project MUP3 as a featured project
-        Project::updateOrCreate(
+        // 1. Create Project MUP3 as a featured project only if missing
+        Project::firstOrCreate(
             ['slug' => 'mup3'],
             [
                 'title' => [
@@ -43,15 +42,15 @@ class Mup3Seeder extends Seeder
                 'cover_image' => 'projects/1783959091061-MacBook_Mockup_2.webp',
                 'tags' => ['Design 3D', 'Website'],
                 'link_url' => null,
+                'is_active' => true,
                 'is_featured' => true,
                 'sort_order' => 4,
             ]
         );
 
         // 2. Initial Settings for MUP3 Showcase (ONLY if missing, NEVER overwrite existing user settings)
-        $availableModels = Product3dModel::where('is_active', true)->orderBy('sort_order')->get();
-        $model1Slug = $availableModels->first()?->slug ?? 'cabo-carnes';
-        $model2Slug = $availableModels->skip(1)->first()?->slug ?? ($availableModels->first()?->slug ?? 'stam_803_29i');
+        $model1Slug = 'stam-1601';
+        $model2Slug = 'stam_803_29i';
 
         $settings = [
             'site_noise_enabled' => '1',

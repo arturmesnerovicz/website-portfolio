@@ -21,20 +21,35 @@
     <link rel="icon" type="image/webp" href="{{ asset('storage/' . ($settings['brand_favicon'] ?? 'settings/favicons/1779475070756-vkuzh.webp')) }}">
     <link rel="icon" href="{{ asset('favicon.ico') }}">
 
+    @php
+        $rawOgImage = $settings['og_image'] ?? null;
+        if (!empty($rawOgImage)) {
+            $ogImageUrl = str_starts_with($rawOgImage, 'http://') || str_starts_with($rawOgImage, 'https://')
+                ? $rawOgImage
+                : asset('storage/' . ltrim($rawOgImage, '/'));
+        } else {
+            $ogImageUrl = asset('assets/logos/norra-monogram.png');
+        }
+    @endphp
+
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:site_name" content="{{ $settings['site_name'] ?? 'Estúdio Norra' }}">
     <meta property="og:title" content="{{ app()->getLocale() === 'en' ? ($settings['seo_title_en'] ?? 'Estúdio Norra | Web Design & Digital Engineering') : ($settings['seo_title'] ?? 'Estúdio Norra | Design e Desenvolvimento Web') }}">
     <meta property="og:description" content="{{ app()->getLocale() === 'en' ? ($settings['seo_description_en'] ?? 'Crafting high-end digital experiences for ambitious brands and demanding founders.') : ($settings['seo_description'] ?? 'Criamos experiências digitais exclusivas para marcas consolidadas e fundadores exigentes.') }}">
-    <meta property="og:image" content="{{ asset('assets/logos/logo.svg') }}">
+    <meta property="og:image" content="{{ $ogImageUrl }}">
+    <meta property="og:image:secure_url" content="{{ $ogImageUrl }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{{ $settings['site_name'] ?? 'Estúdio Norra' }}">
     <meta property="og:locale" content="{{ app()->getLocale() === 'en' ? 'en_US' : 'pt_BR' }}">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ app()->getLocale() === 'en' ? ($settings['seo_title_en'] ?? 'Estúdio Norra | Web Design & Digital Engineering') : ($settings['seo_title'] ?? 'Estúdio Norra | Design e Desenvolvimento Web') }}">
     <meta name="twitter:description" content="{{ app()->getLocale() === 'en' ? ($settings['seo_description_en'] ?? 'Crafting high-end digital experiences for ambitious brands and demanding founders.') : ($settings['seo_description'] ?? 'Criamos experiências digitais exclusivas para marcas consolidadas e fundadores exigentes.') }}">
-    <meta name="twitter:image" content="{{ asset('assets/logos/logo.svg') }}">
+    <meta name="twitter:image" content="{{ $ogImageUrl }}">
 
     <!-- Fonts Preload -->
     <link rel="preload" href="{{ asset('fonts/alte-haas-grotesk-700.woff') }}" as="font" type="font/woff" crossorigin>

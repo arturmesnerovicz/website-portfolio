@@ -31,9 +31,9 @@ class Mup3Test extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('YOUR CARDS, PROTECTED');
-        $response->assertSee('Air Force 1 Low Supr...');
+        $response->assertSee('Stam 1601 Edition');
         $response->assertSee('Stam 803 Edition');
-        $response->assertSee('59$');
+        $response->assertSee('79$');
         $response->assertSee('89$');
         $response->assertSee('mup3-card-canvas-1', false);
         $response->assertSee('mup3-card-canvas-2', false);
@@ -178,5 +178,28 @@ class Mup3Test extends TestCase
             'email' => 'cliente@mup3.com',
             'name' => 'Cliente MUP3',
         ]);
+    }
+
+    public function test_inactive_mup3_redirects_to_projects_page_and_is_hidden(): void
+    {
+        $project = Project::where('slug', 'mup3')->first();
+        $this->assertNotNull($project);
+        $project->update(['is_active' => false]);
+
+        // Home should not show inactive MUP3
+        $responseHome = $this->get('/');
+        $responseHome->assertDontSee('Apresentação MUP3');
+
+        // Projects listing should not show inactive MUP3
+        $responseProjects = $this->get('/projetos');
+        $responseProjects->assertDontSee('/projetos/mup3');
+
+        // Direct visit should redirect to /projetos
+        $responseShow = $this->get('/projetos/mup3');
+        $responseShow->assertRedirect('/projetos');
+
+        // English direct visit should redirect to /en/projects
+        $responseEn = $this->get('/en/projects/mup3');
+        $responseEn->assertRedirect('/en/projects');
     }
 }

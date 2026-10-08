@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\SiteSetting;
 use App\Models\SocialLink;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class Mup3Controller extends Controller
@@ -14,31 +15,64 @@ class Mup3Controller extends Controller
     /**
      * Display the dedicated MUP3 project presentation page.
      */
-    public function index(Request $request): View
+    public function index(Request $request): View|RedirectResponse
     {
+        $project = Project::query()->where('slug', 'mup3')->first();
+
+        if ($project && ! $project->is_active && ! auth()->check()) {
+            return redirect()->route(app()->getLocale() === 'en' ? 'en.projects.index' : 'projects.index');
+        }
+
         $settings = SiteSetting::getFormattedSettings();
         $socialLinks = SocialLink::query()->where('is_active', true)->orderBy('sort_order')->get();
-        $project = Project::query()->where('slug', 'mup3')->first();
 
         // Retrieve 3D models for Card 1 and Card 2 (allows inactive models if explicitly chosen for showcase)
         $models = Product3dModel::query()->orderBy('sort_order')->get();
 
-        $slug1 = $settings['mup3_card1_model_slug'] ?? 'cabo-carnes';
+        $rawSlug1 = $settings['mup3_card1_model_slug'] ?? null;
+        $slug1 = (! empty($rawSlug1) && $rawSlug1 !== 'cabo-carnes') ? $rawSlug1 : 'stam-1601';
         $slug2 = $settings['mup3_card2_model_slug'] ?? 'stam_803_29i';
 
-        $model1 = $models->firstWhere('slug', $slug1) ?? $models->first();
-        $model2 = $models->firstWhere('slug', $slug2) ?? ($models->skip(1)->first() ?? $model1);
+        $model1 = $models->firstWhere('slug', $slug1) ?? $models->firstWhere('slug', 'stam-1601') ?? $models->first();
+        $model2 = $models->firstWhere('slug', $slug2) ?? $models->firstWhere('slug', 'stam_803_29i') ?? ($models->skip(1)->first() ?? $model1);
 
         $isEn = app()->getLocale() === 'en';
+
+        $card1Title = $isEn
+            ? (($settings['mup3_card1_title_en'] ?? null) ?: ($settings['mup3_card1_title'] ?? null))
+            : ($settings['mup3_card1_title'] ?? null);
+        if (empty($card1Title) || str_contains($card1Title, 'Air Force')) {
+            $card1Title = 'Stam 1601 Edition';
+        }
+
+        $card1Brand = $isEn
+            ? (($settings['mup3_card1_brand_en'] ?? null) ?: ($settings['mup3_card1_brand'] ?? null))
+            : ($settings['mup3_card1_brand'] ?? null);
+        if (empty($card1Brand) || strtolower($card1Brand) === 'nike') {
+            $card1Brand = 'Norra Studio';
+        }
+
+        $card1Price = (! empty($settings['mup3_card1_price']) && $settings['mup3_card1_price'] !== '59$')
+            ? $settings['mup3_card1_price']
+            : '79$';
+
+        $card2Title = $isEn
+            ? (($settings['mup3_card2_title_en'] ?? null) ?: ($settings['mup3_card2_title'] ?? 'Stam 803 Edition'))
+            : ($settings['mup3_card2_title'] ?? 'Stam 803 Edition');
+
+        $card2Brand = $isEn
+            ? (($settings['mup3_card2_brand_en'] ?? null) ?: ($settings['mup3_card2_brand'] ?? 'Norra Studio'))
+            : ($settings['mup3_card2_brand'] ?? 'Norra Studio');
+
         $showcase = [
             'title' => ($isEn && ! empty($settings['mup3_title_en'])) ? $settings['mup3_title_en'] : ($settings['mup3_title'] ?? 'YOUR CARDS, PROTECTED'),
             'description' => ($isEn && ! empty($settings['mup3_description_en'])) ? $settings['mup3_description_en'] : ($settings['mup3_description'] ?? 'Our cutting-edge security features, and team of specialists, are monitoring your spend 24/7. We\'ve helped prevent more than £475m worth of fraud in 2023 alone.'),
             'cta_text' => ($isEn && ! empty($settings['mup3_cta_text_en'])) ? $settings['mup3_cta_text_en'] : ($settings['mup3_cta_text'] ?? 'Learn more'),
             'cta_url' => $settings['mup3_cta_url'] ?? '#contato',
             'card1' => [
-                'title' => $settings['mup3_card1_title'] ?? 'Air Force 1 Low Supr...',
-                'brand' => $settings['mup3_card1_brand'] ?? 'Nike',
-                'price' => $settings['mup3_card1_price'] ?? '59$',
+                'title' => $card1Title,
+                'brand' => $card1Brand,
+                'price' => $card1Price,
                 'button_url' => $settings['mup3_card1_button_url'] ?? '#contato',
                 'model' => $model1?->toFrontendPayload(),
                 'local3d' => [
@@ -55,8 +89,8 @@ class Mup3Controller extends Controller
                 ],
             ],
             'card2' => [
-                'title' => $settings['mup3_card2_title'] ?? 'Stam 803 Edition',
-                'brand' => $settings['mup3_card2_brand'] ?? 'Norra Studio',
+                'title' => $card2Title,
+                'brand' => $card2Brand,
                 'price' => $settings['mup3_card2_price'] ?? '89$',
                 'button_url' => $settings['mup3_card2_button_url'] ?? '#contato',
                 'model' => $model2?->toFrontendPayload(),

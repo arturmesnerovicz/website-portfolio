@@ -269,43 +269,39 @@ function setupInteraction(container, canvas) {
         pointerStartY = e.clientY;
     });
 
-    // Wheel zoom on stage with comfortable limits and natural scroll passthrough
+    // Wheel zoom on stage allowing full zoom range matching the +/- buttons, then passing scroll through
     stage.addEventListener('wheel', (e) => {
         if (!isZoomEnabled) return;
 
-        const defaultDist = activeModelData?.cameraSettings?.distance || 4.2;
-        // Comfortable zoom out limit: ~25% depth change
-        const comfortableMaxDist = defaultDist * 1.25;
-
-        // Verify that container is within the active viewport region
+        // Verify that container is within the viewport region
         const rect = container.getBoundingClientRect();
-        const isInActiveZone = rect.top < window.innerHeight * 0.75 && rect.bottom > window.innerHeight * 0.25;
+        const isInActiveZone = rect.top < window.innerHeight && rect.bottom > 0;
 
         if (!isInActiveZone) {
             return;
         }
 
         if (e.deltaY > 0) {
-            // Scrolling DOWN -> Zoom OUT
-            if (targetDistance < comfortableMaxDist - 0.02) {
+            // Scrolling DOWN -> Zoom OUT (afastar até maxDistance)
+            if (targetDistance < maxDistance - 0.02) {
                 e.preventDefault();
                 const zoomDelta = e.deltaY * 0.0024;
-                targetDistance = Math.min(comfortableMaxDist, targetDistance + zoomDelta);
+                targetDistance = Math.min(maxDistance, targetDistance + zoomDelta);
             } else {
-                // Reached comfortable zoom-out limit!
-                // Let user naturally exit the section going down
+                // Chegou ao limite máximo de afastamento (mínimo de zoom)
+                // Permite a rolagem da página para baixo
                 e.preventDefault();
                 window.scrollBy({ top: e.deltaY, behavior: 'auto' });
             }
         } else if (e.deltaY < 0) {
-            // Scrolling UP -> Zoom IN back towards default showcase framing
-            if (targetDistance > defaultDist + 0.02) {
+            // Scrolling UP -> Zoom IN (aproximar até minDistance)
+            if (targetDistance > minDistance + 0.02) {
                 e.preventDefault();
                 const zoomDelta = e.deltaY * 0.0024;
-                targetDistance = Math.max(defaultDist, targetDistance + zoomDelta);
+                targetDistance = Math.max(minDistance, targetDistance + zoomDelta);
             } else {
-                // At or closer than default distance:
-                // Let user naturally exit the section going up
+                // Chegou ao limite máximo de aproximação (máximo de zoom)
+                // Permite a rolagem da página para cima
                 e.preventDefault();
                 window.scrollBy({ top: e.deltaY, behavior: 'auto' });
             }

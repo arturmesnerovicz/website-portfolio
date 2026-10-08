@@ -37,6 +37,7 @@ class Project extends Model
         'gallery',
         'tags',
         'link_url',
+        'is_active',
         'is_featured',
         'sort_order',
     ];
@@ -47,6 +48,7 @@ class Project extends Model
     protected $casts = [
         'gallery' => 'array',
         'tags' => 'array',
+        'is_active' => 'boolean',
         'is_featured' => 'boolean',
         'sort_order' => 'integer',
     ];

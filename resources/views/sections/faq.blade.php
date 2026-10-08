@@ -1,4 +1,4 @@
-<section id="faq" class="pt-24 sm:pt-32 md:pt-40 pb-[50vh] sm:pb-[45vh] lg:pb-[40vh] bg-[#151515] text-[#ddddd5] relative z-10">
+<section id="faq" class="py-24 sm:py-32 md:py-40 bg-[#151515] text-[#ddddd5] relative z-10">
     <div class="faq-inner-container w-full">
         <div class="w-full px-[clamp(1.5rem,3.125vw,3.5rem)]">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
@@ -88,9 +88,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Atmospheric Dim Overlay for Smooth Transition to CTA -->
-    <div class="faq-dim-overlay absolute inset-0 bg-black/60 opacity-0 pointer-events-none z-20"></div>
 </section>
 
 <script>
@@ -105,11 +102,6 @@ function toggleFaqAccordion(element) {
     // Toggle clicked item if it was closed
     if (!isOpen) {
         element.classList.add('is-active');
-    }
-
-    // Refresh ScrollTrigger only AFTER accordion transition finishes (650ms) so it never interrupts the word reveal animation
-    if (window.ScrollTrigger) {
-        setTimeout(() => window.ScrollTrigger.refresh(), 650);
     }
 }
 </script>
