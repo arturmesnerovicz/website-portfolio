@@ -56,11 +56,13 @@ class ManageAppearanceSettings extends Page implements HasForms
                                 ->default(true),
 
                             TextInput::make('site_noise_opacity')
-                                ->label('Opacidade da Granulação (0.01 a 0.20)')
+                                ->label('Opacidade da Granulação (0.01 a 1.00)')
                                 ->numeric()
+                                ->minValue(0.01)
+                                ->maxValue(1.00)
                                 ->step(0.01)
                                 ->default(0.05)
-                                ->helperText('Recomendado: 0.04 a 0.06 para efeito sofisticado e imperceptível sem comprometer legibilidade.')
+                                ->helperText('Ajuste gradativo de 0.01 a 1.00 (ex.: 0.05 sutil, 0.20 moderado, 0.50 evidente, até 1.00 textura analógica máxima).')
                                 ->required(),
                         ]),
                     ]),
@@ -81,8 +83,11 @@ class ManageAppearanceSettings extends Page implements HasForms
     {
         $state = $this->form->getState();
 
+        $noiseOpacity = (float) str_replace(',', '.', (string) ($state['site_noise_opacity'] ?? '0.05'));
+        $noiseOpacity = max(0.01, min(1.00, $noiseOpacity));
+
         SiteSetting::set('site_noise_enabled', $state['site_noise_enabled'] ? '1' : '0', 'general', 'boolean');
-        SiteSetting::set('site_noise_opacity', (string) ($state['site_noise_opacity'] ?? '0.05'), 'general', 'text');
+        SiteSetting::set('site_noise_opacity', (string) $noiseOpacity, 'general', 'text');
 
         Notification::make()
             ->title('Configurações de aparência salvas com sucesso!')

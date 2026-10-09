@@ -91,7 +91,8 @@
     <!-- Subtle Film Grain / Noise Overlay (Basic Agency Style) -->
     @php
         $noiseEnabled = ($settings['site_noise_enabled'] ?? '1') !== '0';
-        $noiseOpacity = $settings['site_noise_opacity'] ?? '0.05';
+        $noiseOpacity = (float) str_replace(',', '.', (string) ($settings['site_noise_opacity'] ?? '0.05'));
+        $noiseOpacity = max(0.01, min(1.00, $noiseOpacity));
     @endphp
     @if($noiseEnabled)
         <div class="site-noise" style="--noise-bg: url('{{ asset('assets/noise.png') }}'); --site-noise-opacity: {{ $noiseOpacity }};" aria-hidden="true"></div>
