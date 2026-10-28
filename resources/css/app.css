@@ -1,0 +1,1301 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: "Alte Haas Grotesk";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: local("Alte Haas Grotesk Bold"),
+         local("AlteHaasGrotesk-Bold"),
+         local("AlteHaasGrotesk_Bold"),
+         url("../fonts/alte-haas-grotesk-700.woff") format("woff"),
+         url("../fonts/alte-haas-grotesk-700.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Alte Haas Grotesk";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local("Alte Haas Grotesk Regular"),
+         local("AlteHaasGrotesk-Regular"),
+         local("Alte Haas Grotesk"),
+         url("../fonts/alte-haas-grotesk-400.woff") format("woff"),
+         url("../fonts/alte-haas-grotesk-400.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "TeX Gyre Heros";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local("TeX Gyre Heros Regular"),
+         local("TeXGyreHeros-Regular"),
+         local("TeX Gyre Heros"),
+         url("../fonts/tex-gyre-heros-400.woff") format("woff"),
+         url("../fonts/tex-gyre-heros-400.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "TeX Gyre Heros";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: local("TeX Gyre Heros Bold"),
+         local("TeXGyreHeros-Bold"),
+         url("../fonts/tex-gyre-heros-700.woff2") format("woff2"),
+         url("../fonts/tex-gyre-heros-700.woff") format("woff"),
+         url("../fonts/tex-gyre-heros-700.otf") format("opentype");
+}
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../views/**/*.blade.php';
+@source '../js/**/*.js';
+
+@theme {
+    --font-display:
+        "Alte Haas Grotesk", "Inter", -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, sans-serif;
+    --font-sans:
+        "TeX Gyre Heros", "Inter", -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, sans-serif;
+
+    --color-norra-black: #101010;
+    --color-norra-card: #151515;
+    --color-norra-surface: #1a1a1a;
+    --color-norra-stone: #ddddd5;
+    --color-norra-stone-dark: #121212;
+    --color-norra-red: #b60e0e;
+    --color-norra-gray: #888888;
+    --color-norra-border: #222222;
+}
+
+html {
+    background-color: #101010;
+    color: #f5f5f5;
+}
+
+::selection {
+    background-color: #b60e0e;
+    color: #ffffff;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #101010;
+}
+::-webkit-scrollbar-thumb {
+    background: #282828;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #b60e0e;
+}
+
+
+/* Pinned horizontal track for GSAP ScrollTrigger */
+.journey-section {
+    will-change: transform;
+}
+
+.journey-horizontal-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.journey-track {
+    display: flex;
+    flex-wrap: nowrap;
+    width: max-content;
+    will-change: transform;
+}
+
+.journey-slide {
+    width: 100vw;
+    min-width: 100vw;
+    flex-shrink: 0;
+}
+
+/* Manifesto Vertical Loading Progress Bar & Navigation */
+.manifesto-progress-track {
+    border-radius: 9999px;
+}
+
+.manifesto-progress-fill {
+    border-radius: 9999px;
+    background-color: #b60e0e;
+    box-shadow: 0 0 8px rgba(182, 14, 14, 0.7);
+    transition: none;
+}
+
+.manifesto-nav-arrow {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+/* 3D Perspective and Line Mask for SplitText Nog Formula */
+[data-split] {
+    perspective: 1200px;
+    overflow: visible !important;
+}
+
+[data-split] div,
+[data-split] span {
+    overflow: visible !important;
+}
+
+/* Fluid balanced typography for Manifesto statements to prevent orphan words and keep equal line lengths */
+.manifesto-statement {
+    text-wrap: normal;
+    word-break: normal;
+    overflow-wrap: break-word;
+    hyphens: none;
+}
+
+/* Active & Hover states for Services accordion - Invert with max 4px radius */
+.service-item {
+    transition:
+        background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 4px;
+}
+
+.service-item.is-active {
+    border-radius: 4px !important;
+}
+
+.service-item .service-bg {
+    opacity: 0;
+    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.service-item.is-active .service-bg {
+    opacity: 1 !important;
+}
+
+/* Hover effect on non-touch devices for closed items */
+@media (hover: hover) and (pointer: fine) {
+    .service-item:not(.is-active):hover .service-bg {
+        opacity: 1;
+    }
+
+    .service-item:not(.is-active):hover .service-title {
+        color: #101010 !important;
+        transform: translateX(12px);
+    }
+
+    .service-item:not(.is-active):hover .service-category {
+        color: #666666 !important;
+    }
+
+    .service-item:not(.is-active):hover .service-arrow-icon {
+        color: #101010 !important;
+    }
+}
+
+/* Service Title: Default & Active state */
+.service-item .service-title {
+    color: #ddddd5;
+    transition:
+        color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, color;
+}
+
+/* Active: Red title when opened */
+.service-item.is-active .service-title {
+    color: #b70606 !important;
+    transform: translateX(0) !important;
+}
+
+/* Arrow: Closed state points 45° up-right (-45deg), opened state points 45° down-right (+45deg) */
+.service-item .service-arrow-icon {
+    color: #ddddd5;
+    transition:
+        transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+        color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: rotate(-45deg);
+}
+
+.service-item.is-active .service-arrow-icon {
+    transform: rotate(45deg);
+    color: #101010 !important;
+}
+
+.service-item.is-active .service-category {
+    color: #666666 !important;
+}
+
+.service-item.is-active .service-desc {
+    color: #222222 !important;
+}
+
+/* Active Service Chips: Red background #b70606, white text, no border, border-radius 4px */
+.service-chip {
+    border: none !important;
+    border-width: 0 !important;
+    border-radius: 4px !important;
+    background-color: transparent;
+    color: #999999;
+}
+
+.service-item.is-active .service-chip {
+    background-color: #b70606 !important;
+    border: none !important;
+    border-width: 0 !important;
+    border-radius: 4px !important;
+    color: #ffffff !important;
+}
+
+/* CTA Button in Services: border-radius 4px, subtle outline border (<= 2px) */
+.service-cta-btn {
+    border-width: 1.5px;
+    border-radius: 4px !important;
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #ddddd5;
+    background-color: transparent;
+}
+
+.service-cta-ink {
+    position: absolute;
+    inset: 0;
+    background-color: #b70606;
+    border-radius: 4px !important;
+    transform-origin: 50% 100%;
+    clip-path: ellipse(0% 0% at 50% 100%);
+    transition: clip-path 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    pointer-events: none;
+}
+
+.service-cta-btn:hover {
+    border-color: #b70606 !important;
+}
+
+.service-cta-btn:hover .service-cta-ink {
+    clip-path: ellipse(160% 160% at 50% 100%);
+}
+
+.service-cta-btn:hover .service-cta-text {
+    color: #ffffff !important;
+}
+
+.service-item.is-active .service-cta-btn {
+    border-width: 1.5px !important;
+    border-color: rgba(16, 16, 16, 0.25) !important;
+    color: #333333 !important;
+    background-color: transparent !important;
+}
+
+.service-item.is-active .service-cta-btn:hover {
+    border-color: #b70606 !important;
+}
+
+.service-item.is-active .service-cta-btn:hover .service-cta-text {
+    color: #ffffff !important;
+}
+
+/* Service Separator Lines (Left-to-Right reveal animation matching corygrossman.co) */
+.service-line {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.2);
+    transform-origin: 0% 50%;
+    transform: scaleX(0);
+    transition: transform 1s ease-in-out;
+    will-change: transform;
+}
+
+.services-list.is-revealed .service-line {
+    transform: scaleX(1);
+}
+
+.services-list.is-revealed > .service-line:first-child {
+    transition-delay: 0s;
+}
+
+.services-list.is-revealed .service-item:nth-of-type(1) .service-line {
+    transition-delay: 0.15s;
+}
+
+.services-list.is-revealed .service-item:nth-of-type(2) .service-line {
+    transition-delay: 0.3s;
+}
+
+.services-list.is-revealed .service-item:nth-of-type(3) .service-line {
+    transition-delay: 0.45s;
+}
+
+.services-list.is-revealed .service-item:nth-of-type(4) .service-line {
+    transition-delay: 0.6s;
+}
+
+.services-list.is-revealed .service-item:nth-of-type(5) .service-line {
+    transition-delay: 0.75s;
+}
+
+.services-list.is-revealed .service-item:nth-of-type(6) .service-line {
+    transition-delay: 0.9s;
+}
+
+/* Service Accordion Grid Collapse & Expand */
+.service-accordion-grid {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.service-item.is-active .service-accordion-grid {
+    grid-template-rows: 1fr;
+}
+
+/* Service Accordion Internal Content Appearance (Replicating Framer Motion from OLD_NORRA ServicesExperience.tsx) */
+.service-accordion-content {
+    opacity: 1;
+}
+
+/* RevealParagraph: Word-by-word reveal (y: 100% -> 0%, opacity: 0 -> 1, duration: 0.7s, ease: [0.25, 1, 0.5, 1], delay: 0.08s + i * 0.015s) */
+.reveal-word {
+    transform: translateY(100%);
+    opacity: 0;
+    transition:
+        transform 0.7s cubic-bezier(0.25, 1, 0.5, 1),
+        opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform, opacity;
+}
+
+.service-item.is-active .reveal-word,
+.faq-item.is-active .reveal-word {
+    transform: translateY(0%);
+    opacity: 1;
+}
+
+/* Bottom Row (Chips & CTA): subtle y: 8px -> 0px, opacity: 0 -> 1, duration: 0.5s */
+.service-bottom-row {
+    transform: translateY(8px);
+    opacity: 0;
+    transition:
+        transform 0.5s cubic-bezier(0.25, 1, 0.5, 1) 0.08s,
+        opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1) 0.08s;
+    will-change: transform, opacity;
+}
+
+.service-item.is-active .service-bottom-row {
+    transform: translateY(0px);
+    opacity: 1;
+}
+
+/* ==========================================================================
+   Mobile-Only Services Accordion Smoothing (< 768px)
+   Eliminates abrupt snapping and the 1-second word delay on mobile screens
+   Desktop and Tablet remain 100% untouched
+   ========================================================================== */
+@media (max-width: 767px) {
+    .service-item {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+        transition:
+            background-color 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.4s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    }
+
+    .service-accordion-grid {
+        transition: grid-template-rows 0.48s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    }
+
+    .service-item .service-arrow-icon {
+        transition:
+            transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+            color 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    /* Description: Smooth unified entrance instead of 1-second 30-word staggered lag */
+    .service-desc {
+        opacity: 0;
+        transform: translateY(12px);
+        transition:
+            opacity 0.22s ease-out,
+            transform 0.22s ease-out,
+            color 0.35s ease !important;
+        will-change: opacity, transform;
+    }
+
+    .service-item.is-active .service-desc {
+        opacity: 1;
+        transform: translateY(0);
+        transition:
+            opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1) 0.06s,
+            transform 0.42s cubic-bezier(0.22, 1, 0.36, 1) 0.06s,
+            color 0.35s ease !important;
+    }
+
+    /* Disable the 30-word individual inline transition-delay and GPU composite layers on mobile */
+    .service-desc .reveal-word {
+        transform: none !important;
+        opacity: 1 !important;
+        transition: none !important;
+        transition-delay: 0s !important;
+        will-change: auto !important;
+    }
+
+    /* Bottom row: Smooth slide and fade in sequence */
+    .service-bottom-row {
+        opacity: 0;
+        transform: translateY(10px);
+        transition:
+            opacity 0.2s ease-out,
+            transform 0.2s ease-out !important;
+        will-change: opacity, transform;
+    }
+
+    .service-item.is-active .service-bottom-row {
+        opacity: 1;
+        transform: translateY(0);
+        transition:
+            opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1) 0.12s,
+            transform 0.42s cubic-bezier(0.22, 1, 0.36, 1) 0.12s !important;
+    }
+}
+
+/* ==========================================================================
+   FAQ Section (Accordion, Animations & Interactions matching EXPERTISE)
+   ========================================================================== */
+
+.faq-item {
+    transition:
+        background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 4px;
+}
+
+.faq-item.is-active {
+    border-radius: 4px !important;
+}
+
+.faq-item .faq-bg {
+    opacity: 0;
+    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.faq-item.is-active .faq-bg {
+    opacity: 1 !important;
+}
+
+/* Hover effect on non-touch devices for closed items */
+@media (hover: hover) and (pointer: fine) {
+    .faq-item:not(.is-active):hover .faq-bg {
+        opacity: 1;
+    }
+
+    .faq-item:not(.is-active):hover .faq-title {
+        color: #101010 !important;
+        transform: translateX(12px);
+    }
+
+    .faq-item:not(.is-active):hover .faq-arrow-icon {
+        color: #101010 !important;
+    }
+}
+
+/* FAQ Title: Default & Active state */
+.faq-item .faq-title {
+    color: #ddddd5;
+    transition:
+        color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, color;
+}
+
+.faq-item.is-active .faq-title {
+    color: #101010 !important;
+    transform: translateX(0) !important;
+}
+
+/* Arrow: Closed state points 45° up-right (-45deg), opened state points 45° down-right (+45deg) */
+.faq-item .faq-arrow-icon {
+    color: #ddddd5;
+    transition:
+        transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+        color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: rotate(-45deg);
+}
+
+.faq-item.is-active .faq-arrow-icon {
+    transform: rotate(45deg);
+    color: #101010 !important;
+}
+
+/* FAQ Accordion Grid Collapse & Expand (matching EXPERTISE exactly) */
+.faq-accordion-grid {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.faq-item.is-active .faq-accordion-grid {
+    grid-template-rows: 1fr;
+}
+
+.faq-accordion-content {
+    opacity: 1;
+}
+
+/* Description text inside accordion */
+.faq-desc {
+    color: #666666;
+    transition: color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.faq-item.is-active .faq-desc {
+    color: #222222 !important;
+}
+
+.faq-item.is-active .faq-line,
+.faq-item:hover .faq-line {
+    opacity: 0;
+}
+
+/* CTA Button in FAQ: Penpot design with exact Monolog interaction */
+.faq-cta-btn {
+    --monolog-ease: cubic-bezier(0.16, 1, 0.35, 1);
+    --active-ease: cubic-bezier(0.48, 1.68, 0.64, 1);
+    --active-speed: 0.35s;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 6px 10px 6px 14px;
+    border-width: 4px !important;
+    border-style: solid !important;
+    border-color: #ddddd5 !important;
+    border-radius: 4px !important;
+    background-color: #ddddd5 !important;
+    box-sizing: border-box;
+    cursor: pointer;
+    outline: none;
+    transition:
+        transform var(--active-speed) var(--active-ease),
+        opacity var(--active-speed) var(--monolog-ease);
+}
+
+.faq-cta-btn:hover {
+    opacity: 0.9;
+}
+
+.faq-cta-btn:active {
+    transform: scale(0.95);
+}
+
+.faq-cta-text-contain {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    line-height: 1.15;
+    padding-bottom: 0.15em;
+    margin-bottom: -0.15em;
+}
+
+.faq-cta-text {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    color: #101010;
+    white-space: nowrap;
+    text-shadow: 0 1.3em 0 #101010;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.35, 1);
+}
+
+@media (min-width: 640px) {
+    .faq-cta-text {
+        letter-spacing: -1px;
+    }
+}
+
+.faq-cta-btn:hover .faq-cta-text {
+    transform: translateY(-1.3em);
+}
+
+/* Navigation Menu Link Monolog Roll Animation (exact match to Iniciar Projeto button) */
+.nav-roll-link {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.nav-roll-contain {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    line-height: 1.15;
+    padding-bottom: 0.15em;
+    margin-bottom: -0.15em;
+}
+
+.nav-roll-text {
+    display: block;
+    line-height: 1.15;
+    white-space: nowrap;
+    text-shadow: 0 1.3em 0 #ffffff;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.35, 1);
+    will-change: transform;
+}
+
+.nav-roll-link:hover .nav-roll-text {
+    transform: translateY(-1.3em);
+}
+
+.faq-cta-aside {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    background-color: #101010;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.faq-cta-aside-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: 2px;
+    background-color: #101010;
+}
+
+.faq-cta-svg {
+    position: relative;
+    z-index: 2;
+    width: 10px;
+    height: 10px;
+    stroke: #ddddd5;
+    stroke-width: 2;
+    opacity: 1;
+    transition:
+        transform 0.65s cubic-bezier(0.16, 1, 0.35, 1),
+        opacity 0.4s cubic-bezier(0.16, 1, 0.35, 1);
+}
+
+.faq-cta-svg.is-absolute {
+    position: absolute;
+    transform: translate(-250%, 250%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.faq-cta-btn:hover .faq-cta-svg {
+    transform: translate(250%, -250%);
+    opacity: 0;
+}
+
+.faq-cta-btn:hover .faq-cta-svg.is-absolute {
+    transform: translate(0, 0);
+    opacity: 1;
+}
+
+/* CTA Button Large Modifier (Penpot Seção CTA Final) */
+.faq-cta-btn--lg {
+    gap: 16px;
+    padding: 7px 12px 7px 16px;
+}
+
+.faq-cta-btn--lg .faq-cta-text {
+    font-size: clamp(1.125rem, 1.67vw, 1.51rem);
+    line-height: 1.2;
+    letter-spacing: -0.75px;
+    font-weight: 700;
+}
+
+@media (min-width: 640px) {
+    .faq-cta-btn--lg .faq-cta-text {
+        letter-spacing: -1.25px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .faq-cta-btn--lg .faq-cta-text {
+        font-size: clamp(1.25rem, 1.67vw, 1.51rem);
+        letter-spacing: -2.01px;
+    }
+}
+
+.faq-cta-btn--lg .faq-cta-aside {
+    width: 26px;
+    height: 26px;
+}
+
+.faq-cta-btn--lg .faq-cta-svg {
+    width: 13px;
+    height: 13px;
+}
+
+/* CTA Button Small / Header Modifier (Proportionally scaled down) */
+.faq-cta-btn--sm {
+    gap: 10px;
+    padding: 4px 8px 4px 12px;
+    border-width: 3px !important;
+}
+
+.faq-cta-btn--sm .faq-cta-text {
+    font-size: 15px;
+    line-height: 1;
+    letter-spacing: -0.5px;
+    font-weight: 700;
+}
+
+@media (min-width: 640px) {
+    .faq-cta-btn--sm .faq-cta-text {
+        letter-spacing: -0.75px;
+    }
+}
+
+.faq-cta-btn--sm .faq-cta-aside {
+    width: 17px;
+    height: 17px;
+}
+
+.faq-cta-btn--sm .faq-cta-svg {
+    width: 8.5px;
+    height: 8.5px;
+}
+
+/* Drawer Dark CTA Button (exact match to Iniciar Projeto floating button in inverted dark palette) */
+.drawer-cta-btn {
+    --monolog-ease: cubic-bezier(0.16, 1, 0.35, 1);
+    --active-ease: cubic-bezier(0.48, 1.68, 0.64, 1);
+    --active-speed: 0.35s;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 10px 6px 14px;
+    border-width: 3px !important;
+    border-style: solid !important;
+    border-color: #101010 !important;
+    border-radius: 4px !important;
+    background-color: #101010 !important;
+    box-sizing: border-box;
+    cursor: pointer;
+    outline: none;
+    transition:
+        transform var(--active-speed) var(--active-ease),
+        opacity var(--active-speed) var(--monolog-ease);
+}
+
+.drawer-cta-btn:hover {
+    opacity: 0.92;
+}
+
+.drawer-cta-btn:active {
+    transform: scale(0.95);
+}
+
+.drawer-cta-text-contain {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    line-height: 1.15;
+    padding-bottom: 0.15em;
+    margin-bottom: -0.15em;
+}
+
+.drawer-cta-text {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.25px;
+    color: #ddddd5;
+    white-space: nowrap;
+    text-shadow: 0 1.3em 0 #ddddd5;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.35, 1);
+}
+
+@media (min-width: 640px) {
+    .drawer-cta-text {
+        font-size: 16px;
+        letter-spacing: -0.75px;
+    }
+}
+
+.drawer-cta-btn:hover .drawer-cta-text {
+    transform: translateY(-1.3em);
+}
+
+.drawer-cta-aside {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    background-color: #ddddd5;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.drawer-cta-aside-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: 2px;
+    background-color: #ddddd5;
+}
+
+.drawer-cta-svg {
+    position: relative;
+    z-index: 2;
+    width: 10px;
+    height: 10px;
+    stroke: #101010;
+    stroke-width: 2.2;
+    opacity: 1;
+    transition:
+        transform 0.65s cubic-bezier(0.16, 1, 0.35, 1),
+        opacity 0.4s cubic-bezier(0.16, 1, 0.35, 1);
+}
+
+.drawer-cta-svg.is-absolute {
+    position: absolute;
+    transform: translate(-250%, 250%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.drawer-cta-btn:hover .drawer-cta-svg {
+    transform: translate(250%, -250%);
+    opacity: 0;
+}
+
+.drawer-cta-btn:hover .drawer-cta-svg.is-absolute {
+    transform: translate(0, 0);
+    opacity: 1;
+}
+
+/* Editorial Split Text Masking (OH Architecture / Monolog signature pattern) */
+.split-parent {
+    overflow: hidden;
+    margin-top: -0.04em;
+}
+
+.split-child {
+    will-change: transform;
+    padding-bottom: 0.04em;
+    display: block;
+}
+
+/* Lateral Contact Drawer Transitions (OH Architecture cinematic clip-path reveal) */
+#contact-drawer-backdrop {
+    will-change: opacity;
+}
+
+#contact-modal-card {
+    will-change: clip-path;
+    clip-path: polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%);
+}
+
+/* Production Text Reveal State */
+.norra-reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(8px);
+    will-change: transform, opacity, filter;
+    transition:
+        opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.norra-reveal.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0px);
+}
+
+/* Rotating badge animation */
+@keyframes spin-slow {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin-slow {
+    animation: spin-slow 20s linear infinite;
+}
+
+/* ==========================================================================
+   Hero Floating Showcase Mockups - Proportional Responsive Scaling
+   Ensures mockups scale down smoothly on smaller desktops / MacBooks
+   and never overlap vertically or horizontally.
+   ========================================================================== */
+.hero-mockup-frame {
+    width: clamp(100px, 20vw, 140px);
+    aspect-ratio: 280 / 340;
+}
+
+@media (min-width: 640px) {
+    .hero-mockup-frame {
+        width: clamp(130px, 18vw, 175px);
+    }
+}
+
+@media (min-width: 1024px) {
+    .hero-mockup-frame {
+        /*
+          On desktop / laptops / MacBooks:
+          Scale width proportionally to BOTH viewport width and height.
+          With aspect ratio 280/340 (height = width * 340/280 ≈ 1.214 * width):
+          Using 26vh ensures height is at most 26vh * 1.214 = 31.5vh.
+          Both right-side mockups take at most 63vh combined, guaranteeing
+          generous breathing room and zero overlap on MacBooks and 13-16" laptops.
+        */
+        width: clamp(160px, min(17.5vw, 26vh), 280px);
+    }
+}
+
+.hero-mockup-slot {
+    width: clamp(100px, 20vw, 140px);
+}
+
+@media (min-width: 640px) {
+    .hero-mockup-slot {
+        width: clamp(130px, 18vw, 175px);
+    }
+}
+
+@media (min-width: 1024px) {
+    .hero-mockup-slot {
+        width: clamp(160px, min(17.5vw, 26vh), 280px);
+    }
+}
+
+
+/* ==========================================================================
+   Site-wide Noise / Film Grain Overlay (Basic Agency Technique)
+   ========================================================================== */
+.site-noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 30;
+    overflow: hidden;
+}
+
+.site-noise::after {
+    position: absolute;
+    top: -10rem;
+    left: -10rem;
+    width: calc(100% + 20rem);
+    height: calc(100% + 20rem);
+    animation: siteNoise 1s steps(2) infinite;
+    background-image: var(--noise-bg, url('/assets/noise.png'));
+    background-position: 50%;
+    content: "";
+    will-change: transform;
+    opacity: var(--site-noise-opacity, 0.05);
+}
+
+@keyframes siteNoise {
+    0% { transform: translate3d(0, 9rem, 0); }
+    10% { transform: translate3d(-1rem, -4rem, 0); }
+    20% { transform: translate3d(-8rem, 2rem, 0); }
+    30% { transform: translate3d(9rem, -9rem, 0); }
+    40% { transform: translate3d(-2rem, 7rem, 0); }
+    50% { transform: translate3d(-9rem, -4rem, 0); }
+    60% { transform: translate3d(2rem, 6rem, 0); }
+    70% { transform: translate3d(7rem, -8rem, 0); }
+    80% { transform: translate3d(-9rem, 1rem, 0); }
+    90% { transform: translate3d(6rem, -5rem, 0); }
+    to { transform: translate3d(-7rem, 0, 0); }
+}
+
+/* Exo Ape Page Transition Performance & Hardware Acceleration */
+body.is-loading {
+    user-select: none;
+    cursor: wait;
+}
+
+.exo-viewport-frame {
+    perspective: 1200px;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Floating WhatsApp Button (Adaptive Contrast: #101010 over light, #ddddd5 over dark) */
+.whatsapp-floating-btn {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    text-decoration: none;
+    outline: none;
+    transition:
+        background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.35s cubic-bezier(0.16, 1, 0.35, 1);
+}
+
+@media (min-width: 640px) {
+    .whatsapp-floating-btn {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+}
+
+/* Default state over dark sections (#101010): Light button (#ddddd5) with dark icon (#101010) */
+.whatsapp-floating-btn,
+.whatsapp-floating-btn.is-dark-bg {
+    background-color: #ddddd5;
+    color: #101010;
+    border: 1px solid rgba(16, 16, 16, 0.15);
+    box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.45);
+}
+
+.whatsapp-floating-btn:hover,
+.whatsapp-floating-btn.is-dark-bg:hover {
+    background-color: #ffffff;
+    color: #101010;
+    transform: scale(1.08);
+    box-shadow: 0 14px 35px -4px rgba(0, 0, 0, 0.6);
+}
+
+/* Contrast state over light sections (#ddddd5): Dark button (#101010) with light icon (#ddddd5) */
+.whatsapp-floating-btn.is-light-bg {
+    background-color: #101010;
+    color: #ddddd5;
+    border: 1px solid rgba(221, 221, 213, 0.25);
+    box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.25);
+}
+
+.whatsapp-floating-btn.is-light-bg:hover {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    transform: scale(1.08);
+    box-shadow: 0 14px 35px -4px rgba(0, 0, 0, 0.35);
+}
+
+.whatsapp-floating-btn:active {
+    transform: scale(0.94);
+}
+
+.whatsapp-floating-icon {
+    width: 26px;
+    height: 26px;
+    fill: currentColor;
+    display: block;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.35, 1);
+}
+
+@media (min-width: 640px) {
+    .whatsapp-floating-icon {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+.whatsapp-floating-btn:hover .whatsapp-floating-icon {
+    transform: scale(1.06);
+}
+
+/* ==========================================================================
+   Header Mobile Spacing & Collision Prevention (Screens < 401px)
+   Leaves iPhone 16 Pro (402px) & larger devices completely untouched.
+   ========================================================================== */
+@media (max-width: 400px) {
+    #site-header .navbar-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    #site-header .nav-right-cluster {
+        gap: 0.5rem;
+    }
+
+    #site-header .nav-lang-switcher {
+        padding: 2px 7px;
+        font-size: 11px;
+    }
+
+    #site-header .nav-lang-switcher a {
+        padding: 1px 3px;
+    }
+
+    #site-header .nav-cta-btn.faq-cta-btn--sm {
+        gap: 6px;
+        padding: 3px 6px 3px 9px;
+        border-width: 2px !important;
+    }
+
+    #site-header .nav-cta-btn.faq-cta-btn--sm .faq-cta-text {
+        font-size: 12.5px;
+        letter-spacing: -0.3px;
+    }
+
+    #site-header .nav-cta-btn.faq-cta-btn--sm .faq-cta-aside {
+        width: 14px;
+        height: 14px;
+    }
+
+    #site-header .nav-cta-btn.faq-cta-btn--sm .faq-cta-svg {
+        width: 7px;
+        height: 7px;
+    }
+
+    #site-header #mobile-menu-btn {
+        width: 2.25rem;
+        height: 2.25rem;
+    }
+}
+
+@media (max-width: 360px) {
+    #site-header .navbar-container {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    #site-header .nav-right-cluster {
+        gap: 0.375rem;
+    }
+
+    #site-header .nav-lang-switcher {
+        padding: 1.5px 5px;
+        font-size: 10px;
+    }
+
+    #site-header .nav-cta-btn.faq-cta-btn--sm {
+        gap: 5px;
+        padding: 2px 5px 2px 7px;
+    }
+
+    #site-header .nav-cta-btn.faq-cta-btn--sm .faq-cta-text {
+        font-size: 11.5px;
+    }
+}
+
+/* 3D Interactive Configurator Styles */
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+@keyframes spin-slow {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin-slow {
+    animation: spin-slow 12s linear infinite;
+}
+
+#product-3d-stage canvas {
+    touch-action: pan-y;
+}
+
+/* Ensure 3D arenas are isolated and always sit above background film grain */
+#product-3d-container,
+#mup3-card-container-1,
+#mup3-card-container-2,
+.product-3d-clean-stage {
+    position: relative;
+    z-index: 10;
+}
+
+/* Fix model switcher active tab hover: active text must strictly stay solid black over the white indicator pill */
+.product-model-tab[aria-selected="true"],
+.product-model-tab[aria-selected="true"]:hover {
+    color: #000000 !important;
+}
+
+/* 3D Model Loading & Unblur Transition Effects */
+.canvas-3d-unblur {
+    will-change: filter, opacity, transform;
+    transition: filter 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.canvas-3d-unblur.is-loading-model {
+    filter: blur(14px);
+    opacity: 0.25;
+    transform: scale(0.975);
+}
+
+.canvas-3d-unblur.is-loaded-model {
+    filter: blur(0px);
+    opacity: 1;
+    transform: scale(1);
+}
+
+@keyframes loaderPulseRing {
+    0% {
+        transform: scale(0.85);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.15;
+    }
+    100% {
+        transform: scale(0.85);
+        opacity: 0.7;
+    }
+}
+
+.animate-pulse-ring {
+    animation: loaderPulseRing 2.4s ease-in-out infinite;
+}
+
+
+
+
+
