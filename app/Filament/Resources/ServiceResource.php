@@ -40,8 +40,12 @@ class ServiceResource extends Resource
                     ->required(),
                 Forms\Components\Textarea::make('description')
                     ->label('Descrição')
-                    ->required()
                     ->rows(3)
+                    ->columnSpanFull(),
+                Forms\Components\FileUpload::make('image')
+                    ->label('Imagem Mockup (Preview no Hover)')
+                    ->image()
+                    ->directory('services')
                     ->columnSpanFull(),
                 Forms\Components\TagsInput::make('deliverables')
                     ->label('Entregáveis / Tecnologias (Cards)')

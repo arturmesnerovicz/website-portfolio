@@ -27,6 +27,7 @@ class Service extends Model
         'title',
         'category',
         'description',
+        'image',
         'deliverables',
         'is_active',
         'sort_order',

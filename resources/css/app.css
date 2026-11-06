@@ -159,207 +159,102 @@ html {
     hyphens: none;
 }
 
-/* Active & Hover states for Services accordion - Invert with max 4px radius */
+/* ==========================================================================
+   Services Section (EXPERTISE) - Clean Minimalist Hover & Right-Aligned Mockup Preview
+   Matching Monolog interaction architecture
+   ========================================================================== */
+
+.services-wrapper {
+    position: relative;
+    width: 100%;
+}
+
 .service-item {
-    transition:
-        background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    border-radius: 4px;
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity;
 }
 
-.service-item.is-active {
-    border-radius: 4px !important;
-}
-
-.service-item .service-bg {
-    opacity: 0;
-    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.service-item.is-active .service-bg {
-    opacity: 1 !important;
-}
-
-/* Hover effect on non-touch devices for closed items */
-@media (hover: hover) and (pointer: fine) {
-    .service-item:not(.is-active):hover .service-bg {
-        opacity: 1;
-    }
-
-    .service-item:not(.is-active):hover .service-title {
-        color: #101010 !important;
-        transform: translateX(12px);
-    }
-
-    .service-item:not(.is-active):hover .service-category {
-        color: #666666 !important;
-    }
-
-    .service-item:not(.is-active):hover .service-arrow-icon {
-        color: #101010 !important;
-    }
-}
-
-/* Service Title: Default & Active state */
 .service-item .service-title {
     color: #ddddd5;
     transition:
-        color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform, color;
 }
 
-/* Active: Red title when opened */
-.service-item.is-active .service-title {
-    color: #b70606 !important;
-    transform: translateX(0) !important;
+@media (hover: hover) and (pointer: fine) {
+    .service-item:hover .service-title,
+    .service-item.is-hovered .service-title {
+        color: #ffffff !important;
+        transform: translateX(18px);
+    }
 }
 
-/* Arrow: Closed state points 45° up-right (-45deg), opened state points 45° down-right (+45deg) */
-.service-item .service-arrow-icon {
-    color: #ddddd5;
-    transition:
-        transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
-        color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-    transform: rotate(-45deg);
-}
-
-.service-item.is-active .service-arrow-icon {
-    transform: rotate(45deg);
-    color: #101010 !important;
-}
-
-.service-item.is-active .service-category {
-    color: #666666 !important;
-}
-
-.service-item.is-active .service-desc {
-    color: #222222 !important;
-}
-
-/* Active Service Chips: Red background #b70606, white text, no border, border-radius 4px */
-.service-chip {
-    border: none !important;
-    border-width: 0 !important;
-    border-radius: 4px !important;
-    background-color: transparent;
-    color: #999999;
-}
-
-.service-item.is-active .service-chip {
-    background-color: #b70606 !important;
-    border: none !important;
-    border-width: 0 !important;
-    border-radius: 4px !important;
-    color: #ffffff !important;
-}
-
-/* CTA Button in Services: border-radius 4px, subtle outline border (<= 2px) */
-.service-cta-btn {
-    border-width: 1.5px;
-    border-radius: 4px !important;
-    border-color: rgba(255, 255, 255, 0.2);
-    color: #ddddd5;
-    background-color: transparent;
-}
-
-.service-cta-ink {
-    position: absolute;
-    inset: 0;
-    background-color: #b70606;
-    border-radius: 4px !important;
-    transform-origin: 50% 100%;
-    clip-path: ellipse(0% 0% at 50% 100%);
-    transition: clip-path 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    pointer-events: none;
-}
-
-.service-cta-btn:hover {
-    border-color: #b70606 !important;
-}
-
-.service-cta-btn:hover .service-cta-ink {
-    clip-path: ellipse(160% 160% at 50% 100%);
-}
-
-.service-cta-btn:hover .service-cta-text {
-    color: #ffffff !important;
-}
-
-.service-item.is-active .service-cta-btn {
-    border-width: 1.5px !important;
-    border-color: rgba(16, 16, 16, 0.25) !important;
-    color: #333333 !important;
-    background-color: transparent !important;
-}
-
-.service-item.is-active .service-cta-btn:hover {
-    border-color: #b70606 !important;
-}
-
-.service-item.is-active .service-cta-btn:hover .service-cta-text {
-    color: #ffffff !important;
-}
-
-/* Service Separator Lines (Left-to-Right reveal animation matching corygrossman.co) */
+/* Service Separator Lines (Left-to-Right reveal animation matching Penpot) */
 .service-line {
     height: 1px;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.15);
     transform-origin: 0% 50%;
     transform: scaleX(0);
-    transition: transform 1s ease-in-out;
+    transition: transform 1s ease-in-out, background-color 0.3s ease;
     will-change: transform;
 }
 
-.services-list.is-revealed .service-line {
+.services-list.is-revealed .service-line,
+.services-wrapper.is-revealed .service-line {
     transform: scaleX(1);
 }
 
-.services-list.is-revealed > .service-line:first-child {
+.services-list.is-revealed > .service-line:first-child,
+.services-wrapper.is-revealed > .service-line:first-child {
     transition-delay: 0s;
 }
 
 .services-list.is-revealed .service-item:nth-of-type(1) .service-line {
-    transition-delay: 0.15s;
+    transition-delay: 0.1s;
 }
 
 .services-list.is-revealed .service-item:nth-of-type(2) .service-line {
-    transition-delay: 0.3s;
+    transition-delay: 0.2s;
 }
 
 .services-list.is-revealed .service-item:nth-of-type(3) .service-line {
-    transition-delay: 0.45s;
+    transition-delay: 0.3s;
 }
 
 .services-list.is-revealed .service-item:nth-of-type(4) .service-line {
-    transition-delay: 0.6s;
+    transition-delay: 0.4s;
 }
 
 .services-list.is-revealed .service-item:nth-of-type(5) .service-line {
-    transition-delay: 0.75s;
+    transition-delay: 0.5s;
 }
 
-.services-list.is-revealed .service-item:nth-of-type(6) .service-line {
-    transition-delay: 0.9s;
+.service-item:hover .service-line,
+.service-item.is-hovered .service-line {
+    background-color: rgba(255, 255, 255, 0.4);
 }
 
-/* Service Accordion Grid Collapse & Expand */
-.service-accordion-grid {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+/* Right-Aligned Mockup Preview Wrap & Card (Desktop) */
+.services-preview-wrap {
+    position: absolute;
+    top: 0;
+    right: 0;
+    pointer-events: none;
+    z-index: 20;
+    will-change: transform;
 }
 
-.service-item.is-active .service-accordion-grid {
-    grid-template-rows: 1fr;
+.services-preview-card {
+    transform: translateY(-50%);
+    will-change: transform;
 }
 
-/* Service Accordion Internal Content Appearance (Replicating Framer Motion from OLD_NORRA ServicesExperience.tsx) */
-.service-accordion-content {
-    opacity: 1;
+.service-preview-img {
+    will-change: opacity;
 }
 
-/* RevealParagraph: Word-by-word reveal (y: 100% -> 0%, opacity: 0 -> 1, duration: 0.7s, ease: [0.25, 1, 0.5, 1], delay: 0.08s + i * 0.015s) */
+/* RevealParagraph: Word-by-word reveal used by FAQ */
 .reveal-word {
     transform: translateY(100%);
     opacity: 0;
@@ -369,97 +264,14 @@ html {
     will-change: transform, opacity;
 }
 
-.service-item.is-active .reveal-word,
 .faq-item.is-active .reveal-word {
     transform: translateY(0%);
     opacity: 1;
 }
 
-/* Bottom Row (Chips & CTA): subtle y: 8px -> 0px, opacity: 0 -> 1, duration: 0.5s */
-.service-bottom-row {
-    transform: translateY(8px);
-    opacity: 0;
-    transition:
-        transform 0.5s cubic-bezier(0.25, 1, 0.5, 1) 0.08s,
-        opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1) 0.08s;
-    will-change: transform, opacity;
-}
-
-.service-item.is-active .service-bottom-row {
-    transform: translateY(0px);
-    opacity: 1;
-}
-
-/* ==========================================================================
-   Mobile-Only Services Accordion Smoothing (< 768px)
-   Eliminates abrupt snapping and the 1-second word delay on mobile screens
-   Desktop and Tablet remain 100% untouched
-   ========================================================================== */
-@media (max-width: 767px) {
-    .service-item {
-        touch-action: manipulation;
-        -webkit-tap-highlight-color: transparent;
-        transition:
-            background-color 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-            border-color 0.4s cubic-bezier(0.22, 1, 0.36, 1) !important;
-    }
-
-    .service-accordion-grid {
-        transition: grid-template-rows 0.48s cubic-bezier(0.22, 1, 0.36, 1) !important;
-    }
-
-    .service-item .service-arrow-icon {
-        transition:
-            transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-            color 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    }
-
-    /* Description: Smooth unified entrance instead of 1-second 30-word staggered lag */
-    .service-desc {
-        opacity: 0;
-        transform: translateY(12px);
-        transition:
-            opacity 0.22s ease-out,
-            transform 0.22s ease-out,
-            color 0.35s ease !important;
-        will-change: opacity, transform;
-    }
-
-    .service-item.is-active .service-desc {
-        opacity: 1;
-        transform: translateY(0);
-        transition:
-            opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1) 0.06s,
-            transform 0.42s cubic-bezier(0.22, 1, 0.36, 1) 0.06s,
-            color 0.35s ease !important;
-    }
-
-    /* Disable the 30-word individual inline transition-delay and GPU composite layers on mobile */
-    .service-desc .reveal-word {
-        transform: none !important;
-        opacity: 1 !important;
-        transition: none !important;
-        transition-delay: 0s !important;
-        will-change: auto !important;
-    }
-
-    /* Bottom row: Smooth slide and fade in sequence */
-    .service-bottom-row {
-        opacity: 0;
-        transform: translateY(10px);
-        transition:
-            opacity 0.2s ease-out,
-            transform 0.2s ease-out !important;
-        will-change: opacity, transform;
-    }
-
-    .service-item.is-active .service-bottom-row {
-        opacity: 1;
-        transform: translateY(0);
-        transition:
-            opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1) 0.12s,
-            transform 0.42s cubic-bezier(0.22, 1, 0.36, 1) 0.12s !important;
-    }
+/* Mobile inline preview styling */
+.service-mobile-preview {
+    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
 }
 
 /* ==========================================================================

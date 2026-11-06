@@ -17,6 +17,8 @@ import { initPageTransition } from './page-transition';
 CustomEase.create('norra-out', 'M0,0 C0.16,1 0.3,1 1,1');
 CustomEase.create('ease-menu', '.7, 0, .22, 1');
 CustomEase.create('ease-secondary', '0.16, 1, 0.35, 1');
+CustomEase.create('ease-transition', '0.22, 1, 0.36, 1');
+CustomEase.create('ease-fade', '0.76, 0, 0.24, 1');
 
 export function initAllNorraComponents() {
     try { initHeaderScroll(); } catch (e) { console.error('initHeaderScroll:', e); }
@@ -51,6 +53,7 @@ export function initAllNorraComponents() {
     } catch (e) { console.error('initMup3Showcase:', e); }
     try { initProjectsSection(); } catch (e) { console.error('initProjectsSection:', e); }
     try { initProjectsFilterPage(); } catch (e) { console.error('initProjectsFilterPage:', e); }
+    try { if (typeof window.initServicesInteractive === 'function') window.initServicesInteractive(); } catch (e) { console.error('initServicesInteractive:', e); }
 }
 window.initAllNorraComponents = initAllNorraComponents;
 

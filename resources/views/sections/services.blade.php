@@ -1,142 +1,234 @@
-<section id="expertise" class="py-24 sm:py-32 md:py-40 bg-[#101010] text-[#ddddd5] relative border-t border-white/10 w-full">
+<section id="expertise" class="py-24 sm:py-32 md:py-36 bg-[#101010] text-[#ddddd5] relative border-t border-white/10 w-full overflow-visible">
     <div class="w-full px-[clamp(1.5rem,3.125vw,3.5rem)]">
 
         <!-- Section Header: Penpot EXPERTISE 78px - Aligned with Service Titles -->
-        <div class="mb-12 sm:mb-16 px-4 sm:px-8">
+        <div class="mb-10 sm:mb-14 px-4 sm:px-8">
             <h2 class="norra-reveal font-display font-bold text-[clamp(2.5rem,5.5vw,4.875rem)] leading-none uppercase tracking-[-1.5px] sm:tracking-[-2.5px] md:tracking-[-3.5px] lg:tracking-[-4.85px] text-[#ddddd5]">
                 {{ __('EXPERTISE') }}
             </h2>
         </div>
 
-        <!-- Services List (All start 100% closed for authentic experience) -->
-        <div class="services-list relative w-full">
+        <!-- Services Wrapper: Relative container holding the services list & the right-aligned hover preview card -->
+        <div class="services-wrapper relative w-full" id="services-wrapper">
             <!-- Top Delimiter Line with entrance animation from left to right -->
             <div class="service-line w-full" aria-hidden="true"></div>
 
-            @foreach($services as $index => $service)
-                <div class="service-item relative rounded-[4px] py-6 sm:py-7 px-4 sm:px-8 cursor-pointer transition-all duration-500 ease-out overflow-hidden group"
-                     onclick="toggleServiceAccordion(this)">
+            <div class="services-list relative w-full">
+                @foreach($services as $index => $service)
+                    @php
+                        $imgUrl = $service->image
+                            ? (str_starts_with($service->image, 'assets/') ? asset($service->image) : asset('storage/' . $service->image))
+                            : asset('assets/services/' . \Illuminate\Support\Str::slug($service->title) . '.png');
+                    @endphp
+                    <div class="service-item relative py-4 sm:py-5 lg:py-5 px-4 sm:px-8 cursor-pointer select-none group"
+                         data-service-index="{{ $index }}"
+                         data-service-image="{{ $imgUrl }}">
 
-                    <!-- Expanding Luminous Radial Gradient Background on Hover & Active -->
-                    <div class="service-bg absolute inset-0 pointer-events-none rounded-[4px]"
-                         style="background: radial-gradient(circle at 50% 50%, #f7f7f2 0%, #eaeae4 100%);"></div>
-
-                    <!-- Row Content relative on top of bg -->
-                    <div class="relative z-10 w-full">
-                        <!-- Row Header -->
-                        <div class="flex items-center justify-between gap-6">
-                            <!-- Left: Title -->
+                        <!-- Row Content -->
+                        <div class="relative z-10 w-full flex items-center justify-between">
+                            <!-- Left: Title (TeX Gyre Heros Bold 70px) -->
                             <div class="service-title-wrap min-w-0 flex-1">
-                                <span class="service-title block font-sans font-bold tracking-[-1px] sm:tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-3px] text-[clamp(1.75rem,4.86vw,4.375rem)] leading-tight">
+                                <span class="service-title block font-sans font-bold tracking-[-1px] sm:tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-3px] text-[clamp(1.75rem,4.5vw,4rem)] leading-[1.15] text-[#ddddd5] transition-all duration-300 ease-out group-hover:text-white group-hover:translate-x-3 sm:group-hover:translate-x-4">
                                     {{ __($service->title) }}
                                 </span>
                             </div>
+                        </div>
 
-                            <!-- Right: Category Tag + Short Minimalist Arrow (↗ rotates to ↘) -->
-                            <div class="flex items-center gap-6 sm:gap-10 flex-shrink-0">
-                                <span class="service-category hidden md:inline-block font-sans text-[12px] tracking-normal text-[#888888] font-normal transition-colors duration-500">
-                                    {{ __($service->category ?? 'Interface e experiência') }}
-                                </span>
-
-                                <!-- Short Minimalist Arrow with rounded caps (↗ in closed state, rotates to ↘ when opened) -->
-                                <div class="service-arrow-wrap flex items-center justify-center w-8 h-8 flex-shrink-0">
-                                    <svg class="service-arrow-icon w-5 h-5 sm:w-6 sm:sm-6 transform origin-center"
-                                         viewBox="0 0 24 24"
-                                         fill="none"
-                                         stroke="currentColor"
-                                         stroke-width="2.2"
-                                         stroke-linecap="round"
-                                         stroke-linejoin="round">
-                                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                                        <polyline points="13 6 19 12 13 18"></polyline>
-                                    </svg>
+                        <!-- Mobile Inline Preview (Touch devices < 1024px when tapped) -->
+                        <div class="service-mobile-preview lg:hidden max-h-0 opacity-0 overflow-hidden transition-all duration-400 ease-out">
+                            <div class="pt-4 pb-2 flex justify-start sm:justify-end">
+                                <div class="w-[180px] h-[230px] rounded-[2px] overflow-hidden bg-[#e2e2e2] shadow-xl border border-white/10">
+                                    <img src="{{ $imgUrl }}"
+                                         alt="{{ $service->title }}"
+                                         loading="lazy"
+                                         class="w-full h-full object-cover" />
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Expandable Body with CSS Grid transition (0 residual space when collapsed) -->
-                        <div class="service-accordion-grid">
-                            <div class="overflow-hidden">
-                                <!-- Aligned Expandable Content -->
-                                <div class="service-accordion-content pt-5 sm:pt-6 pb-6 sm:pb-5 space-y-6 sm:space-y-7 min-w-0">
-                                    <!-- Description (Framer-Motion RevealParagraph replica) -->
-                                    @php
-                                        $descWords = preg_split('/\s+/', trim(__($service->description ?? '')));
-                                    @endphp
-                                    <p class="service-desc font-sans text-base sm:text-lg lg:text-[1.375rem] text-[#888888] leading-relaxed font-normal max-w-3xl flex flex-wrap transition-colors duration-500">
-                                        @foreach($descWords as $wIdx => $word)
-                                            <span class="inline-block overflow-hidden mr-[0.3em] px-[0.03em] pb-1">
-                                                <span class="reveal-word inline-block"
-                                                      style="transition-delay: {{ 80 + ($wIdx * 15) }}ms;">
-                                                    {{ $word }}
-                                                </span>
-                                            </span>
-                                        @endforeach
-                                    </p>
-
-                                    <!-- Bottom Row: Deliverables Chips on Left, FALE CONOSCO Pill CTA on Right -->
-                                    <div class="service-bottom-row flex flex-col sm:flex-row sm:items-center justify-between gap-5 sm:gap-4 pt-2 pb-1">
-                                        <!-- Deliverables Chips -->
-                                        @php
-                                            $deliverables = is_array($service->deliverables)
-                                                ? $service->deliverables
-                                                : (is_string($service->deliverables) ? array_filter(array_map('trim', explode(',', $service->deliverables))) : []);
-                                        @endphp
-                                        @if(!empty($deliverables))
-                                            <div class="flex flex-wrap items-center gap-2">
-                                                @foreach($deliverables as $deliverable)
-                                                    <span class="service-chip px-3.5 py-1.5 rounded-[4px] text-xs font-normal border-0 text-[#ffffff] transition-all duration-500">
-                                                        {{ $deliverable }}
-                                                    </span>
-                                                @endforeach
-                                            </div>
-                                        @else
-                                            <div></div>
-                                        @endif
-
-                                        <!-- FALE CONOSCO Button with bottom-center ink fill -->
-                                        <div class="flex-shrink-0 pt-1 sm:pt-0">
-                                            <a href="#contato"
-                                               onclick="event.stopPropagation();"
-                                               class="service-cta-btn relative overflow-hidden inline-flex items-center justify-center px-6 py-2.5 rounded-[4px] border-[1.5px] text-[11px] sm:text-xs font-medium uppercase tracking-widest leading-none transition-all duration-300">
-                                                <span class="service-cta-ink" aria-hidden="true"></span>
-                                                <span class="service-cta-text relative z-10 transition-colors duration-300">{{ __('FALE CONOSCO') }}</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Bottom Delimiter Line of this service item -->
+                        <div class="service-line absolute bottom-0 left-0 right-0" aria-hidden="true"></div>
                     </div>
+                @endforeach
+            </div>
 
-                    <!-- Bottom Delimiter Line of this service card -->
-                    <div class="service-line absolute bottom-0 left-0 right-0" aria-hidden="true"></div>
+            <!-- Desktop Right-Aligned Mockup Preview Wrap (Smooth GSAP floating tracking matching bymonolog.com) -->
+            <div id="services-preview-wrap"
+                 class="services-preview-wrap absolute right-4 sm:right-8 lg:right-0 pointer-events-none z-20 hidden lg:block"
+                 style="width: 220px; top: 0px; will-change: transform;"
+                 aria-hidden="true">
+                <div class="services-preview-card w-[220px] h-[280px] rounded-[2px] overflow-hidden bg-[#e2e2e2] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7)] border border-white/10 relative">
+                    @foreach($services as $index => $service)
+                        @php
+                            $imgUrl = $service->image
+                                ? (str_starts_with($service->image, 'assets/') ? asset($service->image) : asset('storage/' . $service->image))
+                                : asset('assets/services/' . \Illuminate\Support\Str::slug($service->title) . '.png');
+                        @endphp
+                        <img src="{{ $imgUrl }}"
+                             alt="{{ $service->title }}"
+                             data-preview-index="{{ $index }}"
+                             class="service-preview-img absolute inset-0 w-full h-full object-cover opacity-0 pointer-events-none" />
+                    @endforeach
                 </div>
-            @endforeach
+            </div>
         </div>
 
     </div>
 </section>
 
 <script>
-function toggleServiceAccordion(element) {
-    const isOpen = element.classList.contains('is-active');
+(function() {
+    function initServicesInteractive() {
+        const wrapper = document.getElementById('services-wrapper');
+        if (!wrapper || wrapper._servicesInitialized) return;
+        wrapper._servicesInitialized = true;
 
-    // Close all items
-    document.querySelectorAll('.service-item').forEach(item => {
-        item.classList.remove('is-active');
-    });
+        const items = wrapper.querySelectorAll('.service-item');
+        const previewWrap = document.getElementById('services-preview-wrap');
+        const previewImgs = previewWrap ? previewWrap.querySelectorAll('.service-preview-img') : [];
 
-    // Toggle clicked item if it was closed
-    if (!isOpen) {
-        element.classList.add('is-active');
+        if (!items.length || !previewWrap) return;
+
+        const gsap = window.gsap;
+        let isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+        let isFirst = true;
+
+        window.addEventListener('resize', function() {
+            isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+        }, { passive: true });
+
+        function getRowCenterY(itemEl) {
+            const wrapperRect = wrapper.getBoundingClientRect();
+            const itemRect = itemEl.getBoundingClientRect();
+            return (itemRect.top - wrapperRect.top) + (itemRect.height / 2);
+        }
+
+        function setActiveService(index, itemEl) {
+            // Highlight active item, dim others to 0.3
+            items.forEach(function(item, idx) {
+                const isActive = (idx === index);
+                item.classList.toggle('is-hovered', isActive);
+                if (gsap) {
+                    gsap.to(item, {
+                        opacity: isActive ? 1 : 0.3,
+                        duration: 0.25,
+                        ease: 'power2.out',
+                        overwrite: 'auto'
+                    });
+                } else {
+                    item.style.opacity = isActive ? '1' : '0.3';
+                }
+            });
+
+            // Crossfade preview images
+            previewImgs.forEach(function(img) {
+                const imgIdx = parseInt(img.getAttribute('data-preview-index'), 10);
+                const isActive = (imgIdx === index);
+                if (gsap) {
+                    gsap.to(img, {
+                        opacity: isActive ? 1 : 0,
+                        duration: 0.25,
+                        ease: 'power2.out',
+                        overwrite: 'auto'
+                    });
+                } else {
+                    img.style.opacity = isActive ? '1' : '0';
+                }
+            });
+
+            // Glide previewWrap fluidly to the row's center (no bottom clamping, extends symmetrically)
+            if (itemEl && isDesktop) {
+                const targetY = getRowCenterY(itemEl);
+
+                if (isFirst) {
+                    isFirst = false;
+                    if (gsap) {
+                        gsap.set(previewWrap, { y: targetY });
+                        gsap.to(previewWrap, { opacity: 1, duration: 0.4, ease: 'power2.out' });
+                    } else {
+                        previewWrap.style.transform = 'translate3d(0, ' + targetY + 'px, 0)';
+                        previewWrap.style.opacity = '1';
+                    }
+                } else {
+                    if (gsap) {
+                        gsap.to(previewWrap, {
+                            y: targetY,
+                            duration: 0.85,
+                            ease: 'ease-transition',
+                            overwrite: 'auto'
+                        });
+                    } else {
+                        previewWrap.style.transform = 'translate3d(0, ' + targetY + 'px, 0)';
+                    }
+                }
+            }
+        }
+
+        function resetServiceOpacity() {
+            // Restore all items to full opacity when cursor leaves the wrapper
+            items.forEach(function(item) {
+                item.classList.remove('is-hovered');
+                if (gsap) {
+                    gsap.to(item, { opacity: 1, duration: 0.35, ease: 'power2.out', overwrite: 'auto' });
+                } else {
+                    item.style.opacity = '1';
+                }
+            });
+        }
+
+        // Initialize with first service active on desktop (matching Monolog)
+        if (isDesktop && items[0]) {
+            setActiveService(0, items[0]);
+        }
+
+        items.forEach(function(item) {
+            const index = parseInt(item.getAttribute('data-service-index'), 10);
+
+            item.addEventListener('mouseenter', function() {
+                if (isDesktop) {
+                    setActiveService(index, item);
+                }
+            });
+
+            // Mobile/tablet touch tap
+            item.addEventListener('click', function() {
+                if (!isDesktop) {
+                    const mobilePreview = item.querySelector('.service-mobile-preview');
+                    const wasOpen = item.classList.contains('is-mobile-open');
+
+                    items.forEach(function(other) {
+                        other.classList.remove('is-mobile-open');
+                        const mp = other.querySelector('.service-mobile-preview');
+                        if (mp) {
+                            mp.style.maxHeight = '0px';
+                            mp.classList.remove('opacity-100');
+                            mp.classList.add('opacity-0');
+                        }
+                    });
+
+                    if (!wasOpen && mobilePreview) {
+                        item.classList.add('is-mobile-open');
+                        mobilePreview.style.maxHeight = '300px';
+                        mobilePreview.classList.remove('opacity-0');
+                        mobilePreview.classList.add('opacity-100');
+                    }
+                }
+            });
+        });
+
+        wrapper.addEventListener('mouseleave', function() {
+            if (isDesktop) {
+                resetServiceOpacity();
+            }
+        });
     }
 
-    // Refresh ScrollTrigger after accordion transition finishes
-    if (window.ScrollTrigger) {
-        setTimeout(() => window.ScrollTrigger.refresh(), 650);
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initServicesInteractive);
+    } else {
+        initServicesInteractive();
     }
-}
+
+    window.initServicesInteractive = initServicesInteractive;
+})();
 </script>
-
-
