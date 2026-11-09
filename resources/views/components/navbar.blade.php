@@ -1,124 +1,116 @@
-<header id="site-header" class="fixed top-0 left-0 w-full z-40 transition-all duration-300 bg-[#101010] border-b border-white/[0.04]">
-    <div class="navbar-container relative w-full px-[clamp(1.5rem,3.125vw,3.5rem)] h-20 flex items-center justify-between">
-        <!-- Brand Logo: Monogram from Penpot -->
-        <a href="{{ app()->getLocale() === 'en' ? url('/en') : url('/') }}" class="flex items-center gap-3 group focus:outline-none flex-shrink-0" aria-label="{{ __('Estúdio Norra Início') }}">
-            <div class="w-8 h-8 text-[#ddddd5] group-hover:text-white transition-colors duration-300 flex-shrink-0">
-                <svg width="100%" height="100%" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M29.9912 0C13.4453 0 0 13.5015 0 30.0762C1.65039 69.9746 58.3496 69.9746 60 30.0762C60 13.4834 46.5352 0 30.0088 0L29.9912 0ZM29.9912 57.6865C15.9395 57.6865 4.34668 47.0547 2.69629 33.4053C2.60449 32.6323 3.48535 32.1182 4.09082 32.5962L28.5234 52.1499C29.0928 52.6094 29.918 52.2056 29.918 51.4692L29.918 20.0508C29.8994 19.0938 31.2197 18.8545 31.5498 19.7559L43.9131 52.9775C44.0605 53.3828 43.9131 53.8237 43.5459 54.0444C39.5293 56.3438 34.9248 57.6689 29.9912 57.6689L29.9912 57.6865ZM49.2686 49.354L47.8203 49.354C47.4717 49.354 47.1787 49.1338 47.0312 48.8203L30.9453 11.3682C30.6143 10.5957 29.4951 10.7061 29.3125 11.5151L22.9473 40.4141C22.8193 40.9834 22.1582 41.2783 21.6631 40.9658L4.12793 30.2778C3.08203 29.6343 2.51172 28.4385 2.64258 27.2251C4.10938 12.8398 16.6182 1.69238 31.5137 2.50146C45.2334 3.23779 57.3037 15.8745 57.5059 29.6528C57.6152 37.1763 54.6992 44.0195 49.9111 49.0596C49.7461 49.2432 49.5088 49.3354 49.2686 49.3354L49.2686 49.354Z" fill="currentColor"/>
-                </svg>
-            </div>
-            <span class="font-display font-bold text-sm tracking-widest text-[#ddddd5] uppercase group-hover:text-white transition-colors duration-300 hidden sm:inline-block">
-                ESTÚDIO NORRA
-            </span>
+<header id="site-header" class="relative w-full site-container pt-4 sm:pt-[1.3125rem] pb-4 sm:pb-[1.3125rem] min-h-[5rem] sm:min-h-[6.125rem] flex items-center justify-between z-40 bg-[#f6f6f6]">
+    <!-- Brand Logo: Exact 114x77 SVG from Penpot at x=45, y=21 -->
+    <a href="{{ app()->getLocale() === 'en' ? url('/en') : url('/') }}" class="flex items-center group focus:outline-none flex-shrink-0" aria-label="A.VICZ">
+        <img src="{{ asset('assets/logos/vicz-logo.svg') }}" alt="A.VICZ" class="w-[5.5rem] h-[3.71rem] sm:w-[7.125rem] sm:h-[4.8125rem] object-contain select-none transition-transform duration-300 group-hover:scale-105" />
+    </a>
+
+    <!-- Desktop Navigation Links (Penpot: Column 5 start at x=482px / 30.125rem, compact 10px / 0.625rem gap, TeX Gyre Heros Bold 16px) -->
+    <nav class="hidden md:flex lg:absolute lg:left-[30.125rem] lg:top-1/2 lg:-translate-y-1/2 items-center gap-2.5 lg:gap-[0.625rem]">
+        <a href="{{ request()->routeIs('home', 'en.home') ? '#hero' : (app()->getLocale() === 'en' ? url('/en#hero') : url('/#hero')) }}" class="vicz-nav-link">
+            {{ app()->getLocale() === 'en' ? 'About' : 'Sobre' }}
         </a>
+        <a href="{{ request()->routeIs('home', 'en.home') ? '#expertise' : (app()->getLocale() === 'en' ? url('/en#expertise') : url('/#expertise')) }}" class="vicz-nav-link">
+            {{ app()->getLocale() === 'en' ? 'Services' : 'Serviços' }}
+        </a>
+        <a href="{{ request()->routeIs('home', 'en.home') ? '#projects' : (app()->getLocale() === 'en' ? url('/en#projects') : url('/#projects')) }}" class="vicz-nav-link">
+            {{ app()->getLocale() === 'en' ? 'Projects' : 'Projetos' }}
+        </a>
+        <a href="{{ request()->routeIs('home', 'en.home') ? '#jornada' : (app()->getLocale() === 'en' ? url('/en#jornada') : url('/#jornada')) }}" class="vicz-nav-link">
+            {{ app()->getLocale() === 'en' ? 'Process' : 'Processo' }}
+        </a>
+    </nav>
 
-        <!-- Desktop Navigation Links (Penpot Minimalist Menu - Centered & Balanced Spacing with Monolog Roll Hover) -->
-        <nav class="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
-            <a href="{{ request()->routeIs('home', 'en.home') ? '#expertise' : (app()->getLocale() === 'en' ? url('/en#expertise') : url('/#expertise')) }}" class="nav-roll-link font-sans font-bold text-[16px] tracking-[-1px] text-[#ddddd5] py-2">
-                <span class="nav-roll-contain">
-                    <span class="nav-roll-text">{{ __('Serviços') }}</span>
-                </span>
+    <!-- Right Side: Language Switcher and Contact CTA -->
+    <div class="flex items-center gap-2 sm:gap-3 lg:gap-[1.375rem] flex-shrink-0">
+        <!-- Language Switcher (EN | PT) matching Penpot dual-box design -->
+        <div class="vicz-lang-switcher" role="group" aria-label="{{ __('Idioma / Language') }}">
+            <a href="{{ $urlEn ?? url('/en') }}"
+               class="vicz-lang-btn {{ app()->getLocale() === 'en' ? 'is-active' : '' }}"
+               aria-label="English"
+               aria-current="{{ app()->getLocale() === 'en' ? 'true' : 'false' }}">
+                <span>EN</span>
             </a>
-            <a href="{{ route(app()->getLocale() === 'en' ? 'en.projects.index' : 'projects.index') }}" class="nav-roll-link font-sans font-bold text-[16px] tracking-[-1px] text-[#ddddd5] py-2">
-                <span class="nav-roll-contain">
-                    <span class="nav-roll-text">{{ __('Projetos') }}</span>
-                </span>
+            <a href="{{ $urlPt ?? url('/') }}"
+               class="vicz-lang-btn {{ app()->getLocale() !== 'en' ? 'is-active' : '' }}"
+               aria-label="Português"
+               aria-current="{{ app()->getLocale() !== 'en' ? 'true' : 'false' }}">
+                <span>PT</span>
             </a>
-            <a href="{{ request()->routeIs('home', 'en.home') ? '#jornada' : (app()->getLocale() === 'en' ? url('/en#jornada') : url('/#jornada')) }}" class="nav-roll-link font-sans font-bold text-[16px] tracking-[-1px] text-[#ddddd5] py-2">
-                <span class="nav-roll-contain">
-                    <span class="nav-roll-text">{{ __('Processo') }}</span>
-                </span>
-            </a>
-        </nav>
-
-        <!-- Right Side CTA & Mobile Layout -->
-        <div class="nav-right-cluster flex items-center gap-3 flex-shrink-0">
-            <!-- Language Switcher (PT | EN) -->
-            <div class="nav-lang-switcher flex items-center text-xs font-sans tracking-wider border border-white/10 rounded-full px-2.5 py-1 bg-white/[0.04] select-none flex-shrink-0">
-                <a href="{{ $urlPt ?? url('/') }}"
-                   class="px-1.5 py-0.5 rounded transition-colors duration-200 {{ app()->getLocale() !== 'en' ? 'text-white font-bold' : 'text-[#ddddd5]/50 hover:text-white' }}"
-                   aria-label="Português">
-                    PT
-                </a>
-                <span class="text-white/20 select-none text-[10px]">|</span>
-                <a href="{{ $urlEn ?? url('/en') }}"
-                   class="px-1.5 py-0.5 rounded transition-colors duration-200 {{ app()->getLocale() === 'en' ? 'text-white font-bold' : 'text-[#ddddd5]/50 hover:text-white' }}"
-                   aria-label="English">
-                    EN
-                </a>
-            </div>
-
-            <x-btn-cta :text="__('Iniciar Projeto')" size="sm" class="nav-cta-btn" />
-
-            <!-- Mobile Hamburger Button (clean toggle without any focus ring/circle) -->
-            <button id="mobile-menu-btn"
-                    type="button"
-                    class="md:hidden relative w-10 h-10 inline-flex items-center justify-center text-[#ddddd5] hover:text-white outline-none focus:outline-none focus:ring-0 active:ring-0 focus-visible:outline-none border-none bg-transparent hover:bg-transparent active:bg-transparent transition-colors cursor-pointer select-none flex-shrink-0"
-                    style="-webkit-tap-highlight-color: transparent;"
-                    aria-controls="mobile-menu"
-                    aria-expanded="false"
-                    aria-label="{{ __('Abrir Menu') }}">
-                <span class="relative w-6 h-6 flex items-center justify-center pointer-events-none">
-                    <svg id="hamburger-icon" class="w-6 h-6 absolute inset-0 transition-all duration-300 transform opacity-100 rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
-                    </svg>
-                    <svg id="close-icon" class="w-6 h-6 absolute inset-0 transition-all duration-300 transform opacity-0 rotate-90 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </span>
-            </button>
         </div>
+
+        <!-- Contact CTA matching Penpot BOTÃO DE CONTATO with suction animation -->
+        <button type="button"
+                onclick="openContactModal()"
+                data-contact-modal-trigger
+                class="vicz-suction-btn"
+                aria-label="{{ app()->getLocale() === 'en' ? 'Get in touch' : 'Fale Conosco' }}">
+            <span class="vicz-suction-icon vicz-suction-icon--left" aria-hidden="true">
+                <svg viewBox="0 0 14 14" fill="none" class="w-3.5 h-3.5 stroke-current stroke-[2.2]" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2.5 11.5L11.5 2.5M11.5 2.5H4.5M11.5 2.5V9.5"/>
+                </svg>
+            </span>
+            <span class="vicz-suction-text">
+                {{ app()->getLocale() === 'en' ? 'Get in touch' : 'Fale Conosco' }}
+            </span>
+            <span class="vicz-suction-icon vicz-suction-icon--right" aria-hidden="true">
+                <svg viewBox="0 0 14 14" fill="none" class="w-3.5 h-3.5 stroke-current stroke-[2.2]" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2.5 11.5L11.5 2.5M11.5 2.5H4.5M11.5 2.5V9.5"/>
+                </svg>
+            </span>
+        </button>
+
+        <!-- Mobile Hamburger Button -->
+        <button id="mobile-menu-btn"
+                type="button"
+                class="md:hidden relative w-9 h-9 inline-flex items-center justify-center text-[#101010] outline-none border border-[#101010]/20 rounded-[2px] bg-transparent transition-colors cursor-pointer select-none flex-shrink-0"
+                aria-controls="mobile-menu"
+                aria-expanded="false"
+                aria-label="{{ __('Abrir Menu') }}">
+            <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
+            </svg>
+        </button>
     </div>
 
     <!-- Mobile Navigation Drawer -->
-    <div id="mobile-menu" class="hidden md:hidden overflow-hidden bg-[#101010] border-b border-white/10 w-full shadow-2xl">
-        <div class="px-6 sm:px-8 pt-6 pb-8 space-y-6">
-            <!-- Mobile Language Switcher Row -->
-            <div class="flex items-center justify-between pb-3 border-b border-white/10">
+    <div id="mobile-menu" class="hidden fixed inset-x-0 top-20 bg-[#f6f6f6] border-b border-[#101010]/15 w-full shadow-2xl z-50">
+        <div class="px-6 py-8 space-y-6">
+            <div class="flex items-center justify-between pb-3 border-b border-[#101010]/10">
                 <span class="text-xs uppercase tracking-widest text-[#888888] font-sans">{{ __('Idioma / Language') }}</span>
-                <div class="nav-lang-switcher flex items-center text-xs font-sans tracking-wider border border-white/10 rounded-full px-2.5 py-1 bg-white/[0.04]">
-                    <a href="{{ $urlPt ?? url('/') }}"
-                       class="px-2 py-0.5 rounded transition-colors {{ app()->getLocale() !== 'en' ? 'text-white font-bold' : 'text-[#ddddd5]/50 hover:text-white' }}">
-                        PT
-                    </a>
-                    <span class="text-white/20 select-none text-[10px]">|</span>
+                <div class="vicz-lang-switcher" role="group" aria-label="{{ __('Idioma / Language') }}">
                     <a href="{{ $urlEn ?? url('/en') }}"
-                       class="px-2 py-0.5 rounded transition-colors {{ app()->getLocale() === 'en' ? 'text-white font-bold' : 'text-[#ddddd5]/50 hover:text-white' }}">
-                        EN
+                       class="vicz-lang-btn {{ app()->getLocale() === 'en' ? 'is-active' : '' }}"
+                       aria-label="English"
+                       aria-current="{{ app()->getLocale() === 'en' ? 'true' : 'false' }}">
+                        <span>EN</span>
+                    </a>
+                    <a href="{{ $urlPt ?? url('/') }}"
+                       class="vicz-lang-btn {{ app()->getLocale() !== 'en' ? 'is-active' : '' }}"
+                       aria-label="Português"
+                       aria-current="{{ app()->getLocale() !== 'en' ? 'true' : 'false' }}">
+                        <span>PT</span>
                     </a>
                 </div>
             </div>
 
-            <nav class="flex flex-col">
-                <div class="mobile-nav-item border-b border-white/10 pb-5">
-                    <a href="{{ request()->routeIs('home', 'en.home') ? '#expertise' : (app()->getLocale() === 'en' ? url('/en#expertise') : url('/#expertise')) }}"
-                       class="mobile-nav-link font-sans font-bold text-3xl sm:text-4xl tracking-[-0.5px] sm:tracking-[-1px] md:tracking-[-1.5px] leading-tight text-[#ddddd5] hover:text-white transition-colors duration-200 block">
-                        {{ __('Serviços') }}
-                    </a>
-                </div>
-                <div class="mobile-nav-item border-b border-white/10 py-5">
-                    <a href="{{ route(app()->getLocale() === 'en' ? 'en.projects.index' : 'projects.index') }}"
-                       class="mobile-nav-link font-sans font-bold text-3xl sm:text-4xl tracking-[-0.5px] sm:tracking-[-1px] md:tracking-[-1.5px] leading-tight text-[#ddddd5] hover:text-white transition-colors duration-200 block">
-                        {{ __('Projetos') }}
-                    </a>
-                </div>
-                <div class="mobile-nav-item border-b border-white/10 py-5">
-                    <a href="{{ request()->routeIs('home', 'en.home') ? '#jornada' : (app()->getLocale() === 'en' ? url('/en#jornada') : url('/#jornada')) }}"
-                       class="mobile-nav-link font-sans font-bold text-3xl sm:text-4xl tracking-[-0.5px] sm:tracking-[-1px] md:tracking-[-1.5px] leading-tight text-[#ddddd5] hover:text-white transition-colors duration-200 block">
-                        {{ __('Processo') }}
-                    </a>
-                </div>
+            <nav class="flex flex-col space-y-4">
+                <a href="{{ request()->routeIs('home', 'en.home') ? '#hero' : (app()->getLocale() === 'en' ? url('/en#hero') : url('/#hero')) }}"
+                   class="font-sans font-bold text-2xl tracking-[-0.055em] text-[#101010]">
+                    {{ app()->getLocale() === 'en' ? 'About' : 'Sobre' }}
+                </a>
+                <a href="{{ request()->routeIs('home', 'en.home') ? '#expertise' : (app()->getLocale() === 'en' ? url('/en#expertise') : url('/#expertise')) }}"
+                   class="font-sans font-bold text-2xl tracking-[-0.055em] text-[#101010]">
+                    {{ app()->getLocale() === 'en' ? 'Services' : 'Serviços' }}
+                </a>
+                <a href="{{ request()->routeIs('home', 'en.home') ? '#projects' : (app()->getLocale() === 'en' ? url('/en#projects') : url('/#projects')) }}"
+                   class="font-sans font-bold text-2xl tracking-[-0.055em] text-[#101010]">
+                    {{ app()->getLocale() === 'en' ? 'Projects' : 'Projetos' }}
+                </a>
+                <a href="{{ request()->routeIs('home', 'en.home') ? '#jornada' : (app()->getLocale() === 'en' ? url('/en#jornada') : url('/#jornada')) }}"
+                   class="font-sans font-bold text-2xl tracking-[-0.055em] text-[#101010]">
+                    {{ app()->getLocale() === 'en' ? 'Process' : 'Processo' }}
+                </a>
             </nav>
-
-            <div id="mobile-menu-footer" class="pt-2">
-                <span class="text-xs sm:text-sm font-sans text-[#888888]">contato@estudionorra.com</span>
-            </div>
         </div>
     </div>
 </header>
-
-<!-- Mobile Menu Backdrop Blur Overlay (gentle darkening and blur on rest of site) -->
-<div id="mobile-menu-backdrop"
-     class="fixed inset-0 top-20 z-30 bg-black/40 backdrop-blur-[4px] opacity-0 pointer-events-none hidden md:hidden"
-     aria-hidden="true"></div>
-

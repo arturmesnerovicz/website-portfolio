@@ -3,7 +3,7 @@
 @section('content')
     <!-- MUP3 Special Showcase Section: Clean Apple-like solid aesthetic matching References -->
     <section id="mup3-presentation" data-bg="dark" class="pt-28 sm:pt-36 lg:pt-44 pb-20 sm:pb-28 lg:pb-32 bg-[#101010] text-[#f5f5f5] relative w-full overflow-hidden select-none">
-        <div class="w-full px-4 sm:px-6 lg:px-[clamp(1.5rem,3.125vw,3.5rem)]">
+        <div class="w-full site-container">
 
             <!-- Top Centered Header (Exact composition from Reference 2) -->
             <div class="max-w-4xl mx-auto text-center flex flex-col items-center">

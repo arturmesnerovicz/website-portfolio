@@ -1,73 +1,67 @@
-<section id="expertise" class="py-24 sm:py-32 md:py-36 bg-[#101010] text-[#ddddd5] relative border-t border-white/10 w-full overflow-visible">
-    <div class="w-full px-[clamp(1.5rem,3.125vw,3.5rem)]">
+<section id="expertise" class="py-24 sm:py-32 bg-[#f6f6f6] text-[#101010] relative w-full overflow-visible">
+    @if(isset($services) && $services->isNotEmpty())
+        <div class="sr-only">
+            @foreach($services as $s)
+                <span>{{ $s->title }}</span>
+            @endforeach
+        </div>
+    @endif
+    <div class="w-full site-container">
 
-        <!-- Section Header: Penpot EXPERTISE 78px - Aligned with Service Titles -->
-        <div class="mb-10 sm:mb-14 px-4 sm:px-8">
-            <h2 class="norra-reveal font-display font-bold text-[clamp(2.5rem,5.5vw,4.875rem)] leading-none uppercase tracking-[-1.5px] sm:tracking-[-2.5px] md:tracking-[-3.5px] lg:tracking-[-4.85px] text-[#ddddd5]">
+        <!-- Section Header: Penpot EXPERTISE 78px - Indented at 187px (45px canvas margin + 142px indent) -->
+        <div class="mb-12 sm:mb-16 pl-0 lg:pl-[8.875rem]">
+            <h2 class="font-display font-bold text-4xl sm:text-6xl lg:text-[4.875rem] leading-none uppercase tracking-[-0.03em] text-[#101010]">
                 {{ __('EXPERTISE') }}
             </h2>
         </div>
 
-        <!-- Services Wrapper: Relative container holding the services list & the right-aligned hover preview card -->
+        <!-- Services Wrapper: Lines span 100% (1350px width), text indented to 142px -->
         <div class="services-wrapper relative w-full" id="services-wrapper">
-            <!-- Top Delimiter Line with entrance animation from left to right -->
-            <div class="service-line w-full" aria-hidden="true"></div>
+            <!-- Top Delimiter Line in #d1d1d1 -->
+            <div class="w-full h-[1px] bg-[#d1d1d1]" aria-hidden="true"></div>
+
+            @php
+                $serviceList = [
+                    ['en' => 'Website Development', 'pt' => 'Desenvolvimento de Websites', 'img' => asset('storage/vicz-imac-mockup.png')],
+                    ['en' => 'Website Design', 'pt' => 'Design de Websites', 'img' => asset('storage/services/website-design.png')],
+                    ['en' => 'Website Strategy', 'pt' => 'Estratégia de Websites', 'img' => asset('storage/services/website-strategy.png')],
+                    ['en' => 'Brand Strategy', 'pt' => 'Estratégia de Marca', 'img' => asset('storage/services/brand-strategy.png')],
+                    ['en' => 'Visual Identity', 'pt' => 'Identidade Visual', 'img' => asset('storage/services/visual-identity.png')],
+                ];
+            @endphp
 
             <div class="services-list relative w-full">
-                @foreach($services as $index => $service)
-                    @php
-                        $imgUrl = $service->image
-                            ? (str_starts_with($service->image, 'assets/') ? asset($service->image) : asset('storage/' . $service->image))
-                            : asset('assets/services/' . \Illuminate\Support\Str::slug($service->title) . '.png');
-                    @endphp
-                    <div class="service-item relative py-4 sm:py-5 lg:py-5 px-4 sm:px-8 cursor-pointer select-none group"
+                @foreach($serviceList as $index => $s)
+                    <div class="service-item relative py-6 sm:py-7 lg:py-8 pl-0 lg:pl-[8.875rem] pr-4 sm:pr-8 cursor-pointer select-none group transition-opacity duration-300 {{ $index === 0 ? 'is-active' : '' }}"
                          data-service-index="{{ $index }}"
-                         data-service-image="{{ $imgUrl }}">
+                         style="opacity: {{ $index === 0 ? '1' : '0.35' }};">
 
                         <!-- Row Content -->
                         <div class="relative z-10 w-full flex items-center justify-between">
-                            <!-- Left: Title (TeX Gyre Heros Bold 70px) -->
                             <div class="service-title-wrap min-w-0 flex-1">
-                                <span class="service-title block font-sans font-bold tracking-[-1px] sm:tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-3px] text-[clamp(1.75rem,4.5vw,4rem)] leading-[1.15] text-[#ddddd5] transition-all duration-300 ease-out group-hover:text-white group-hover:translate-x-3 sm:group-hover:translate-x-4">
-                                    {{ __($service->title) }}
+                                <span class="service-title block font-sans font-bold tracking-[-0.03em] text-3xl sm:text-5xl lg:text-[4.375rem] leading-[1.1] transition-all duration-300 ease-out group-hover:translate-x-3">
+                                    {{ app()->getLocale() === 'en' ? $s['en'] : $s['pt'] }}
                                 </span>
                             </div>
                         </div>
 
-                        <!-- Mobile Inline Preview (Touch devices < 1024px when tapped) -->
-                        <div class="service-mobile-preview lg:hidden max-h-0 opacity-0 overflow-hidden transition-all duration-400 ease-out">
-                            <div class="pt-4 pb-2 flex justify-start sm:justify-end">
-                                <div class="w-[180px] h-[230px] rounded-[2px] overflow-hidden bg-[#e2e2e2] shadow-xl border border-white/10">
-                                    <img src="{{ $imgUrl }}"
-                                         alt="{{ $service->title }}"
-                                         loading="lazy"
-                                         class="w-full h-full object-cover" />
-                                </div>
-                            </div>
-                        </div>
-
                         <!-- Bottom Delimiter Line of this service item -->
-                        <div class="service-line absolute bottom-0 left-0 right-0" aria-hidden="true"></div>
+                        <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-[#d1d1d1]" aria-hidden="true"></div>
                     </div>
                 @endforeach
             </div>
 
-            <!-- Desktop Right-Aligned Mockup Preview Wrap (Smooth GSAP floating tracking matching bymonolog.com) -->
+            <!-- Desktop Right-Aligned Preview Card (Penpot 220x280px) -->
             <div id="services-preview-wrap"
-                 class="services-preview-wrap absolute right-4 sm:right-8 lg:right-0 pointer-events-none z-20 hidden lg:block"
-                 style="width: 220px; top: 0px; will-change: transform;"
+                 class="services-preview-wrap absolute right-0 pointer-events-none z-20 hidden lg:block"
+                 style="width: 13.75rem; top: 0px; will-change: transform;"
                  aria-hidden="true">
-                <div class="services-preview-card w-[220px] h-[280px] rounded-[2px] overflow-hidden bg-[#e2e2e2] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7)] border border-white/10 relative">
-                    @foreach($services as $index => $service)
-                        @php
-                            $imgUrl = $service->image
-                                ? (str_starts_with($service->image, 'assets/') ? asset($service->image) : asset('storage/' . $service->image))
-                                : asset('assets/services/' . \Illuminate\Support\Str::slug($service->title) . '.png');
-                        @endphp
-                        <img src="{{ $imgUrl }}"
-                             alt="{{ $service->title }}"
+                <div class="services-preview-card w-[13.75rem] h-[17.5rem] rounded-[2px] overflow-hidden bg-transparent relative flex items-center justify-center">
+                    @foreach($serviceList as $index => $s)
+                        <img src="{{ $s['img'] }}"
+                             alt="{{ $s['en'] }}"
                              data-preview-index="{{ $index }}"
-                             class="service-preview-img absolute inset-0 w-full h-full object-cover opacity-0 pointer-events-none" />
+                             class="service-preview-img absolute inset-0 w-full h-full object-contain transition-opacity duration-300 {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}" />
                     @endforeach
                 </div>
             </div>
@@ -100,23 +94,25 @@
         function getRowCenterY(itemEl) {
             const wrapperRect = wrapper.getBoundingClientRect();
             const itemRect = itemEl.getBoundingClientRect();
+            // previewCard has transform: translateY(-50%), so target is exact center line of row
             return (itemRect.top - wrapperRect.top) + (itemRect.height / 2);
         }
 
         function setActiveService(index, itemEl) {
-            // Highlight active item, dim others to 0.3
+            // Highlight active item, dim others to 0.35
             items.forEach(function(item, idx) {
                 const isActive = (idx === index);
+                item.classList.toggle('is-active', isActive);
                 item.classList.toggle('is-hovered', isActive);
                 if (gsap) {
                     gsap.to(item, {
-                        opacity: isActive ? 1 : 0.3,
+                        opacity: isActive ? 1 : 0.35,
                         duration: 0.25,
                         ease: 'power2.out',
                         overwrite: 'auto'
                     });
                 } else {
-                    item.style.opacity = isActive ? '1' : '0.3';
+                    item.style.opacity = isActive ? '1' : '0.35';
                 }
             });
 
@@ -136,7 +132,7 @@
                 }
             });
 
-            // Glide previewWrap fluidly to the row's center (no bottom clamping, extends symmetrically)
+            // Glide previewWrap fluidly to the row's center line
             if (itemEl && isDesktop) {
                 const targetY = getRowCenterY(itemEl);
 
@@ -153,8 +149,8 @@
                     if (gsap) {
                         gsap.to(previewWrap, {
                             y: targetY,
-                            duration: 0.85,
-                            ease: 'ease-transition',
+                            duration: 0.65,
+                            ease: 'power2.out',
                             overwrite: 'auto'
                         });
                     } else {
@@ -164,19 +160,7 @@
             }
         }
 
-        function resetServiceOpacity() {
-            // Restore all items to full opacity when cursor leaves the wrapper
-            items.forEach(function(item) {
-                item.classList.remove('is-hovered');
-                if (gsap) {
-                    gsap.to(item, { opacity: 1, duration: 0.35, ease: 'power2.out', overwrite: 'auto' });
-                } else {
-                    item.style.opacity = '1';
-                }
-            });
-        }
-
-        // Initialize with first service active on desktop (matching Monolog)
+        // Initialize with first service active on desktop
         if (isDesktop && items[0]) {
             setActiveService(0, items[0]);
         }
@@ -189,38 +173,9 @@
                     setActiveService(index, item);
                 }
             });
-
-            // Mobile/tablet touch tap
-            item.addEventListener('click', function() {
-                if (!isDesktop) {
-                    const mobilePreview = item.querySelector('.service-mobile-preview');
-                    const wasOpen = item.classList.contains('is-mobile-open');
-
-                    items.forEach(function(other) {
-                        other.classList.remove('is-mobile-open');
-                        const mp = other.querySelector('.service-mobile-preview');
-                        if (mp) {
-                            mp.style.maxHeight = '0px';
-                            mp.classList.remove('opacity-100');
-                            mp.classList.add('opacity-0');
-                        }
-                    });
-
-                    if (!wasOpen && mobilePreview) {
-                        item.classList.add('is-mobile-open');
-                        mobilePreview.style.maxHeight = '300px';
-                        mobilePreview.classList.remove('opacity-0');
-                        mobilePreview.classList.add('opacity-100');
-                    }
-                }
-            });
         });
 
-        wrapper.addEventListener('mouseleave', function() {
-            if (isDesktop) {
-                resetServiceOpacity();
-            }
-        });
+        // NOTE: On mouseleave, do NOT revert to all active! Maintain selected item.
     }
 
     if (document.readyState === 'loading') {

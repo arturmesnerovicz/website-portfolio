@@ -1,8 +1,8 @@
-<footer data-bg="light" class="bg-[#ddddd5] text-[#101010] pt-16 sm:pt-20 pb-12 transition-colors border-t border-[#101010]/15">
-    <div class="w-full px-[clamp(1.5rem,3.125vw,3.5rem)]">
+<footer data-bg="light" class="bg-[#f6f6f6] text-[#101010] pt-16 sm:pt-20 pb-12 transition-colors border-t border-[#d1d1d1]">
+    <div class="w-full site-container">
         
         <!-- Top Section: Logo on Left, 3 Navigation Columns on Right -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start pb-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-[var(--site-gutter)] items-start pb-16">
             
             <!-- Left: Brand Logo & Wordmark matching Penpot -->
             <div class="lg:col-span-6 space-y-6">
@@ -82,7 +82,7 @@
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs sm:text-[14px] text-[#101010]/70 font-normal">
             <div class="space-y-1">
                 <p class="font-sans font-normal leading-[1.2]">@ {{ date('Y') }} ESTÚDIO NORRA</p>
-                <p class="font-sans font-normal tracking-normal text-[#101010]/60 leading-[1.2]">{{ __('MULTIDISCIPLINAR POR ESSÊNCIA - TODOS OS DIREITOS RESERVADOS') }}</p>
+                <p class="font-sans font-normal tracking-normal text-[#101010]/60 leading-[1.2]">{{ app()->getLocale() === 'en' ? 'MULTIDISCIPLINARY BY NATURE - ALL RIGHTS RESERVED' : 'MULTIDISCIPLINAR POR ESSÊNCIA - TODOS OS DIREITOS RESERVADOS' }}</p>
             </div>
             <div>
                 <p class="font-sans font-normal text-right leading-[1.2]">{{ __('Onde o conceito torna-se arte') }}</p>

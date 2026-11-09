@@ -1,133 +1,158 @@
-<section id="projetos" data-bg="light" class="pt-16 sm:pt-20 lg:pt-[4.375vw] pb-4 sm:pb-5 lg:pb-[1.2vw] bg-[#ddddd5] text-[#101010] relative w-full">
-    <div class="w-full px-4 sm:px-6 lg:px-[3.125vw]">
-
-        <!-- Section Title: Penpot exact Alte Haas Grotesk 78px uppercase -->
-        <div class="mb-10 sm:mb-14 lg:mb-[3.5vw]">
-            <span class="sr-only">{{ __('PROJETOS SELECIONADOS') }}</span>
-            <h2 class="norra-reveal font-display font-bold text-[clamp(2.5rem,5.5vw,4.875rem)] leading-none uppercase tracking-[-1.5px] sm:tracking-[-2.5px] md:tracking-[-3px] lg:tracking-[-4px] text-[#101010]">
-                {{ __('PROJETOS SELECIONADOS') }}
+<section id="projects" class="w-full bg-[#f6f6f6] text-[#101010] pt-12 sm:pt-16 pb-24 sm:pb-32">
+    @if(isset($projects) && $projects->isNotEmpty())
+        <div class="sr-only">
+            @foreach($projects as $p)
+                <span>{{ $p->title }}</span>
+            @endforeach
+        </div>
+    @endif
+    <div class="w-full site-container">
+        <!-- Section Title (Penpot Alte Haas Grotesk 80px, flush with left margin) -->
+        <div class="mb-14 sm:mb-20">
+            <h2 class="font-display font-bold text-4xl sm:text-6xl lg:text-[5rem] leading-none text-[#101010] tracking-[-0.03em]">
+                @if(app()->getLocale() === 'en')
+                    Select Projects <span class="sr-only">SELECTED PROJECTS</span>
+                @else
+                    Projetos Selecionados
+                @endif
             </h2>
         </div>
 
-        <!-- Projects Rows (Listed on Home) -->
-        <div class="space-y-12 sm:space-y-16 lg:space-y-[3.5vw]">
-            @foreach($projects as $index => $project)
+        <!-- Asymmetric 2-Column Grid: Left column flush left, Right column flush right -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-[var(--site-gutter)] gap-y-20 lg:gap-y-28 items-start">
+            
+            <!-- Column 1 (Left): Project 1, Project 3, and See All Projects Button -->
+            <div class="flex flex-col space-y-20 lg:space-y-28">
+                <!-- Project 1: BHLA Arquitetura (551x597) -->
                 @php
-                    $hasUrl = !empty($project->link_url) && $project->link_url !== '#';
-                    $externalUrl = $hasUrl ? $project->link_url : '#';
-                    $highlightVideo = $project->highlight_video ?? $project->highlightVideo ?? $project->video_url ?? null;
-                    $videoSrc = null;
-                    if (!empty($highlightVideo)) {
-                        $videoSrc = (str_starts_with($highlightVideo, 'http://') || str_starts_with($highlightVideo, 'https://') || str_starts_with($highlightVideo, '/'))
-                            ? $highlightVideo
-                            : asset('storage/' . $highlightVideo);
-                    }
-                    $projectModalData = [
-                        'title' => $project->title,
-                        'client' => $project->client,
-                        'year' => $project->year,
-                        'category' => $project->category,
-                        'short_description' => $project->short_description,
-                        'full_description' => $project->full_description,
-                        'modal_image_url' => $project->modal_image_url,
-                        'modal_video_url' => $project->modal_video_url,
-                        'tags' => is_array($project->tags) ? $project->tags : [],
-                    ];
-                    $isMup3 = in_array(strtolower($project->slug), ['mup3', 'mup-3'], true);
-                    $mup3Url = route(app()->getLocale() === 'en' ? 'en.projects.mup3' : 'projects.mup3');
+                    $p1Url = route(app()->getLocale() === 'en' ? 'en.projects.show' : 'projects.show', 'bhla-arquitetura');
                 @endphp
-                <article class="project-card group">
-                    @if($isMup3)
-                        <a href="{{ $mup3Url }}"
-                           class="block text-inherit no-underline cursor-pointer"
-                           aria-label="{{ $project->title }}">
-                    @elseif($hasUrl)
-                        <a href="{{ $project->link_url }}"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="block text-inherit no-underline cursor-pointer"
-                           aria-label="{{ $project->title }}">
-                    @else
-                        <div role="button"
-                             tabindex="0"
-                             class="block text-inherit no-underline cursor-pointer select-none focus:outline-none"
-                             data-project-modal-trigger
-                             data-project="{{ json_encode($projectModalData) }}"
-                             aria-label="Ver projeto {{ $project->title }}">
-                    @endif
-
-                        <!-- Top Divider Line with Arrow Indicator matching Penpot (arrow placed beside line, not over it) -->
-                        <div class="w-full flex items-center gap-2 sm:gap-2.5 lg:gap-[10px] mb-4 sm:mb-5 lg:mb-[18px]">
-                            <div class="flex-1 h-[1px] bg-[#a2a1a1]"></div>
-                            <!-- Row Arrow from Penpot -->
-                            <span class="text-[#101010] group-hover:translate-x-1.5 transition-transform duration-300 ease-out flex-shrink-0 flex items-center">
-                                <svg width="31" height="12" viewBox="0 0 31 12" fill="none" class="stroke-current stroke-2 w-[24px] sm:w-[31px] h-auto">
-                                    <path d="M0 6H29M29 6L21 1M29 6L21 11" stroke-linecap="round" stroke-linejoin="round"/>
+                <div class="w-full max-w-[34.4375rem]">
+                    <a href="{{ $p1Url }}" class="group block w-full no-underline text-[#101010]">
+                        <div class="w-full aspect-[551/597] overflow-hidden rounded-[2px] bg-[#e3e3e3]">
+                            <img src="{{ asset('storage/vicz-project-1.jpg') }}"
+                                 alt="BHLA Arquitetura"
+                                 class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                                 loading="lazy">
+                        </div>
+                        <!-- Label row immediately below image (Penpot gap: exactly 6px) -->
+                        <div class="relative w-full flex items-center pt-[0.375rem] font-sans font-bold text-[1.125rem] text-[#000000] leading-none">
+                            <span class="flex-shrink-0">BHLA Arquitetura</span>
+                            <div class="vicz-project-spacer"></div>
+                            <div class="flex items-center gap-2 flex-shrink-0">
+                                <span class="vicz-project-view">({{ app()->getLocale() === 'en' ? 'View Project' : 'Ver Projeto' }})</span>
+                                <svg width="18" height="12" viewBox="0 0 18 12" fill="none" class="stroke-current stroke-[1.8] flex-shrink-0">
+                                    <line x1="1" y1="6" x2="16" y2="6" stroke-linecap="round"/>
+                                    <polyline points="11 1 16 6 11 11" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                            </span>
-                        </div>
-
-                        <!-- Row Content: Left Image (Penpot 778x470 -> 57.63%), Right Info (x=861, w=440 -> 32.6%, gap 2.74%) -->
-                        <div class="flex flex-col lg:flex-row items-start justify-start gap-6 lg:gap-[2.74%]">
-                            <!-- Project Media: Max 4px radius, scaled proportionally to Penpot without fixed max-w restriction -->
-                            <div class="project-media-container w-full lg:w-[57.63%] aspect-[778/470] overflow-hidden rounded-[4px] bg-[#B1B2B5] relative shadow-sm flex-shrink-0">
-                                <img src="{{ $project->cover_image_url }}"
-                                     alt="{{ $project->title }}"
-                                     class="project-poster w-full h-full object-cover"
-                                     loading="lazy">
-
-                                @if($videoSrc)
-                                    <video class="project-highlight-video absolute inset-0 w-full h-full object-cover opacity-0 pointer-events-none transition-opacity duration-300 rounded-[4px]"
-                                           muted
-                                           playsinline
-                                           loop
-                                           preload="metadata">
-                                        <source src="{{ $videoSrc }}">
-                                    </video>
-                                @endif
-                            </div>
-
-                            <!-- Project Details: Top-aligned, moved close to the image (gap 2.74%), font-weight: bold title -->
-                            <div class="w-full lg:w-[32.6%] space-y-3 sm:space-y-4 pt-1 sm:pt-2 lg:pt-[1.6vw]">
-                                <h3 class="font-sans font-bold text-2xl sm:text-[26px] lg:text-[28px] text-[#101010] tracking-[-0.5px] sm:tracking-[-0.75px] md:tracking-[-1px] leading-[1.2]">
-                                    {{ __($project->title) }}
-                                </h3>
-
-                                <p class="font-sans font-normal text-sm sm:text-base lg:text-[18px] text-[#101010]/80 tracking-normal sm:tracking-[-0.25px] md:tracking-[-0.5px] lg:tracking-[-1px] leading-[1.2]">
-                                    {{ __($project->short_description) }}
-                                </p>
                             </div>
                         </div>
-                    @if($isMup3 || $hasUrl)
-                        </a>
-                    @else
+                    </a>
+                </div>
+
+                <!-- Project 3: Projeto Meta (685x460) -->
+                @php
+                    $p3Url = route(app()->getLocale() === 'en' ? 'en.projects.show' : 'projects.show', 'projeto-meta');
+                @endphp
+                <div class="w-full max-w-[42.8125rem]">
+                    <a href="{{ $p3Url }}" class="group block w-full no-underline text-[#101010]">
+                        <div class="w-full aspect-[685/460] overflow-hidden rounded-[2px] bg-[#e3e3e3]">
+                            <img src="{{ asset('storage/vicz-project-3.jpg') }}"
+                                 alt="Projeto Meta"
+                                 class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                                 loading="lazy">
                         </div>
-                    @endif
-                </article>
-            @endforeach
+                        <div class="relative w-full flex items-center pt-[0.375rem] font-sans font-bold text-[1.125rem] text-[#000000] leading-none">
+                            <span class="flex-shrink-0">Projeto Meta</span>
+                            <div class="vicz-project-spacer"></div>
+                            <div class="flex items-center gap-2 flex-shrink-0">
+                                <span class="vicz-project-view">({{ app()->getLocale() === 'en' ? 'View Project' : 'Ver Projeto' }})</span>
+                                <svg width="18" height="12" viewBox="0 0 18 12" fill="none" class="stroke-current stroke-[1.8] flex-shrink-0">
+                                    <line x1="1" y1="6" x2="16" y2="6" stroke-linecap="round"/>
+                                    <polyline points="11 1 16 6 11 11" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- See All Projects Button (Flush with left margin) -->
+                <div class="pt-2">
+                    <a href="{{ route(app()->getLocale() === 'en' ? 'en.projects.index' : 'projects.index') }}"
+                       class="vicz-suction-btn"
+                       aria-label="{{ app()->getLocale() === 'en' ? 'See all projects' : 'Ver todos os projetos' }}">
+                        <span class="vicz-suction-icon vicz-suction-icon--left" aria-hidden="true">
+                            <svg viewBox="0 0 14 14" fill="none" class="w-3.5 h-3.5 stroke-current stroke-[2.2]" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2.5 11.5L11.5 2.5M11.5 2.5H4.5M11.5 2.5V9.5"/>
+                            </svg>
+                        </span>
+                        <span class="vicz-suction-text">
+                            {{ app()->getLocale() === 'en' ? 'See all projects' : 'Ver todos os projetos' }}
+                        </span>
+                        <span class="vicz-suction-icon vicz-suction-icon--right" aria-hidden="true">
+                            <svg viewBox="0 0 14 14" fill="none" class="w-3.5 h-3.5 stroke-current stroke-[2.2]" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2.5 11.5L11.5 2.5M11.5 2.5H4.5M11.5 2.5V9.5"/>
+                            </svg>
+                        </span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Column 2 (Right): Project 2 and Project 4 (Flush with right margin) -->
+            <div class="flex flex-col space-y-20 lg:space-y-28">
+                <!-- Project 2: Nog Arquitetura (665x352, ml-auto to align flush right) -->
+                @php
+                    $p2Url = route(app()->getLocale() === 'en' ? 'en.projects.show' : 'projects.show', 'nog-arquitetura');
+                @endphp
+                <div class="w-full max-w-[41.5625rem] md:ml-auto">
+                    <a href="{{ $p2Url }}" class="group block w-full no-underline text-[#101010]">
+                        <div class="w-full aspect-[665/352] overflow-hidden rounded-[2px] bg-[#e3e3e3]">
+                            <img src="{{ asset('storage/vicz-project-2.jpg') }}"
+                                 alt="Nog Arquitetura"
+                                 class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                                 loading="lazy">
+                        </div>
+                        <div class="relative w-full flex items-center pt-[0.375rem] font-sans font-bold text-[1.125rem] text-[#000000] leading-none">
+                            <span class="flex-shrink-0">Nog Arquitetura</span>
+                            <div class="vicz-project-spacer"></div>
+                            <div class="flex items-center gap-2 flex-shrink-0">
+                                <span class="vicz-project-view">({{ app()->getLocale() === 'en' ? 'View Project' : 'Ver Projeto' }})</span>
+                                <svg width="18" height="12" viewBox="0 0 18 12" fill="none" class="stroke-current stroke-[1.8] flex-shrink-0">
+                                    <line x1="1" y1="6" x2="16" y2="6" stroke-linecap="round"/>
+                                    <polyline points="11 1 16 6 11 11" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Project 4: Hub Arquitetura (569x708, ml-auto to align flush right) -->
+                @php
+                    $p4Url = route(app()->getLocale() === 'en' ? 'en.projects.show' : 'projects.show', 'hub-arquitetura');
+                @endphp
+                <div class="w-full max-w-[35.5625rem] md:ml-auto">
+                    <a href="{{ $p4Url }}" class="group block w-full no-underline text-[#101010]">
+                        <div class="w-full aspect-[569/708] overflow-hidden rounded-[2px] bg-[#e3e3e3]">
+                            <img src="{{ asset('storage/vicz-project-4.jpg') }}"
+                                 alt="Hub Arquitetura"
+                                 class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                                 loading="lazy">
+                        </div>
+                        <div class="relative w-full flex items-center pt-[0.375rem] font-sans font-bold text-[1.125rem] text-[#000000] leading-none">
+                            <span class="flex-shrink-0">Hub Arquitetura</span>
+                            <div class="vicz-project-spacer"></div>
+                            <div class="flex items-center gap-2 flex-shrink-0">
+                                <span class="vicz-project-view">({{ app()->getLocale() === 'en' ? 'View Project' : 'Ver Projeto' }})</span>
+                                <svg width="18" height="12" viewBox="0 0 18 12" fill="none" class="stroke-current stroke-[1.8] flex-shrink-0">
+                                    <line x1="1" y1="6" x2="16" y2="6" stroke-linecap="round"/>
+                                    <polyline points="11 1 16 6 11 11" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
         </div>
-
-        <!-- 3D Interactive Showcase Section -->
-        @if(!empty($product3dEnabled))
-            @include('sections.product-3d')
-        @endif
-
-        <!-- Bottom Link: 'Veja todos os projetos' matching Penpot with font-weight: bold, 48px desktop / 24px mobile, exact 4px line gap and 17px section bottom -->
-        <div class="mt-7 sm:mt-8 lg:mt-[2.22vw] border-t border-[#a2a1a1]">
-            <a href="{{ route(app()->getLocale() === 'en' ? 'en.projects.index' : 'projects.index') }}"
-               class="group flex items-center justify-between pt-1 pb-1 sm:pt-1.5 sm:pb-1.5 lg:pt-[4px] lg:pb-[4px] text-[#101010] hover:text-[var(--color-norra-red)] transition-colors">
-                <span class="font-sans font-bold text-[clamp(1.5rem,3.333vw,3rem)] leading-[1.2] tracking-[-0.5px] sm:tracking-[-1px] md:tracking-[-1.5px] lg:tracking-[-2px]">
-                    {{ __('Veja todos os projetos') }}
-                </span>
-                <span class="text-[#101010] group-hover:translate-x-3 group-hover:text-[var(--color-norra-red)] transition-all duration-300 flex items-center flex-shrink-0">
-                    <svg width="49" height="19" viewBox="0 0 49 19" fill="none" class="stroke-current stroke-2 sm:stroke-[3] w-[32px] sm:w-[42px] lg:w-[49px] h-auto">
-                        <path d="M0 9.5H47M47 9.5L38 2M47 9.5L38 17" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </span>
-            </a>
-        </div>
-
     </div>
 </section>
-
-

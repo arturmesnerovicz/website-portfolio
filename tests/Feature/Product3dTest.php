@@ -24,7 +24,7 @@ class Product3dTest extends TestCase
         $this->seed(Product3dSeeder::class);
     }
 
-    public function test_home_page_renders_3d_section_when_enabled(): void
+    public function test_home_page_does_not_render_3d_section_in_new_design(): void
     {
         SiteSetting::updateOrCreate(
             ['key' => 'section_3d_enabled'],
@@ -34,9 +34,7 @@ class Product3dTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
-        $response->assertSee('id="experiencia-3d"', false);
-        $response->assertSee('id="product-3d-canvas"', false);
-        $response->assertSee('id="product-3d-data"', false);
+        $response->assertDontSee('id="experiencia-3d"', false);
     }
 
     public function test_home_page_hides_3d_section_when_disabled(): void
@@ -80,39 +78,21 @@ class Product3dTest extends TestCase
         $this->assertNotEmpty($firstPart['options']);
     }
 
-    public function test_english_route_loads_english_translations(): void
+    public function test_section_3d_view_renders_expected_canvas_and_controls(): void
     {
-        SiteSetting::updateOrCreate(
-            ['key' => 'section_3d_enabled'],
-            ['value' => '1', 'group' => 'product_3d', 'type' => 'boolean']
-        );
+        $payload = [
+            'enabled' => true,
+            'allowZoom' => true,
+            'initialModelSlug' => 'mock-model',
+            'models' => [],
+        ];
 
-        $response = $this->get('/en');
+        $rendered = view('sections.product-3d', ['product3dPayload' => $payload])->render();
 
-        $response->assertStatus(200);
-        $response->assertSee('id="experiencia-3d"', false);
-        $response->assertSee('DESIGN &amp; ENGINEERING', false);
-    }
-
-    public function test_section_3d_has_light_background_and_zoom_controls(): void
-    {
-        SiteSetting::updateOrCreate(
-            ['key' => 'section_3d_enabled'],
-            ['value' => '1', 'group' => 'product_3d', 'type' => 'boolean']
-        );
-        SiteSetting::updateOrCreate(
-            ['key' => 'section_3d_allow_zoom'],
-            ['value' => '1', 'group' => 'product_3d', 'type' => 'boolean']
-        );
-
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-        $response->assertSee('data-bg="light"', false);
-        $response->assertSee('bg-[#ddddd5]', false);
-        $response->assertSee('id="product-3d-zoom-controls"', false);
-        $response->assertSee('id="product-3d-zoom-in"', false);
-        $response->assertSee('id="product-3d-zoom-out"', false);
+        $this->assertStringContainsString('id="experiencia-3d"', $rendered);
+        $this->assertStringContainsString('id="product-3d-canvas"', $rendered);
+        $this->assertStringContainsString('id="product-3d-data"', $rendered);
+        $this->assertStringContainsString('id="product-3d-zoom-controls"', $rendered);
     }
 
     public function test_global_zoom_toggle_disables_zoom_in_payload(): void
@@ -130,7 +110,6 @@ class Product3dTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertFalse($response->viewData('product3dPayload')['allowZoom']);
-        $response->assertSee('"allowZoom":false', false);
     }
 
     public function test_admin_can_access_studio_3d_cluster_and_product_3d_models_list(): void

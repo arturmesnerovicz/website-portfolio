@@ -4,21 +4,18 @@
     <!-- 01 Hero Section -->
     @include('sections.hero')
 
-    <!-- 02 Manifesto Section -->
-    @include('sections.manifesto')
-
-    <!-- 03 Projetos Selecionados Section -->
+    <!-- 02 Select Projects Section (Immediately below Hero) -->
     @include('sections.projects')
 
-    <!-- 04 Expertise (Serviços) Section -->
+    <!-- 03 Expertise (Serviços) Section -->
     @include('sections.services')
 
-    <!-- 05 Jornada do Projeto Section -->
+    <!-- 04 Project Journey Section -->
     @include('sections.journey')
 
-    <!-- 06 FAQ Section -->
+    <!-- 05 FAQ Section -->
     @include('sections.faq')
 
-    <!-- 07 CTA Final & Contact Section -->
+    <!-- 06 CTA Final Section -->
     @include('sections.cta-contact')
 @endsection

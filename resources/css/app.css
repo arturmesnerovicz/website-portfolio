@@ -5,11 +5,12 @@
     font-style: normal;
     font-weight: 700;
     font-display: swap;
-    src: local("Alte Haas Grotesk Bold"),
-         local("AlteHaasGrotesk-Bold"),
-         local("AlteHaasGrotesk_Bold"),
-         url("../fonts/alte-haas-grotesk-700.woff") format("woff"),
-         url("../fonts/alte-haas-grotesk-700.ttf") format("truetype");
+    src:
+        local("Alte Haas Grotesk Bold"),
+        local("AlteHaasGrotesk-Bold"),
+        local("AlteHaasGrotesk_Bold"),
+        url("../fonts/alte-haas-grotesk-700.woff") format("woff"),
+        url("../fonts/alte-haas-grotesk-700.ttf") format("truetype");
 }
 
 @font-face {
@@ -17,11 +18,12 @@
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: local("Alte Haas Grotesk Regular"),
-         local("AlteHaasGrotesk-Regular"),
-         local("Alte Haas Grotesk"),
-         url("../fonts/alte-haas-grotesk-400.woff") format("woff"),
-         url("../fonts/alte-haas-grotesk-400.ttf") format("truetype");
+    src:
+        local("Alte Haas Grotesk Regular"),
+        local("AlteHaasGrotesk-Regular"),
+        local("Alte Haas Grotesk"),
+        url("../fonts/alte-haas-grotesk-400.woff") format("woff"),
+        url("../fonts/alte-haas-grotesk-400.ttf") format("truetype");
 }
 
 @font-face {
@@ -29,11 +31,12 @@
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: local("TeX Gyre Heros Regular"),
-         local("TeXGyreHeros-Regular"),
-         local("TeX Gyre Heros"),
-         url("../fonts/tex-gyre-heros-400.woff") format("woff"),
-         url("../fonts/tex-gyre-heros-400.otf") format("opentype");
+    src:
+        local("TeX Gyre Heros Regular"),
+        local("TeXGyreHeros-Regular"),
+        local("TeX Gyre Heros"),
+        url("../fonts/tex-gyre-heros-400.woff") format("woff"),
+        url("../fonts/tex-gyre-heros-400.otf") format("opentype");
 }
 
 @font-face {
@@ -41,11 +44,12 @@
     font-style: normal;
     font-weight: 700;
     font-display: swap;
-    src: local("TeX Gyre Heros Bold"),
-         local("TeXGyreHeros-Bold"),
-         url("../fonts/tex-gyre-heros-700.woff2") format("woff2"),
-         url("../fonts/tex-gyre-heros-700.woff") format("woff"),
-         url("../fonts/tex-gyre-heros-700.otf") format("opentype");
+    src:
+        local("TeX Gyre Heros Bold"),
+        local("TeXGyreHeros-Bold"),
+        url("../fonts/tex-gyre-heros-700.woff2") format("woff2"),
+        url("../fonts/tex-gyre-heros-700.woff") format("woff"),
+        url("../fonts/tex-gyre-heros-700.otf") format("opentype");
 }
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -64,21 +68,398 @@
     --color-norra-black: #101010;
     --color-norra-card: #151515;
     --color-norra-surface: #1a1a1a;
-    --color-norra-stone: #ddddd5;
+    --color-norra-stone: #f6f6f6;
     --color-norra-stone-dark: #121212;
     --color-norra-red: #b60e0e;
     --color-norra-gray: #888888;
     --color-norra-border: #222222;
 }
 
+/* ==========================================================================
+   Penpot 1440px Proportional Scaling & 12-Column Grid System
+   - Canvas Base Width: 1440px
+   - Margins: 45px left & right (calc((45 / 1440) * 100vw) = 3.125vw)
+   - Columns: 12
+   - Gutter: 20px (calc((20 / 1440) * 100vw) = 1.388889vw)
+   - Proportional Scaling: html font-size scales relative to 1440px viewport (100vw / 90)
+   ========================================================================== */
+:root {
+    --site-margin: 1.25rem; /* 20px on mobile */
+    --site-gutter: 1rem; /* 16px on mobile */
+    --site-cols: 12;
+}
+
+@media (min-width: 640px) {
+    :root {
+        --site-margin: 2rem; /* 32px on tablet */
+        --site-gutter: 1.25rem; /* 20px on tablet */
+    }
+}
+
+@media (min-width: 1024px) {
+    :root {
+        /* Exact Penpot proportions for 1440px design */
+        --site-margin: calc((45 / 1440) * 100vw); /* 3.125vw */
+        --site-gutter: calc((20 / 1440) * 100vw); /* 1.388889vw */
+    }
+
+    html {
+        /* Dynamic Root Scaling:
+           At 1440px viewport width: 1440 / 90 = 16px (100% scale)
+           At 1920px viewport width: 1920 / 90 = 21.333px (133.3% scale)
+           At 1280px MacBook: 1280 / 90 = 14.222px (88.9% scale)
+           Maintains exact proportions for all text, spacing, and rem elements
+        */
+        font-size: calc(100vw / 90);
+    }
+}
+
+/* Base layout container respecting Penpot canvas margins */
+.site-container {
+    width: 100%;
+    padding-left: var(--site-margin);
+    padding-right: var(--site-margin);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 12-Column Grid matching Penpot specification */
+.site-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--site-gutter);
+}
+
 html {
-    background-color: #101010;
-    color: #f5f5f5;
+    background-color: #f6f6f6;
+    color: #101010;
 }
 
 ::selection {
-    background-color: #b60e0e;
-    color: #ffffff;
+    background-color: #151515;
+    color: #f6f6f6;
+}
+
+/* Fluid fill button effect (fills from bottom center and overflows like liquid) */
+.vicz-btn {
+    position: relative;
+    overflow: hidden;
+    background-color: transparent;
+    border: 1px solid #101010;
+    border-radius: 2px;
+    color: #101010;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1.2;
+    letter-spacing: -0.055em;
+    text-transform: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0 0.875rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        color 0.45s cubic-bezier(0.25, 1, 0.5, 1),
+        border-color 0.45s ease;
+    z-index: 1;
+    isolation: isolate;
+}
+
+.vicz-btn::before {
+    content: "";
+    position: absolute;
+    bottom: -15%;
+    left: 50%;
+    width: 150%;
+    height: 0%;
+    background-color: #151515;
+    border-radius: 50% 50% 0 0;
+    transform: translateX(-50%);
+    transition:
+        height 0.45s cubic-bezier(0.25, 1, 0.5, 1),
+        border-radius 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.vicz-btn:hover::before {
+    height: 150%;
+    border-radius: 0;
+}
+
+.vicz-btn:hover {
+    color: #f6f6f6;
+    border-color: #151515;
+}
+
+.vicz-btn:hover svg {
+    stroke: #f6f6f6;
+    color: #f6f6f6;
+}
+
+.vicz-btn svg {
+    transition:
+        stroke 0.45s ease,
+        color 0.45s ease,
+        transform 0.3s ease;
+}
+
+.vicz-btn:hover svg {
+    transform: translate(2px, -2px);
+}
+
+/* Nav Menu Marker Highlighter Effect (from left to right in #b5b5b5) */
+.vicz-nav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.1875rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1rem; /* 16px exact */
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+    text-transform: none;
+    color: #151515;
+    text-decoration: none;
+    transition: color 0.4s ease;
+    z-index: 1;
+    isolation: isolate;
+    white-space: nowrap;
+}
+
+.vicz-nav-link::before {
+    content: "";
+    position: absolute;
+    inset: -0.125rem -0.25rem;
+    background-color: #b5b5b5;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: -1;
+    border-radius: 2px;
+}
+
+.vicz-nav-link:hover::before {
+    transform: scaleX(1);
+}
+
+.vicz-nav-link:hover {
+    color: #151515;
+}
+
+/* Penpot Suction Dual-Block Button (coderesolution style: icon scales to 0 in center on left, expands from 0 on right) */
+.vicz-suction-btn {
+    --btn-h: 2.125rem; /* 34px on desktop */
+    --gap: 2px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+    height: var(--btn-h);
+    padding-left: calc(var(--btn-h) + var(--gap));
+    padding-right: 0;
+    transition: padding 0.45s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.2s ease;
+}
+
+.vicz-suction-btn:active {
+    transform: scale(0.98);
+}
+
+.vicz-suction-btn:hover {
+    padding-left: 0;
+    padding-right: calc(var(--btn-h) + var(--gap));
+}
+
+.vicz-suction-icon {
+    position: absolute;
+    top: 0;
+    width: var(--btn-h);
+    height: var(--btn-h);
+    background-color: #151515;
+    color: #f6f6f6;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: center center;
+    transition: transform 0.45s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.35s ease;
+    pointer-events: none;
+}
+
+.vicz-suction-icon svg {
+    width: 0.95rem;
+    height: 0.95rem;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    transition: transform 0.3s ease;
+}
+
+.vicz-suction-icon--left {
+    left: 0;
+    transform: scale(1);
+    opacity: 1;
+}
+
+.vicz-suction-btn:hover .vicz-suction-icon--left {
+    transform: scale(0);
+    opacity: 0;
+}
+
+.vicz-suction-icon--right {
+    right: 0;
+    transform: scale(0);
+    opacity: 0;
+}
+
+.vicz-suction-btn:hover .vicz-suction-icon--right {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.vicz-suction-btn:hover .vicz-suction-icon--right svg {
+    transform: translate(0.5px, -0.5px);
+}
+
+.vicz-suction-text {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--btn-h);
+    padding: 0 1rem;
+    background-color: #151515;
+    color: #f6f6f6;
+    border-radius: 3px;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    text-transform: none;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+}
+
+@media (max-width: 639px) {
+    .vicz-suction-btn {
+        --btn-h: 2rem;
+    }
+    .vicz-suction-text {
+        padding: 0 0.875rem;
+        font-size: 0.875rem;
+    }
+    .vicz-suction-icon svg {
+        width: 0.85rem;
+        height: 0.85rem;
+    }
+}
+
+/* Penpot Dual-Box Language Switcher (EN | PT - clickable static blocks with 2px gap) */
+.vicz-lang-switcher {
+    --btn-h: 2.125rem; /* 34px on desktop */
+    --gap: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap);
+}
+
+.vicz-lang-btn {
+    height: var(--btn-h);
+    min-width: var(--btn-h);
+    padding: 0 0.5625rem;
+    background-color: #151515;
+    color: #f6f6f6;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.15s ease;
+}
+
+.vicz-lang-btn:hover {
+    background-color: #262626;
+}
+
+.vicz-lang-btn:active {
+    transform: scale(0.96);
+}
+
+@media (max-width: 639px) {
+    .vicz-lang-switcher {
+        --btn-h: 2rem;
+    }
+    .vicz-lang-btn {
+        min-width: 2rem;
+        padding: 0 0.4rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Select Projects Interactive Arrow + View Project Glide */
+.vicz-project-spacer {
+    min-width: 8px;
+    flex-grow: 0;
+    transition: flex-grow 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.group:hover .vicz-project-spacer {
+    flex-grow: 1;
+}
+
+.vicz-project-view {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 400;
+    color: #101010;
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transform: translateX(-8px);
+    transition:
+        opacity 0.35s ease,
+        max-width 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+        transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.group:hover .vicz-project-view {
+    opacity: 1;
+    max-width: 140px;
+    transform: translateX(0);
+}
+
+/* Infinite Marquee for Project Journey (Slow & Subtle) */
+@keyframes vicz-marquee {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-50%, 0, 0);
+    }
+}
+
+.animate-vicz-marquee {
+    display: flex;
+    width: max-content;
+    animation: vicz-marquee 70s linear infinite;
+    will-change: transform;
 }
 
 /* Custom scrollbar */
@@ -95,7 +476,6 @@ html {
 ::-webkit-scrollbar-thumb:hover {
     background: #b60e0e;
 }
-
 
 /* Pinned horizontal track for GSAP ScrollTrigger */
 .journey-section {
@@ -170,69 +550,37 @@ html {
 }
 
 .service-item {
-    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.35s ease;
     will-change: opacity;
 }
 
 .service-item .service-title {
-    color: #ddddd5;
+    color: #acacac;
     transition:
-        color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        color 0.35s ease,
+        transform 0.4s ease;
     will-change: transform, color;
 }
 
+.service-item.is-active .service-title,
+.service-item.is-hovered .service-title {
+    color: #101010 !important;
+}
+
 @media (hover: hover) and (pointer: fine) {
-    .service-item:hover .service-title,
-    .service-item.is-hovered .service-title {
-        color: #ffffff !important;
-        transform: translateX(18px);
+    .service-item:hover .service-title {
+        color: #101010 !important;
+        transform: translateX(12px);
     }
 }
 
-/* Service Separator Lines (Left-to-Right reveal animation matching Penpot) */
+/* Service Separator Lines */
 .service-line {
     height: 1px;
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: #d1d1d1;
     transform-origin: 0% 50%;
-    transform: scaleX(0);
-    transition: transform 1s ease-in-out, background-color 0.3s ease;
-    will-change: transform;
-}
-
-.services-list.is-revealed .service-line,
-.services-wrapper.is-revealed .service-line {
     transform: scaleX(1);
-}
-
-.services-list.is-revealed > .service-line:first-child,
-.services-wrapper.is-revealed > .service-line:first-child {
-    transition-delay: 0s;
-}
-
-.services-list.is-revealed .service-item:nth-of-type(1) .service-line {
-    transition-delay: 0.1s;
-}
-
-.services-list.is-revealed .service-item:nth-of-type(2) .service-line {
-    transition-delay: 0.2s;
-}
-
-.services-list.is-revealed .service-item:nth-of-type(3) .service-line {
-    transition-delay: 0.3s;
-}
-
-.services-list.is-revealed .service-item:nth-of-type(4) .service-line {
-    transition-delay: 0.4s;
-}
-
-.services-list.is-revealed .service-item:nth-of-type(5) .service-line {
-    transition-delay: 0.5s;
-}
-
-.service-item:hover .service-line,
-.service-item.is-hovered .service-line {
-    background-color: rgba(255, 255, 255, 0.4);
+    transition: background-color 0.3s ease;
 }
 
 /* Right-Aligned Mockup Preview Wrap & Card (Desktop) */
@@ -254,99 +602,68 @@ html {
     will-change: opacity;
 }
 
-/* RevealParagraph: Word-by-word reveal used by FAQ */
-.reveal-word {
-    transform: translateY(100%);
-    opacity: 0;
-    transition:
-        transform 0.7s cubic-bezier(0.25, 1, 0.5, 1),
-        opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1);
-    will-change: transform, opacity;
-}
-
-.faq-item.is-active .reveal-word {
-    transform: translateY(0%);
-    opacity: 1;
-}
-
 /* Mobile inline preview styling */
 .service-mobile-preview {
-    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+    transition:
+        max-height 0.4s ease,
+        opacity 0.35s ease;
 }
 
 /* ==========================================================================
-   FAQ Section (Accordion, Animations & Interactions matching EXPERTISE)
+   FAQ Section (Accordion & Clean Dark Hover)
    ========================================================================== */
 
 .faq-item {
-    transition:
-        background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: background-color 0.3s ease;
     border-radius: 4px;
 }
 
-.faq-item.is-active {
-    border-radius: 4px !important;
-}
-
-.faq-item .faq-bg {
-    opacity: 0;
-    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.faq-item.is-active .faq-bg {
-    opacity: 1 !important;
-}
-
-/* Hover effect on non-touch devices for closed items */
-@media (hover: hover) and (pointer: fine) {
-    .faq-item:not(.is-active):hover .faq-bg {
-        opacity: 1;
-    }
-
-    .faq-item:not(.is-active):hover .faq-title {
-        color: #101010 !important;
-        transform: translateX(12px);
-    }
-
-    .faq-item:not(.is-active):hover .faq-arrow-icon {
-        color: #101010 !important;
-    }
-}
-
-/* FAQ Title: Default & Active state */
 .faq-item .faq-title {
-    color: #ddddd5;
-    transition:
-        color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform, color;
+    color: #151515;
+    transition: color 0.3s ease;
 }
 
-.faq-item.is-active .faq-title {
-    color: #101010 !important;
-    transform: translateX(0) !important;
-}
-
-/* Arrow: Closed state points 45° up-right (-45deg), opened state points 45° down-right (+45deg) */
 .faq-item .faq-arrow-icon {
-    color: #ddddd5;
+    color: #151515;
     transition:
-        transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
-        color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-    transform: rotate(-45deg);
+        transform 0.35s ease,
+        color 0.3s ease;
+}
+
+.faq-item:hover,
+.faq-item.is-active {
+    background-color: #151515 !important;
+}
+
+.faq-item:hover .faq-title,
+.faq-item.is-active .faq-title {
+    color: #f6f6f6 !important;
+}
+
+.faq-item:hover .faq-desc,
+.faq-item.is-active .faq-desc {
+    color: #ddddd5 !important;
+}
+
+.faq-item:hover .faq-arrow-icon,
+.faq-item.is-active .faq-arrow-icon {
+    color: #f6f6f6 !important;
 }
 
 .faq-item.is-active .faq-arrow-icon {
     transform: rotate(45deg);
-    color: #101010 !important;
 }
 
-/* FAQ Accordion Grid Collapse & Expand (matching EXPERTISE exactly) */
+.faq-item.is-active .faq-line,
+.faq-item:hover .faq-line {
+    opacity: 0;
+}
+
+/* FAQ Accordion Grid Collapse & Expand */
 .faq-accordion-grid {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: grid-template-rows 0.45s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .faq-item.is-active .faq-accordion-grid {
@@ -357,19 +674,9 @@ html {
     opacity: 1;
 }
 
-/* Description text inside accordion */
 .faq-desc {
     color: #666666;
-    transition: color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.faq-item.is-active .faq-desc {
-    color: #222222 !important;
-}
-
-.faq-item.is-active .faq-line,
-.faq-item:hover .faq-line {
-    opacity: 0;
+    transition: color 0.3s ease;
 }
 
 /* CTA Button in FAQ: Penpot design with exact Monolog interaction */
@@ -798,7 +1105,6 @@ html {
     }
 }
 
-
 /* ==========================================================================
    Site-wide Noise / Film Grain Overlay (Basic Agency Technique)
    ========================================================================== */
@@ -820,7 +1126,7 @@ html {
     width: calc(100% + 20rem);
     height: calc(100% + 20rem);
     animation: siteNoise 1s steps(2) infinite;
-    background-image: var(--noise-bg, url('/assets/noise.png'));
+    background-image: var(--noise-bg, url("/assets/noise.png"));
     background-position: 50%;
     content: "";
     will-change: transform;
@@ -828,17 +1134,39 @@ html {
 }
 
 @keyframes siteNoise {
-    0% { transform: translate3d(0, 9rem, 0); }
-    10% { transform: translate3d(-1rem, -4rem, 0); }
-    20% { transform: translate3d(-8rem, 2rem, 0); }
-    30% { transform: translate3d(9rem, -9rem, 0); }
-    40% { transform: translate3d(-2rem, 7rem, 0); }
-    50% { transform: translate3d(-9rem, -4rem, 0); }
-    60% { transform: translate3d(2rem, 6rem, 0); }
-    70% { transform: translate3d(7rem, -8rem, 0); }
-    80% { transform: translate3d(-9rem, 1rem, 0); }
-    90% { transform: translate3d(6rem, -5rem, 0); }
-    to { transform: translate3d(-7rem, 0, 0); }
+    0% {
+        transform: translate3d(0, 9rem, 0);
+    }
+    10% {
+        transform: translate3d(-1rem, -4rem, 0);
+    }
+    20% {
+        transform: translate3d(-8rem, 2rem, 0);
+    }
+    30% {
+        transform: translate3d(9rem, -9rem, 0);
+    }
+    40% {
+        transform: translate3d(-2rem, 7rem, 0);
+    }
+    50% {
+        transform: translate3d(-9rem, -4rem, 0);
+    }
+    60% {
+        transform: translate3d(2rem, 6rem, 0);
+    }
+    70% {
+        transform: translate3d(7rem, -8rem, 0);
+    }
+    80% {
+        transform: translate3d(-9rem, 1rem, 0);
+    }
+    90% {
+        transform: translate3d(6rem, -5rem, 0);
+    }
+    to {
+        transform: translate3d(-7rem, 0, 0);
+    }
 }
 
 /* Exo Ape Page Transition Performance & Hardware Acceleration */
@@ -863,93 +1191,6 @@ body.is-loading {
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
-}
-
-/* Floating WhatsApp Button (Adaptive Contrast: #101010 over light, #ddddd5 over dark) */
-.whatsapp-floating-btn {
-    position: fixed;
-    bottom: 1.25rem;
-    right: 1.25rem;
-    z-index: 40;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 3.25rem;
-    height: 3.25rem;
-    border-radius: 9999px;
-    cursor: pointer;
-    text-decoration: none;
-    outline: none;
-    transition:
-        background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 0.35s cubic-bezier(0.16, 1, 0.35, 1);
-}
-
-@media (min-width: 640px) {
-    .whatsapp-floating-btn {
-        bottom: 1.5rem;
-        right: 1.5rem;
-        width: 3.5rem;
-        height: 3.5rem;
-    }
-}
-
-/* Default state over dark sections (#101010): Light button (#ddddd5) with dark icon (#101010) */
-.whatsapp-floating-btn,
-.whatsapp-floating-btn.is-dark-bg {
-    background-color: #ddddd5;
-    color: #101010;
-    border: 1px solid rgba(16, 16, 16, 0.15);
-    box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.45);
-}
-
-.whatsapp-floating-btn:hover,
-.whatsapp-floating-btn.is-dark-bg:hover {
-    background-color: #ffffff;
-    color: #101010;
-    transform: scale(1.08);
-    box-shadow: 0 14px 35px -4px rgba(0, 0, 0, 0.6);
-}
-
-/* Contrast state over light sections (#ddddd5): Dark button (#101010) with light icon (#ddddd5) */
-.whatsapp-floating-btn.is-light-bg {
-    background-color: #101010;
-    color: #ddddd5;
-    border: 1px solid rgba(221, 221, 213, 0.25);
-    box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.25);
-}
-
-.whatsapp-floating-btn.is-light-bg:hover {
-    background-color: #1a1a1a;
-    color: #ffffff;
-    transform: scale(1.08);
-    box-shadow: 0 14px 35px -4px rgba(0, 0, 0, 0.35);
-}
-
-.whatsapp-floating-btn:active {
-    transform: scale(0.94);
-}
-
-.whatsapp-floating-icon {
-    width: 26px;
-    height: 26px;
-    fill: currentColor;
-    display: block;
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.35, 1);
-}
-
-@media (min-width: 640px) {
-    .whatsapp-floating-icon {
-        width: 30px;
-        height: 30px;
-    }
-}
-
-.whatsapp-floating-btn:hover .whatsapp-floating-icon {
-    transform: scale(1.06);
 }
 
 /* ==========================================================================
@@ -1071,9 +1312,10 @@ body.is-loading {
 /* 3D Model Loading & Unblur Transition Effects */
 .canvas-3d-unblur {
     will-change: filter, opacity, transform;
-    transition: filter 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-                opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    transition:
+        filter 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .canvas-3d-unblur.is-loading-model {
@@ -1106,8 +1348,3 @@ body.is-loading {
 .animate-pulse-ring {
     animation: loaderPulseRing 2.4s ease-in-out infinite;
 }
-
-
-
-
-

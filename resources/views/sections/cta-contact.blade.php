@@ -1,25 +1,58 @@
-<section id="contato" data-bg="dark" class="cta-section bg-[#101010] relative z-20 w-full min-h-screen lg:min-h-[100svh] flex items-center justify-center overflow-hidden py-24 sm:py-32 lg:py-40">
-    <!-- Full-width Photographic Studio Background (Developer Desk / Estúdio Norra) -->
-    <div class="cta-bg-wrap absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <picture>
-            <source srcset="{{ asset('storage/cta-bg.webp') }}?v={{ file_exists(public_path('storage/cta-bg.webp')) ? filemtime(public_path('storage/cta-bg.webp')) : 1 }}" type="image/webp">
-            <img src="{{ asset('storage/cta-bg.png') }}?v={{ file_exists(public_path('storage/cta-bg.png')) ? filemtime(public_path('storage/cta-bg.png')) : 1 }}"
-                 alt="Estúdio Norra Workspace & Studio Atmosphere"
-                 class="cta-bg-img w-full h-full object-cover object-center filter brightness-65 contrast-105">
-        </picture>
-        <div class="absolute inset-0 bg-[#101010]/50 backdrop-blur-[1px]"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-[#101010] via-transparent to-[#101010]/80"></div>
-    </div>
-
-    <!-- Centered Content Matching Penpot 'Seção CTA Final' -->
-    <div class="cta-content-wrap relative z-10 w-full max-w-[930px] mx-auto px-6 sm:px-8 py-20 lg:py-24 text-center space-y-6 sm:space-y-8">
-        <h2 class="font-display font-bold text-[clamp(2.15rem,6.94vw,6.25rem)] leading-[1.1] uppercase tracking-[-1.5px] sm:tracking-[-2.5px] md:tracking-[-3.5px] lg:tracking-[-4.85px] text-[#ddddd5] text-center max-w-[930px] mx-auto select-none">
-            {!! __('VAMOS CRIAR<br />UMA EXPERIÊNCIA<br />QUE MOVE<br />SUA MARCA') !!}
-        </h2>
-
-        <div class="pt-2 sm:pt-4 flex justify-center">
-            <x-btn-cta :text="__($settings['cta_button_text'] ?? 'Nos conte a sua história')" size="lg" />
-        </div>
+<section id="contato" class="w-full bg-[#f6f6f6] text-[#151515] py-24 sm:py-32 lg:py-44 select-none">
+    <div class="w-full site-container">
+        <!-- Interactive Big Typography CTA Button -->
+        <button type="button"
+                onclick="openContactModal()"
+                data-contact-modal-trigger
+                class="group text-left w-full block cursor-pointer select-none focus:outline-none focus:ring-0 border-none bg-transparent p-0 transition-opacity duration-300 hover:opacity-95">
+            <span class="sr-only">{{ app()->getLocale() === 'en' ? 'Start Project' : 'Iniciar Projeto' }}</span>
+            
+            <div class="w-full font-display font-bold text-4xl sm:text-6xl md:text-7xl lg:text-[6.875rem] leading-[1.0] tracking-[-0.03em] text-[#151515]">
+                @if(app()->getLocale() === 'en')
+                    <!-- Line 1 (Longest) -->
+                    <div class="block">
+                        Let's create an experience
+                    </div>
+                    <!-- Line 2 (Medium) -->
+                    <div class="block">
+                        that lives up to your
+                    </div>
+                    <!-- Line 3 (Shortest + Heavy 85x85 Arrow) -->
+                    <div class="flex items-center flex-wrap gap-4 lg:gap-6">
+                        <span>ambitions</span>
+                        <span class="inline-flex items-center justify-center transform group-hover:translate-x-4 sm:group-hover:translate-x-6 transition-transform duration-300 ease-out flex-shrink-0">
+                            <!-- Exact Penpot Arrow (85x85, 14px stroke-width, round caps) -->
+                            <svg class="w-10 h-10 sm:w-16 sm:h-16 lg:w-[5.3125rem] lg:h-[5.3125rem] stroke-current"
+                                 viewBox="0 0 85 85"
+                                 fill="none">
+                                <line x1="7" y1="42.5" x2="78" y2="42.5" stroke-width="14" stroke-linecap="round"/>
+                                <path d="M48 12.5L78 42.5L48 72.5" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                    </div>
+                @else
+                    <!-- Line 1 (Longest) -->
+                    <div class="block">
+                        Vamos criar uma experiência
+                    </div>
+                    <!-- Line 2 (Medium) -->
+                    <div class="block">
+                        à altura das suas
+                    </div>
+                    <!-- Line 3 (Shortest + Heavy 85x85 Arrow) -->
+                    <div class="flex items-center flex-wrap gap-4 lg:gap-6">
+                        <span>ambições</span>
+                        <span class="inline-flex items-center justify-center transform group-hover:translate-x-4 sm:group-hover:translate-x-6 transition-transform duration-300 ease-out flex-shrink-0">
+                            <svg class="w-10 h-10 sm:w-16 sm:h-16 lg:w-[5.3125rem] lg:h-[5.3125rem] stroke-current"
+                                 viewBox="0 0 85 85"
+                                 fill="none">
+                                <line x1="7" y1="42.5" x2="78" y2="42.5" stroke-width="14" stroke-linecap="round"/>
+                                <path d="M48 12.5L78 42.5L48 72.5" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                    </div>
+                @endif
+            </div>
+        </button>
     </div>
 </section>
-

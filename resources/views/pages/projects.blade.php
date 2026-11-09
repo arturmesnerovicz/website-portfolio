@@ -4,13 +4,13 @@
     <!-- Projects Page Container: Penpot exact #DDDDD5 stone background, edge-to-edge margins, scroll curtain transition -->
     <section id="todos-projetos" data-bg="light" class="pt-28 sm:pt-36 lg:pt-40 pb-24 sm:pb-32 md:pb-40 bg-[#ddddd5] text-[#101010] relative z-10 w-full overflow-hidden">
         <div class="projects-inner-container w-full relative z-0">
-            <!-- Full-width container touching viewport margins (clamp 1.5rem to 3.125vw) -->
-            <div class="w-full px-4 sm:px-6 lg:px-[clamp(1.5rem,3.125vw,3.5rem)]">
+            <!-- Full-width container touching viewport margins (Penpot 45px margin at 1440px baseline) -->
+            <div class="w-full site-container">
 
                 <!-- Top Header: Title & Description (Penpot y=203) -->
                 <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-6 mb-10 sm:mb-14">
                     <div>
-                        <h1 class="norra-reveal is-revealed font-display font-bold text-[clamp(2.5rem,4.86vw,4.375rem)] leading-none uppercase tracking-[-0.75px] sm:tracking-[-1.5px] lg:tracking-[-2px] text-[#101010]">
+                        <h1 class="norra-reveal is-revealed font-display font-bold text-4xl sm:text-6xl lg:text-[4.375rem] leading-none uppercase tracking-[-0.75px] sm:tracking-[-1.5px] lg:tracking-[-2px] text-[#101010]">
                             {{ __('TODOS OS PROJETOS') }}
                         </h1>
                     </div>
@@ -60,8 +60,8 @@
                 <!-- Separator Line: Penpot 1px stroke #c7c7c7 (y=397) -->
                 <div class="w-full h-[1px] bg-[#c7c7c7] mb-8 sm:mb-12"></div>
 
-                <!-- Projects 2-Column Grid (Penpot 661px x 441px, gap 28px) -->
-                <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-x-7 gap-y-12 sm:gap-y-14 transition-all duration-300 w-full">
+                <!-- Projects 2-Column Grid (Penpot 661px x 441px, gap 20px) -->
+                <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-x-[var(--site-gutter)] gap-y-12 sm:gap-y-14 transition-all duration-300 w-full">
                     @forelse($projects as $project)
                         @php
                             $hasUrl = !empty($project->link_url) && $project->link_url !== '#';

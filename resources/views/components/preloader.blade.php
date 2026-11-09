@@ -1,7 +1,16 @@
-@if(request()->has('nopreloader'))
+@php
+    // Preloader desativado temporariamente para facilitar a visualização das alterações
+    $preloaderEnabled = false;
+@endphp
+
+@if(!$preloaderEnabled)
     <script>
         document.body.classList.remove('is-loading');
         window.dispatchEvent(new CustomEvent('norra-preloader-done'));
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.remove('is-loading');
+            window.dispatchEvent(new CustomEvent('norra-preloader-done'));
+        });
     </script>
 @else
 <div id="norra-preloader" class="norra-preloader" aria-hidden="true">

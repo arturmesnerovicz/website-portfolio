@@ -1,6 +1,6 @@
 <section id="manifesto" class="py-24 sm:py-32 md:py-40 bg-[#151515] relative text-[#ddddd5] w-full overflow-hidden">
-    <div class="w-full px-[clamp(1.5rem,3.125vw,3.5rem)]">
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
+    <div class="w-full site-container">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-[var(--site-gutter)] items-start">
 
             @php
                 $rawHeadline = __($settings['manifesto_headline'] ?? 'Acreditamos que grandes fundadores merecem uma presença digital a altura do que estão construindo.');

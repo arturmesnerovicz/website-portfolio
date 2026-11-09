@@ -1,88 +1,113 @@
-<section id="jornada" class="journey-section h-[100svh] min-h-[100svh] xl:h-screen xl:max-h-screen overflow-hidden bg-[#101010] text-[#ddddd5] relative flex flex-col justify-between xl:justify-start pt-5 sm:pt-6 md:pt-8 lg:pt-10 xl:pt-28 pb-3 sm:pb-4 md:pb-6 xl:pb-0 w-full">
-    <!-- Header Block Matching Penpot 'seção jornada' -->
-    <div class="w-full px-[clamp(1.5rem,3.125vw,3.5rem)] flex-shrink-0">
-        <h2 class="font-display font-bold text-[clamp(1.75rem,6.94vw,6.25rem)] leading-none uppercase tracking-[-1.5px] sm:tracking-[-2.5px] md:tracking-[-4px] lg:tracking-[-5px] xl:tracking-[-6px] text-[#ddddd5] text-center">
-            {{ __('JORNADA DO PROJETO') }}
-        </h2>
-        <div class="w-full h-[1px] bg-[#ddddd5]/30 mt-2 sm:mt-2.5 md:mt-3.5 xl:mt-6"></div>
-    </div>
+<section id="jornada" class="relative w-full overflow-hidden">
+    <h2 class="sr-only">{{ app()->getLocale() === 'en' ? 'Project Journey' : 'Jornada do Projeto' }}</h2>
+    @php
+        $marqueeText = app()->getLocale() === 'en' ? 'PROJECT JOURNEY' : 'JORNADA DO PROJETO';
+        
+        $steps = [
+            [
+                'step' => app()->getLocale() === 'en' ? 'STEP 1' : 'ETAPA 1',
+                'bg' => 'bg-[#d1d1d1]',
+                'text' => 'text-[#151515]',
+                'marqueeColor' => 'text-[#101010]',
+                'shadow' => 'shadow-[0_-20px_50px_rgba(0,0,0,0.15)]',
+                'zIndex' => 10,
+                'media' => asset('storage/vicz-journey-media.jpg'),
+                'desc' => app()->getLocale() === 'en'
+                    ? 'We start by deeply immersing ourselves in your brand, understanding your positioning and what makes you unique to build a strategic narrative that connects with users.'
+                    : 'Começamos por uma imersão profunda na sua marca, compreendendo o seu posicionamento e o que a torna única para construir uma narrativa estratégica que conecta com os utilizadores.'
+            ],
+            [
+                'step' => app()->getLocale() === 'en' ? 'STEP 2' : 'ETAPA 2',
+                'bg' => 'bg-[#151515]',
+                'text' => 'text-[#ddddd5]',
+                'marqueeColor' => 'text-[#ddddd5]',
+                'shadow' => 'shadow-[0_-30px_60px_rgba(0,0,0,0.45)]',
+                'zIndex' => 20,
+                'media' => file_exists(public_path('storage/01M32F038AFG6CETWEFRVFB1X3.jpeg')) ? asset('storage/01M32F038AFG6CETWEFRVFB1X3.jpeg') : asset('storage/vicz-journey-media.jpg'),
+                'desc' => app()->getLocale() === 'en'
+                    ? 'We translate strategic positioning into high-end aesthetics, crafting bespoke design systems, expressive typography, and fluid visual identities.'
+                    : 'Traduzimos o posicionamento estratégico em estética de alto padrão, criando sistemas de design exclusivos, tipografia expressiva e identidades visuais fluidas.'
+            ],
+            [
+                'step' => app()->getLocale() === 'en' ? 'STEP 3' : 'ETAPA 3',
+                'bg' => 'bg-[#d1d1d1]',
+                'text' => 'text-[#151515]',
+                'marqueeColor' => 'text-[#101010]',
+                'shadow' => 'shadow-[0_-30px_60px_rgba(0,0,0,0.25)]',
+                'zIndex' => 30,
+                'media' => file_exists(public_path('storage/01M2NXTPHVY67HWS8FKY4N419M.PNG')) ? asset('storage/01M2NXTPHVY67HWS8FKY4N419M.PNG') : asset('storage/vicz-journey-media.jpg'),
+                'desc' => app()->getLocale() === 'en'
+                    ? 'We engineer lightning-fast digital experiences with interactive animations, scalable architecture, and pixel-perfect attention to detail.'
+                    : 'Desenvolvemos experiências digitais ultra-rápidas com animações interativas, arquitetura escalável e atenção meticulosa aos detalhes.'
+            ],
+        ];
+    @endphp
 
-    <!-- GSAP Pinned Horizontal Track (Mobile, Tablet, Desktop) - Exactly 3 Stages -->
-    <div class="journey-horizontal-container flex flex-1 items-center justify-start min-h-0 w-full overflow-hidden py-1 sm:py-2 md:py-3 xl:py-0">
-        <div class="journey-track flex flex-nowrap items-stretch h-full gap-20 sm:gap-24 md:gap-28 lg:gap-36 xl:gap-44 px-[6vw] md:px-[6vw] lg:px-[6vw] xl:pl-[max(5vw,calc((100vw-1308px)/2))] xl:pr-[max(5vw,calc((100vw-1308px)/2))]">
-            @foreach($journeySteps->take(3) as $step)
-                @php
-                    $isVideo = ($step->media_type === 'video' && !empty($step->video_path));
-                    $videoSrc = null;
-                    if ($isVideo) {
-                        $videoSrc = (str_starts_with($step->video_path, 'http://') || str_starts_with($step->video_path, 'https://') || str_starts_with($step->video_path, '/'))
-                            ? $step->video_path
-                            : asset('storage/' . $step->video_path);
-                    }
-                    $stepImage = ($step->image_path && file_exists(public_path('storage/' . $step->image_path)))
-                        ? asset('storage/' . $step->image_path)
-                        : (file_exists(public_path('storage/journey-stage-1.jpg'))
-                            ? asset('storage/journey-stage-1.jpg')
-                            : asset('storage/cta-bg.png'));
-                @endphp
-                <div class="journey-stage-item w-[88vw] sm:w-[88vw] md:w-[88vw] lg:w-[88vw] xl:w-[min(1308px,90vw)] max-w-[1308px] h-full flex items-center justify-start flex-shrink-0">
-                    <div class="w-full flex flex-col xl:flex-row items-stretch xl:items-start justify-center xl:justify-start gap-2.5 sm:gap-3.5 md:gap-4 lg:gap-5 xl:gap-14 my-auto">
-                        
-                        <!-- Left/Top: (SCROLL) & Etapa X Column (top row on mobile & all tablets, left column on desktop xl+) -->
-                        <div class="w-full xl:w-[288px] flex-shrink-0 flex flex-row xl:flex-col justify-between items-baseline xl:items-start xl:self-stretch">
-                            <!-- (SCROLL) Indicator (Stage 1 only) -->
-                            @if($loop->first)
-                                <div class="order-2 xl:order-1 flex items-center gap-1.5 sm:gap-2 font-sans text-[12px] sm:text-[13px] md:text-[14px] lg:text-[15px] font-normal tracking-normal sm:tracking-[-0.5px] lg:tracking-[-1px] text-[#ddddd5]/70 h-[24px]">
-                                    <span>{{ __('(SCROLL)') }}</span>
-                                    <svg width="18" height="10" viewBox="0 0 24 10" fill="none" class="stroke-current stroke-2">
-                                        <path d="M0 5H22M22 5L17 1M22 5L17 9" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </div>
-                            @else
-                                <div class="hidden xl:block h-[24px]"></div>
-                            @endif
-
-                            <!-- "0X ETAPA" Stacked at Bottom aligned with image bottom on desktop (xl+), side-by-side on mobile & all tablets -->
-                            <div class="order-1 xl:order-2 flex xl:block items-baseline gap-2.5 sm:gap-3 md:gap-4 space-y-0 select-none xl:translate-y-[5px]">
-                                <span class="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-[56px] xl:text-[clamp(3.5rem,6.94vw,6.25rem)] text-[#ddddd5] block leading-none xl:leading-[0.88] tracking-[-0.5px] lg:tracking-[-1px]">
-                                    {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
-                                </span>
-                                <span class="font-display font-bold text-lg sm:text-xl md:text-2xl lg:text-[28px] xl:text-[clamp(3.5rem,6.94vw,6.25rem)] text-[#ddddd5] uppercase block leading-none xl:leading-[0.88] tracking-[-0.5px] lg:tracking-[-1px]">
-                                    {{ __('ETAPA') }}
-                                </span>
-                            </div>
-                        </div>
-
-                        <!-- Right/Body: Stage Description & Video/Image Container -->
-                        <div class="w-full flex-1 min-w-0 xl:max-w-[964px] flex flex-col justify-start">
-                            <!-- Media Container (order-1 on mobile & all tablets to sit above text, order-2 on desktop xl+) -->
-                            <div class="order-1 xl:order-2 journey-media-container w-full h-[clamp(220px,36vh,340px)] sm:h-[clamp(240px,38vh,360px)] md:h-[clamp(280px,40vh,440px)] lg:h-[clamp(320px,44vh,500px)] xl:h-auto xl:aspect-[964/460] xl:max-h-[clamp(260px,38vh,380px)] mt-2.5 sm:mt-3 md:mt-3.5 lg:mt-4 rounded-[4px] overflow-hidden bg-[#151515] relative shadow-2xl">
-                                @if($isVideo && $videoSrc)
-                                    <video class="journey-stage-video w-full h-full object-cover"
-                                           muted
-                                           playsinline
-                                           loop
-                                           preload="metadata"
-                                           @if($stepImage) poster="{{ $stepImage }}" @endif>
-                                        <source src="{{ $videoSrc }}">
-                                    </video>
-                                @else
-                                    <img src="{{ $stepImage }}"
-                                         alt="{{ __('Etapa') }} {{ $loop->iteration }}"
-                                         class="w-full h-full object-cover"
-                                         loading="lazy">
-                                @endif
-                            </div>
-
-                            <!-- Descriptive Text corresponding to stage (order-2 on mobile & all tablets to sit below image, order-1 on desktop xl+) -->
-                            <p class="order-2 xl:order-1 journey-desc-text font-sans font-normal text-[19px] sm:text-[20px] md:text-[24px] lg:text-[26px] xl:text-[clamp(1.125rem,2.5vw,2.375rem)] leading-[1.45] sm:leading-[1.5] md:leading-[1.35] lg:leading-[1.3] xl:leading-[1.2] tracking-normal sm:tracking-[-0.3px] md:tracking-[-0.5px] lg:tracking-[-0.75px] xl:tracking-[-2px] text-[#ddddd5] mt-3.5 sm:mt-4 md:mt-5 lg:mt-6 xl:mt-0 max-w-full xl:max-w-[964px]">
-                                {{ __($step->description) }}
-                            </p>
-                        </div>
-
-                    </div>
+    @foreach($steps as $index => $step)
+        <div class="journey-card h-screen w-full {{ $step['bg'] }} {{ $step['text'] }} {{ $step['shadow'] }} flex items-center justify-center relative overflow-hidden"
+             style="z-index: {{ $step['zIndex'] }};"
+             data-journey-card="{{ $index }}">
+            
+            <!-- Background Infinite Marquee (Slow & Subtle) -->
+            <div class="absolute top-[8%] lg:top-[12%] left-0 w-full overflow-hidden pointer-events-none select-none z-0">
+                <div class="animate-vicz-marquee {{ $step['marqueeColor'] }} opacity-20 whitespace-nowrap font-display font-bold text-[clamp(4.5rem,13vw,11.5rem)] uppercase leading-none tracking-tight">
+                    <span>{{ $marqueeText }} &nbsp;—&nbsp; {{ $marqueeText }} &nbsp;—&nbsp; {{ $marqueeText }} &nbsp;—&nbsp; {{ $marqueeText }} &nbsp;—&nbsp;</span>
+                    <span>{{ $marqueeText }} &nbsp;—&nbsp; {{ $marqueeText }} &nbsp;—&nbsp; {{ $marqueeText }} &nbsp;—&nbsp; {{ $marqueeText }} &nbsp;—&nbsp;</span>
                 </div>
-            @endforeach
+            </div>
+
+            <!-- Foreground Content (Penpot exact 893x607 media + 364px text) -->
+            <div class="relative z-10 w-full site-container py-8 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-[var(--site-gutter)]">
+                <!-- Media Left (893x607) -->
+                <div class="w-full lg:w-[66.15%] max-w-[55.8125rem] aspect-[893/607] rounded-[4px] overflow-hidden bg-[#222222] shadow-2xl relative flex-shrink-0">
+                    <img src="{{ $step['media'] }}"
+                         alt="{{ $step['step'] }}"
+                         class="w-full h-full object-cover">
+                </div>
+
+                <!-- Text Right (364px) -->
+                <div class="w-full lg:w-[27%] max-w-[22.75rem] flex flex-col justify-center space-y-4 lg:space-y-6">
+                    <span class="font-display font-bold text-4xl sm:text-5xl lg:text-[3.625rem] leading-none uppercase">
+                        {{ $step['step'] }}
+                    </span>
+                    <p class="font-sans font-normal text-lg sm:text-xl lg:text-[1.75rem] leading-[1.25]">
+                        {{ $step['desc'] }}
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
+    @endforeach
 </section>
+
+<script>
+(function() {
+    function initJourneyStack() {
+        const cards = document.querySelectorAll('.journey-card');
+        if (!cards.length) return;
+
+        const gsap = window.gsap;
+        const ScrollTrigger = window.ScrollTrigger;
+        if (!gsap || !ScrollTrigger) return;
+
+        // Apply GSAP ScrollTrigger pinning for the stacking card effect (coderesolution style)
+        cards.forEach((card, i) => {
+            // Pin all except the last one (last one scrolls naturally with next section)
+            if (i < cards.length - 1) {
+                ScrollTrigger.create({
+                    trigger: card,
+                    start: 'top top',
+                    pin: true,
+                    pinSpacing: false,
+                    anticipatePin: 1
+                });
+            }
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initJourneyStack);
+    } else {
+        initJourneyStack();
+    }
+})();
+</script>

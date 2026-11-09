@@ -22,7 +22,7 @@
     }
 @endphp
 
-<div id="experiencia-3d" class="pt-12 sm:pt-16 lg:pt-[3.5vw] relative z-[35] w-full overflow-hidden select-none">
+<div id="experiencia-3d" class="pt-12 sm:pt-16 lg:pt-[3.5vw] relative z-[35] w-full overflow-hidden select-none site-container">
     <!-- Top Divider Line with Arrow Indicator matching Projects Flow -->
     <div class="w-full flex items-center gap-2 sm:gap-2.5 lg:gap-[10px] mb-6 sm:mb-8 lg:mb-10">
         <div class="flex-1 h-[1px] bg-[#a2a1a1]"></div>

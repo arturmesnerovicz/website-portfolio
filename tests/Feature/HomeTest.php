@@ -30,9 +30,6 @@ class HomeTest extends TestCase
         $response->assertSee('Website Strategy');
         $response->assertSee('Brand Strategy');
         $response->assertSee('Visual Identity');
-        $response->assertSee('presença digital', false);
-        $response->assertSee('altura', false);
-        $response->assertSee('que estão', false);
     }
 
     public function test_sitemap_returns_valid_xml(): void

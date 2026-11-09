@@ -3,30 +3,32 @@
     'type' => 'button',
     'onclick' => 'openContactModal()',
     'size' => 'default',
+    'showArrow' => true,
 ])
 
 @php
-    $buttonText = $text ?? __('Fale Conosco');
-    $sizeClass = match($size) {
-        'lg' => 'faq-cta-btn--lg',
-        'sm' => 'faq-cta-btn--sm',
-        default => '',
-    };
+    $buttonText = $text ?? __('Get in touch');
 @endphp
 
 <button type="{{ $type }}"
         onclick="{{ $onclick }}"
-        {{ $attributes->merge(['class' => 'faq-cta-btn ' . $sizeClass]) }}>
-    <span class="faq-cta-text-contain">
-        <span class="faq-cta-text">{{ $buttonText }}</span>
+        {{ $attributes->merge(['class' => 'vicz-suction-btn']) }}
+        aria-label="{{ $buttonText }}">
+    @if($showArrow)
+        <span class="vicz-suction-icon vicz-suction-icon--left" aria-hidden="true">
+            <svg viewBox="0 0 14 14" fill="none" class="w-3.5 h-3.5 stroke-current stroke-[2.2]" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2.5 11.5L11.5 2.5M11.5 2.5H4.5M11.5 2.5V9.5"/>
+            </svg>
+        </span>
+    @endif
+    <span class="vicz-suction-text">
+        {{ $buttonText }}
     </span>
-    <span class="faq-cta-aside">
-        <span class="faq-cta-aside-bg"></span>
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" class="faq-cta-svg">
-            <path d="M0 10L10 0M1 0H10V9" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" class="faq-cta-svg is-absolute">
-            <path d="M0 10L10 0M1 0H10V9" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </span>
+    @if($showArrow)
+        <span class="vicz-suction-icon vicz-suction-icon--right" aria-hidden="true">
+            <svg viewBox="0 0 14 14" fill="none" class="w-3.5 h-3.5 stroke-current stroke-[2.2]" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2.5 11.5L11.5 2.5M11.5 2.5H4.5M11.5 2.5V9.5"/>
+            </svg>
+        </span>
+    @endif
 </button>

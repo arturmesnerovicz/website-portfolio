@@ -12,7 +12,7 @@
 
     <!-- Lateral Right-docked Form Drawer matching Penpot & OH Architecture clip-path reveal -->
     <div id="contact-modal-card"
-         class="absolute top-0 right-0 bottom-0 h-full w-full max-w-[502px] bg-[#ddddd5] text-[#101010] shadow-2xl flex flex-col justify-between z-10 overflow-y-auto overscroll-contain selection:bg-[#b70606] selection:text-white pointer-events-auto">
+         class="absolute top-0 right-0 bottom-0 h-full w-full max-w-[31.375rem] bg-[#ddddd5] text-[#101010] shadow-2xl flex flex-col justify-between z-10 overflow-y-auto overscroll-contain selection:bg-[#b70606] selection:text-white pointer-events-auto">
 
         <div class="w-full px-6 sm:px-[32.5px] pt-8 sm:pt-[42px] pb-8 sm:pb-[42px] flex flex-col min-h-full justify-between">
             <div>
