@@ -58,9 +58,11 @@ class ContentSeeder extends Seeder
             ['key' => 'manifesto_stat3_label', 'value' => 'anos de excelência', 'group' => 'manifesto', 'type' => 'text', 'label' => 'Métrica 3 - Legenda'],
 
             // Final CTA Section
-            ['key' => 'cta_title', 'value' => 'VAMOS CRIAR UMA EXPERIÊNCIA QUE MOVE SUA MARCA', 'group' => 'cta', 'type' => 'text', 'label' => 'Título do CTA Final'],
+            ['key' => 'cta_title', 'value' => "VAMOS CRIAR\nUMA EXPERIÊNCIA\nQUE MOVE\nSUA MARCA", 'group' => 'cta', 'type' => 'textarea', 'label' => 'Título do CTA Final (PT)'],
+            ['key' => 'cta_title_en', 'value' => "LET'S BUILD\nAN EXPERIENCE\nTHAT ELEVATES\nYOUR BRAND", 'group' => 'cta', 'type' => 'textarea', 'label' => 'Título do CTA Final (EN)'],
             ['key' => 'cta_subtitle', 'value' => 'Conte-nos sobre a sua visão. Vamos estruturar a melhor solução de design e engenharia para o seu negócio.', 'group' => 'cta', 'type' => 'textarea', 'label' => 'Subtítulo do CTA Final'],
-            ['key' => 'cta_button_text', 'value' => 'Nos conte a sua história', 'group' => 'cta', 'type' => 'text', 'label' => 'Texto do Botão CTA'],
+            ['key' => 'cta_button_text', 'value' => 'Nos conte a sua história', 'group' => 'cta', 'type' => 'text', 'label' => 'Texto do Botão CTA (PT)'],
+            ['key' => 'cta_button_text_en', 'value' => 'Tell us your story', 'group' => 'cta', 'type' => 'text', 'label' => 'Texto do Botão CTA (EN)'],
 
             // Contact & Social
             ['key' => 'contact_whatsapp', 'value' => '5567981530042', 'group' => 'contact', 'type' => 'text', 'label' => 'Número do WhatsApp'],

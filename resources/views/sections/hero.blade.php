@@ -1,4 +1,4 @@
-<section id="hero" class="relative bg-[#f6f6f6] flex flex-col justify-center items-center w-full select-none pt-20 sm:pt-28 pb-24 sm:pb-32 site-container">
+<section id="hero" class="relative bg-[#f6f6f6] flex flex-col justify-center items-center w-full select-none pt-36 sm:pt-[13.125rem] pb-24 sm:pb-32 site-container">
     <div class="w-full flex flex-col items-center justify-center text-center">
         <!-- Main Headline (4 lines, Alte Haas Grotesk Bold 80px) -->
         <div class="max-w-[47.5rem] mx-auto mb-8">

@@ -1,11 +1,11 @@
-<header id="site-header" class="relative w-full site-container pt-4 sm:pt-[1.3125rem] pb-4 sm:pb-[1.3125rem] min-h-[5rem] sm:min-h-[6.125rem] flex items-center justify-between z-40 bg-[#f6f6f6]">
+<header id="site-header" class="fixed top-0 left-0 right-0 w-full site-container pt-4 sm:pt-[1.3125rem] pb-4 sm:pb-[1.3125rem] min-h-[5rem] sm:min-h-[6.125rem] flex items-center justify-between z-50 bg-transparent pointer-events-none">
     <!-- Brand Logo: Exact 114x77 SVG from Penpot at x=45, y=21 -->
-    <a href="{{ app()->getLocale() === 'en' ? url('/en') : url('/') }}" class="flex items-center group focus:outline-none flex-shrink-0" aria-label="A.VICZ">
+    <a href="{{ app()->getLocale() === 'en' ? url('/en') : url('/') }}" class="pointer-events-auto flex items-center group focus:outline-none flex-shrink-0" aria-label="A.VICZ">
         <img src="{{ asset('assets/logos/vicz-logo.svg') }}" alt="A.VICZ" class="w-[5.5rem] h-[3.71rem] sm:w-[7.125rem] sm:h-[4.8125rem] object-contain select-none transition-transform duration-300 group-hover:scale-105" />
     </a>
 
     <!-- Desktop Navigation Links (Penpot: Column 5 start at x=482px / 30.125rem, compact 10px / 0.625rem gap, TeX Gyre Heros Bold 16px) -->
-    <nav class="hidden md:flex lg:absolute lg:left-[30.125rem] lg:top-1/2 lg:-translate-y-1/2 items-center gap-2.5 lg:gap-[0.625rem]">
+    <nav class="pointer-events-auto hidden md:flex lg:absolute lg:left-[30.125rem] lg:top-1/2 lg:-translate-y-1/2 items-center gap-2.5 lg:gap-[0.625rem]">
         <a href="{{ request()->routeIs('home', 'en.home') ? '#hero' : (app()->getLocale() === 'en' ? url('/en#hero') : url('/#hero')) }}" class="vicz-nav-link">
             {{ app()->getLocale() === 'en' ? 'About' : 'Sobre' }}
         </a>
@@ -21,7 +21,7 @@
     </nav>
 
     <!-- Right Side: Language Switcher and Contact CTA -->
-    <div class="flex items-center gap-2 sm:gap-3 lg:gap-[1.375rem] flex-shrink-0">
+    <div class="pointer-events-auto flex items-center gap-2 sm:gap-3 lg:gap-[1.375rem] flex-shrink-0">
         <!-- Language Switcher (EN | PT) matching Penpot dual-box design -->
         <div class="vicz-lang-switcher" role="group" aria-label="{{ __('Idioma / Language') }}">
             <a href="{{ $urlEn ?? url('/en') }}"
@@ -73,7 +73,7 @@
     </div>
 
     <!-- Mobile Navigation Drawer -->
-    <div id="mobile-menu" class="hidden fixed inset-x-0 top-20 bg-[#f6f6f6] border-b border-[#101010]/15 w-full shadow-2xl z-50">
+    <div id="mobile-menu" class="pointer-events-auto hidden fixed inset-x-0 top-20 bg-[#f6f6f6] border-b border-[#101010]/15 w-full shadow-2xl z-50">
         <div class="px-6 py-8 space-y-6">
             <div class="flex items-center justify-between pb-3 border-b border-[#101010]/10">
                 <span class="text-xs uppercase tracking-widest text-[#888888] font-sans">{{ __('Idioma / Language') }}</span>

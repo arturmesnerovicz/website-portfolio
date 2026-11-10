@@ -70,19 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// 1. Header scroll effect (maintains solid #101010 black background with zero opacity)
+// 1. Header scroll effect (transparent floating header without background or shadow)
 function initHeaderScroll() {
     const header = document.getElementById('site-header');
     if (!header || header._headerScrollInitialized) return;
     header._headerScrollInitialized = true;
-
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 40) {
-            header.classList.add('shadow-2xl');
-        } else {
-            header.classList.remove('shadow-2xl');
-        }
-    }, { passive: true });
+    header.classList.remove('shadow-2xl');
 }
 
 // 2. Mobile Menu Drawer & Backdrop Blur with Smooth Transitions
