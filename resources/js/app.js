@@ -52,7 +52,7 @@ export function initAllNorraComponents() {
     } catch (e) { console.error('initMup3Showcase:', e); }
     try { initProjectsSection(); } catch (e) { console.error('initProjectsSection:', e); }
     try { initProjectsFilterPage(); } catch (e) { console.error('initProjectsFilterPage:', e); }
-    try { if (typeof window.initServicesInteractive === 'function') window.initServicesInteractive(); } catch (e) { console.error('initServicesInteractive:', e); }
+    try { initServicesSlider(); } catch (e) { console.error('initServicesSlider:', e); }
 }
 window.initAllNorraComponents = initAllNorraComponents;
 
@@ -1309,6 +1309,185 @@ function initManifestoBeamCycle() {
         }
     });
 }
+
+// 10. Slanted Infinite Services / Expertise Carousel (Realevate & Penpot Inspired)
+// Direct 1:1 synchronization with the page smooth-scroll engine (matching Realevate Agency exactly).
+// Both vertical page motion and horizontal diagonal card motion stop at the exact same millisecond.
+export function initServicesSlider() {
+    const wrapper = document.getElementById('services-slider-wrapper');
+    const viewport = document.getElementById('services-slider-viewport');
+    const track = document.getElementById('services-slider-track');
+
+    if (!wrapper || !viewport || !track) return;
+
+    if (typeof track._sliderCleanup === 'function') {
+        track._sliderCleanup();
+    }
+
+    track.querySelectorAll('.services-slider-item[data-clone]').forEach((el) => el.remove());
+    const rawItems = Array.from(track.querySelectorAll('.services-slider-item'));
+    const count = rawItems.length;
+    if (!count) return;
+
+    const prependFrag = document.createDocumentFragment();
+    const appendFrag = document.createDocumentFragment();
+    rawItems.forEach((item) => {
+        const pre = item.cloneNode(true);
+        pre.setAttribute('data-clone', 'true');
+        pre.setAttribute('aria-hidden', 'true');
+        prependFrag.appendChild(pre);
+
+        const post = item.cloneNode(true);
+        post.setAttribute('data-clone', 'true');
+        post.setAttribute('aria-hidden', 'true');
+        appendFrag.appendChild(post);
+    });
+    track.prepend(prependFrag);
+    track.appendChild(appendFrag);
+
+    const SCROLL_FACTOR = 1; // 1px horizontal diagonal per 1px page vertical scroll
+    const DRAG_FACTOR = 1.25;
+
+    let cycleWidth = 0;
+    let baseCenter = 0;
+
+    const computeMetrics = () => {
+        const first = rawItems[0];
+        const second = rawItems[1];
+        const gap = parseFloat(window.getComputedStyle(track).gap) || 24;
+        const span = second ? (second.offsetLeft - first.offsetLeft) : (first.offsetWidth + gap);
+        cycleWidth = span * count;
+        baseCenter = first.offsetLeft - (viewport.clientWidth - first.offsetWidth) / 2;
+    };
+    computeMetrics();
+
+    const getScrollPos = () => window.scrollY || window.pageYOffset || 0;
+
+    let scrollAnchor = getScrollPos();
+    let dragOffset = 0;
+    let momentum = 0;
+    let isDragging = false;
+    let isFlinging = false;
+    let lastPointerX = 0;
+    let lastPointerTime = 0;
+    let pointerVelocity = 0;
+
+    const wrap = (value) => {
+        if (!cycleWidth) return baseCenter;
+        const m = ((value % cycleWidth) + cycleWidth) % cycleWidth;
+        return baseCenter + m;
+    };
+
+    const onPointerDown = (e) => {
+        if (e.button !== undefined && e.button !== 0) return;
+        isDragging = true;
+        isFlinging = false;
+        momentum = 0;
+        lastPointerX = e.clientX ?? (e.touches ? e.touches[0].clientX : 0);
+        lastPointerTime = performance.now();
+        pointerVelocity = 0;
+        viewport.classList.add('is-dragging');
+    };
+
+    const onPointerMove = (e) => {
+        if (!isDragging) return;
+        const clientX = e.clientX ?? (e.touches ? e.touches[0].clientX : 0);
+        const now = performance.now();
+        const dt = Math.max(1, now - lastPointerTime);
+        const dx = clientX - lastPointerX;
+
+        pointerVelocity = dx / dt;
+        dragOffset -= dx * DRAG_FACTOR;
+
+        lastPointerX = clientX;
+        lastPointerTime = now;
+    };
+
+    const onPointerUp = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        viewport.classList.remove('is-dragging');
+
+        if (Math.abs(pointerVelocity) > 0.08) {
+            momentum = -pointerVelocity * 16 * DRAG_FACTOR;
+            isFlinging = true;
+        } else {
+            momentum = 0;
+            isFlinging = false;
+            scrollAnchor = getScrollPos();
+        }
+    };
+
+    const onWheel = (e) => {
+        // Allow trackpad horizontal swipe over viewport to scroll cards horizontally
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+            e.preventDefault();
+            dragOffset += e.deltaX * 0.8;
+            scrollAnchor = getScrollPos();
+        }
+    };
+
+    const onResize = () => {
+        computeMetrics();
+        scrollAnchor = getScrollPos();
+    };
+
+    viewport.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+    window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointercancel', onPointerUp);
+    viewport.addEventListener('wheel', onWheel, { passive: false });
+    window.addEventListener('resize', onResize, { passive: true });
+
+    let animFrameId = null;
+    let isRunning = true;
+    let lastFrameTime = performance.now();
+
+    const render = (now) => {
+        if (!isRunning) return;
+
+        const dt = Math.min((now - lastFrameTime) / 1000, 0.1);
+        lastFrameTime = now;
+
+        if (isFlinging) {
+            if (Math.abs(momentum) > 0.05) {
+                dragOffset += momentum * (dt * 60);
+                momentum *= Math.pow(0.94, dt * 60);
+            } else {
+                momentum = 0;
+                isFlinging = false;
+                scrollAnchor = getScrollPos();
+            }
+        }
+
+        // Direct 1:1 synchronization with smooth scroll:
+        // getScrollPos() is interpolated smoothly by SmoothScrollEngine (wheelMultiplier: 0.8, smoothness: 0.042).
+        // By assigning directly (A = b) instead of adding an artificial second lag, the cards and the vertical
+        // page stop in perfect synchrony at the exact same millisecond.
+        const scrollDelta = getScrollPos() - scrollAnchor;
+        const currentX = dragOffset - scrollDelta * SCROLL_FACTOR;
+
+        track.style.transform = 'translate3d(' + (-wrap(currentX)).toFixed(2) + 'px, 0, 0)';
+
+        animFrameId = requestAnimationFrame(render);
+    };
+
+    animFrameId = requestAnimationFrame(render);
+
+    track._sliderCleanup = () => {
+        isRunning = false;
+        if (animFrameId) cancelAnimationFrame(animFrameId);
+        window.removeEventListener('resize', onResize);
+        viewport.removeEventListener('pointerdown', onPointerDown);
+        window.removeEventListener('pointermove', onPointerMove);
+        window.removeEventListener('pointerup', onPointerUp);
+        window.removeEventListener('pointercancel', onPointerUp);
+        viewport.removeEventListener('wheel', onWheel);
+        track._sliderCleanup = null;
+    };
+}
+window.initServicesSlider = initServicesSlider;
+
 
 
 

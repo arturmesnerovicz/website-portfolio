@@ -1,189 +1,94 @@
-<section id="expertise" class="py-24 sm:py-32 bg-[#f6f6f6] text-[#101010] relative w-full overflow-visible">
-    @if(isset($services) && $services->isNotEmpty())
-        <div class="sr-only">
+<section id="expertise" class="services-slider-section py-24 sm:py-32 lg:py-36 bg-[#f6f6f6] text-[#101010] relative w-full overflow-hidden select-none">
+    {{-- Semantic content for SEO & Screen Readers --}}
+    <div class="sr-only">
+        @if(isset($services) && $services->isNotEmpty())
             @foreach($services as $s)
                 <span>{{ $s->title }}</span>
             @endforeach
-        </div>
-    @endif
-    <div class="w-full site-container">
+        @endif
+        <span>{{ __('Iniciar Projeto') }}</span>
+    </div>
 
-        <!-- Section Header: Penpot EXPERTISE 78px - Indented at 187px (45px canvas margin + 142px indent) -->
-        <div class="mb-12 sm:mb-16 pl-0 lg:pl-[8.875rem]">
-            <h2 class="font-display font-bold text-4xl sm:text-6xl lg:text-[4.875rem] leading-none uppercase tracking-[-0.03em] text-[#101010]">
-                {{ __('EXPERTISE') }}
+    <div class="w-full">
+        <!-- Section Header: Centered with decorative vertical line (Penpot & Realevate style) -->
+        <div class="services-intro site-container mx-auto text-center flex flex-col items-center px-4 sm:px-6">
+            <!-- Down Arrow Indicator -->
+            <svg class="block w-[0.875rem] h-[2.25rem] sm:w-4 sm:h-[2.75rem] text-[#101010] mb-6 sm:mb-8 norra-reveal" viewBox="0 0 16 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="8" y1="1" x2="8" y2="41" />
+                <polyline points="1.5 34.5 8 41 14.5 34.5" />
+            </svg>
+
+            <!-- Main Heading (Frase Principal do Penpot) -->
+            <h2 class="font-['Roboto_Condensed',var(--font-display)] font-extrabold text-3xl sm:text-5xl md:text-6xl lg:text-[4.75rem] leading-[1.05] tracking-[-0.035em] text-[#101010] max-w-4xl mx-auto uppercase norra-reveal" data-split>
+                {{ app()->getLocale() === 'en' ? 'A Complete Website Experience' : 'Uma Experiência de Website Completa' }}
             </h2>
+
+            <!-- Auxiliary Subtitle (Frase Auxiliar do Penpot) -->
+            <p class="font-sans font-bold text-base sm:text-xl lg:text-2xl leading-snug tracking-[-0.02em] text-[#101010]/85 max-w-2xl mx-auto mt-4 sm:mt-6 norra-reveal" data-split>
+                {{ app()->getLocale() === 'en' ? 'We create websites that make your brand not just seen, but understood' : 'Criamos websites que fazem a sua marca não ser só vista, mas entendida' }}
+            </p>
         </div>
 
-        <!-- Services Wrapper: Lines span 100% (1350px width), text indented to 142px -->
-        <div class="services-wrapper relative w-full" id="services-wrapper">
-            <!-- Top Delimiter Line in #d1d1d1 -->
-            <div class="w-full h-[1px] bg-[#d1d1d1]" aria-hidden="true"></div>
+        @php
+            $sliderCards = [
+                [
+                    'title' => 'iMac Interface & Digital Architecture',
+                    'category' => 'Website Development',
+                    'image' => asset('storage/vicz-imac-mockup.png'),
+                ],
+                [
+                    'title' => 'BHLA Arquitetura',
+                    'category' => 'Website Design',
+                    'image' => asset('storage/projects/1783533747011-BHLA-ARQUITETURA.webp'),
+                ],
+                [
+                    'title' => 'Projeto Meta',
+                    'category' => 'Website Strategy',
+                    'image' => asset('storage/projects/1783538518016-SITE-PROJETO-META.webp'),
+                ],
+                [
+                    'title' => 'Nog Arquitetura',
+                    'category' => 'Brand Strategy',
+                    'image' => asset('storage/projects/1783548230799-NOG-ARQUITETURA.webp'),
+                ],
+                [
+                    'title' => 'Hub Arquitetura',
+                    'category' => 'Visual Identity',
+                    'image' => asset('storage/projects/1783454102263-hub.webp'),
+                ],
+                [
+                    'title' => 'Amanda Mazzo',
+                    'category' => 'Digital Identity & Experience',
+                    'image' => asset('storage/projects/1783538884324-Amanda-Mazzo.webp'),
+                ],
+                [
+                    'title' => 'Minimalist Workspace Presentation',
+                    'category' => 'Motion & 3D Systems',
+                    'image' => asset('storage/projects/1783961591648-Minimalist-MacBook-Pro-on-Textured-Boucle-Sofa-PSD-Mockup.webp'),
+                ],
+            ];
+        @endphp
 
-            @php
-                $serviceList = [
-                    ['en' => 'Website Development', 'pt' => 'Desenvolvimento de Websites', 'img' => asset('storage/vicz-imac-mockup.png')],
-                    ['en' => 'Website Design', 'pt' => 'Design de Websites', 'img' => asset('storage/services/website-design.png')],
-                    ['en' => 'Website Strategy', 'pt' => 'Estratégia de Websites', 'img' => asset('storage/services/website-strategy.png')],
-                    ['en' => 'Brand Strategy', 'pt' => 'Estratégia de Marca', 'img' => asset('storage/services/brand-strategy.png')],
-                    ['en' => 'Visual Identity', 'pt' => 'Identidade Visual', 'img' => asset('storage/services/visual-identity.png')],
-                ];
-            @endphp
-
-            <div class="services-list relative w-full">
-                @foreach($serviceList as $index => $s)
-                    <div class="service-item relative py-6 sm:py-7 lg:py-8 pl-0 lg:pl-[8.875rem] pr-4 sm:pr-8 cursor-pointer select-none group transition-opacity duration-300 {{ $index === 0 ? 'is-active' : '' }}"
-                         data-service-index="{{ $index }}"
-                         style="opacity: {{ $index === 0 ? '1' : '0.35' }};">
-
-                        <!-- Row Content -->
-                        <div class="relative z-10 w-full flex items-center justify-between">
-                            <div class="service-title-wrap min-w-0 flex-1">
-                                <span class="service-title block font-sans font-bold tracking-[-0.03em] text-3xl sm:text-5xl lg:text-[4.375rem] leading-[1.1] transition-all duration-300 ease-out group-hover:translate-x-3">
-                                    {{ app()->getLocale() === 'en' ? $s['en'] : $s['pt'] }}
-                                </span>
+        <!-- Slanted Infinite Carousel Viewport -->
+        <div class="services-slider-wrapper" id="services-slider-wrapper">
+            <div class="services-slider-viewport cursor-grab active:cursor-grabbing"
+                 id="services-slider-viewport"
+                 aria-label="{{ app()->getLocale() === 'en' ? 'Projects & Services Gallery' : 'Galeria de Projetos e Serviços' }}">
+                <div class="services-slider-track" id="services-slider-track">
+                    @foreach($sliderCards as $card)
+                        <div class="services-slider-item flex-shrink-0 relative pointer-events-none select-none" aria-hidden="true">
+                            <div class="services-card-inner w-full h-full relative rounded-sm overflow-hidden bg-[#e6e6e8]">
+                                <img src="{{ $card['image'] }}"
+                                     alt="{{ $card['title'] }}"
+                                     loading="lazy"
+                                     decoding="async"
+                                     draggable="false"
+                                     class="w-full h-full object-cover pointer-events-none select-none" />
                             </div>
                         </div>
-
-                        <!-- Bottom Delimiter Line of this service item -->
-                        <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-[#d1d1d1]" aria-hidden="true"></div>
-                    </div>
-                @endforeach
-            </div>
-
-            <!-- Desktop Right-Aligned Preview Card (Penpot 220x280px) -->
-            <div id="services-preview-wrap"
-                 class="services-preview-wrap absolute right-0 pointer-events-none z-20 hidden lg:block"
-                 style="width: 13.75rem; top: 0px; will-change: transform;"
-                 aria-hidden="true">
-                <div class="services-preview-card w-[13.75rem] h-[17.5rem] rounded-[2px] overflow-hidden bg-transparent relative flex items-center justify-center">
-                    @foreach($serviceList as $index => $s)
-                        <img src="{{ $s['img'] }}"
-                             alt="{{ $s['en'] }}"
-                             data-preview-index="{{ $index }}"
-                             class="service-preview-img absolute inset-0 w-full h-full object-contain transition-opacity duration-300 {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}" />
                     @endforeach
                 </div>
             </div>
         </div>
-
     </div>
 </section>
-
-<script>
-(function() {
-    function initServicesInteractive() {
-        const wrapper = document.getElementById('services-wrapper');
-        if (!wrapper || wrapper._servicesInitialized) return;
-        wrapper._servicesInitialized = true;
-
-        const items = wrapper.querySelectorAll('.service-item');
-        const previewWrap = document.getElementById('services-preview-wrap');
-        const previewImgs = previewWrap ? previewWrap.querySelectorAll('.service-preview-img') : [];
-
-        if (!items.length || !previewWrap) return;
-
-        const gsap = window.gsap;
-        let isDesktop = window.matchMedia('(min-width: 1024px)').matches;
-        let isFirst = true;
-
-        window.addEventListener('resize', function() {
-            isDesktop = window.matchMedia('(min-width: 1024px)').matches;
-        }, { passive: true });
-
-        function getRowCenterY(itemEl) {
-            const wrapperRect = wrapper.getBoundingClientRect();
-            const itemRect = itemEl.getBoundingClientRect();
-            // previewCard has transform: translateY(-50%), so target is exact center line of row
-            return (itemRect.top - wrapperRect.top) + (itemRect.height / 2);
-        }
-
-        function setActiveService(index, itemEl) {
-            // Highlight active item, dim others to 0.35
-            items.forEach(function(item, idx) {
-                const isActive = (idx === index);
-                item.classList.toggle('is-active', isActive);
-                item.classList.toggle('is-hovered', isActive);
-                if (gsap) {
-                    gsap.to(item, {
-                        opacity: isActive ? 1 : 0.35,
-                        duration: 0.25,
-                        ease: 'power2.out',
-                        overwrite: 'auto'
-                    });
-                } else {
-                    item.style.opacity = isActive ? '1' : '0.35';
-                }
-            });
-
-            // Crossfade preview images
-            previewImgs.forEach(function(img) {
-                const imgIdx = parseInt(img.getAttribute('data-preview-index'), 10);
-                const isActive = (imgIdx === index);
-                if (gsap) {
-                    gsap.to(img, {
-                        opacity: isActive ? 1 : 0,
-                        duration: 0.25,
-                        ease: 'power2.out',
-                        overwrite: 'auto'
-                    });
-                } else {
-                    img.style.opacity = isActive ? '1' : '0';
-                }
-            });
-
-            // Glide previewWrap fluidly to the row's center line
-            if (itemEl && isDesktop) {
-                const targetY = getRowCenterY(itemEl);
-
-                if (isFirst) {
-                    isFirst = false;
-                    if (gsap) {
-                        gsap.set(previewWrap, { y: targetY });
-                        gsap.to(previewWrap, { opacity: 1, duration: 0.4, ease: 'power2.out' });
-                    } else {
-                        previewWrap.style.transform = 'translate3d(0, ' + targetY + 'px, 0)';
-                        previewWrap.style.opacity = '1';
-                    }
-                } else {
-                    if (gsap) {
-                        gsap.to(previewWrap, {
-                            y: targetY,
-                            duration: 0.65,
-                            ease: 'power2.out',
-                            overwrite: 'auto'
-                        });
-                    } else {
-                        previewWrap.style.transform = 'translate3d(0, ' + targetY + 'px, 0)';
-                    }
-                }
-            }
-        }
-
-        // Initialize with first service active on desktop
-        if (isDesktop && items[0]) {
-            setActiveService(0, items[0]);
-        }
-
-        items.forEach(function(item) {
-            const index = parseInt(item.getAttribute('data-service-index'), 10);
-
-            item.addEventListener('mouseenter', function() {
-                if (isDesktop) {
-                    setActiveService(index, item);
-                }
-            });
-        });
-
-        // NOTE: On mouseleave, do NOT revert to all active! Maintain selected item.
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initServicesInteractive);
-    } else {
-        initServicesInteractive();
-    }
-
-    window.initServicesInteractive = initServicesInteractive;
-})();
-</script>

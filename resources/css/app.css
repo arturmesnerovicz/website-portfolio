@@ -553,73 +553,83 @@ html {
 }
 
 /* ==========================================================================
-   Services Section (EXPERTISE) - Clean Minimalist Hover & Right-Aligned Mockup Preview
-   Matching Monolog interaction architecture
+   Services Section (EXPERTISE) - Slanted Infinite Slider (Realevate & Penpot)
    ========================================================================== */
 
-.services-wrapper {
+.services-slider-section {
+    --svc-angle: 16.5deg;
+    --svc-tan: 0.296;
+    --svc-card-w: clamp(260px, 38vw, 547px);
+    --svc-card-h: calc(var(--svc-card-w) * 0.7057);
+    --svc-gap: calc(var(--svc-card-w) * 0.082);
     position: relative;
     width: 100%;
+    background-color: #f6f6f6;
+    overflow: clip;
+    padding-bottom: clamp(3rem, 6vw, 6rem);
 }
 
-.service-item {
-    transition: opacity 0.35s ease;
-    will-change: opacity;
+/* Penpot: cards start ~72px below the subtitle; height = card + rise of the diagonal */
+.services-slider-wrapper {
+    position: relative;
+    width: 100%;
+    margin-top: clamp(2.5rem, 5vw, 4.5rem);
+    height: calc(var(--svc-card-h) + 100vw * var(--svc-tan));
+    overflow: clip;
 }
 
-.service-item .service-title {
-    color: #acacac;
-    transition:
-        color 0.35s ease,
-        transform 0.4s ease;
-    will-change: transform, color;
-}
-
-.service-item.is-active .service-title,
-.service-item.is-hovered .service-title {
-    color: #101010 !important;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .service-item:hover .service-title {
-        color: #101010 !important;
-        transform: translateX(12px);
-    }
-}
-
-/* Service Separator Lines */
-.service-line {
-    height: 1px;
-    background-color: #d1d1d1;
-    transform-origin: 0% 50%;
-    transform: scaleX(1);
-    transition: background-color 0.3s ease;
-}
-
-/* Right-Aligned Mockup Preview Wrap & Card (Desktop) */
-.services-preview-wrap {
+/* Rotated axis: wider than the screen so the diagonal spans edge to edge */
+.services-slider-viewport {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 50%;
+    left: -20%;
+    width: 140%;
+    height: var(--svc-card-h);
+    margin-top: calc(var(--svc-card-h) / -2);
+    rotate: calc(var(--svc-angle) * -1);
+    transform-origin: center center;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: pan-y pinch-zoom;
+}
+
+.services-slider-viewport.is-dragging {
+    cursor: grabbing;
+    touch-action: none;
+}
+
+.services-slider-track {
+    display: flex;
+    align-items: center;
+    gap: var(--svc-gap);
+    width: max-content;
+    height: 100%;
+    will-change: transform;
+}
+
+.services-slider-item {
+    flex: 0 0 var(--svc-card-w);
+    width: var(--svc-card-w);
+    height: var(--svc-card-h);
+    rotate: var(--svc-angle);
+    transform-origin: center center;
+    position: relative;
     pointer-events: none;
-    z-index: 20;
-    will-change: transform;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
-.services-preview-card {
-    transform: translateY(-50%);
-    will-change: transform;
+.services-card-inner {
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.12);
 }
 
-.service-preview-img {
-    will-change: opacity;
-}
-
-/* Mobile inline preview styling */
-.service-mobile-preview {
-    transition:
-        max-height 0.4s ease,
-        opacity 0.35s ease;
+@media (max-width: 768px) {
+    .services-slider-section {
+        --svc-angle: 10deg;
+        --svc-tan: 0.176;
+        --svc-card-w: 250px;
+    }
 }
 
 /* ==========================================================================
