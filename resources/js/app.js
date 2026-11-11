@@ -1329,19 +1329,23 @@ export function initServicesSlider() {
     const count = rawItems.length;
     if (!count) return;
 
+    const sets = Math.max(2, Math.ceil(3200 / Math.max(1, count * 500)));
+
     const prependFrag = document.createDocumentFragment();
     const appendFrag = document.createDocumentFragment();
-    rawItems.forEach((item) => {
-        const pre = item.cloneNode(true);
-        pre.setAttribute('data-clone', 'true');
-        pre.setAttribute('aria-hidden', 'true');
-        prependFrag.appendChild(pre);
+    for (let s = 0; s < sets; s++) {
+        rawItems.forEach((item) => {
+            const pre = item.cloneNode(true);
+            pre.setAttribute('data-clone', 'true');
+            pre.setAttribute('aria-hidden', 'true');
+            prependFrag.appendChild(pre);
 
-        const post = item.cloneNode(true);
-        post.setAttribute('data-clone', 'true');
-        post.setAttribute('aria-hidden', 'true');
-        appendFrag.appendChild(post);
-    });
+            const post = item.cloneNode(true);
+            post.setAttribute('data-clone', 'true');
+            post.setAttribute('aria-hidden', 'true');
+            appendFrag.appendChild(post);
+        });
+    }
     track.prepend(prependFrag);
     track.appendChild(appendFrag);
 

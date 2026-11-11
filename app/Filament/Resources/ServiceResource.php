@@ -21,7 +21,7 @@ class ServiceResource extends Resource
 
     protected static ?string $navigationGroup = 'Seções do Site';
 
-    protected static ?string $navigationLabel = 'Serviços';
+    protected static ?string $navigationLabel = 'Serviços (Tabela)';
 
     protected static ?int $navigationSort = 4;
 
@@ -43,7 +43,8 @@ class ServiceResource extends Resource
                     ->rows(3)
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image')
-                    ->label('Imagem Mockup (Preview no Hover)')
+                    ->label('Imagem do Mockup (Card do Carrossel)')
+                    ->helperText('Imagem exibida no card do carrossel da seção de serviços. Proporção recomendada ~4:3 ou 16:10 (ex: 1200x800 ou 547x386px).')
                     ->image()
                     ->directory('services')
                     ->columnSpanFull(),
@@ -69,16 +70,28 @@ class ServiceResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('sort_order')
+            ->reorderable('sort_order')
             ->columns([
                 Tables\Columns\TextColumn::make('order_num')
-                    ->searchable(),
+                    ->label('Número')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('Mockup')
+                    ->circular(false),
                 Tables\Columns\TextColumn::make('title')
+                    ->label('Título do Serviço')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('category')
+                    ->label('Categoria')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_active')
-                    ->boolean(),
+                    ->label('Ativo')
+                    ->boolean()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('sort_order')
+                    ->label('Ordem')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

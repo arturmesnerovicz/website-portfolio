@@ -4,6 +4,7 @@
         @if(isset($services) && $services->isNotEmpty())
             @foreach($services as $s)
                 <span>{{ $s->title }}</span>
+                <span>{{ $s->category }}</span>
             @endforeach
         @endif
         <span>{{ __('Iniciar Projeto') }}</span>
@@ -20,53 +21,46 @@
 
             <!-- Main Heading (Frase Principal do Penpot) -->
             <h2 class="font-['Roboto_Condensed',var(--font-display)] font-extrabold text-3xl sm:text-5xl md:text-6xl lg:text-[4.75rem] leading-[1.05] tracking-[-0.035em] text-[#101010] max-w-4xl mx-auto uppercase norra-reveal" data-split>
-                {{ app()->getLocale() === 'en' ? 'A Complete Website Experience' : 'Uma Experiência de Website Completa' }}
+                {{ $settings['services_title'] ?? (app()->getLocale() === 'en' ? 'A Complete Website Experience' : 'Uma Experiência de Website Completa') }}
             </h2>
 
             <!-- Auxiliary Subtitle (Frase Auxiliar do Penpot) -->
             <p class="font-sans font-bold text-base sm:text-xl lg:text-2xl leading-snug tracking-[-0.02em] text-[#101010]/85 max-w-2xl mx-auto mt-4 sm:mt-6 norra-reveal" data-split>
-                {{ app()->getLocale() === 'en' ? 'We create websites that make your brand not just seen, but understood' : 'Criamos websites que fazem a sua marca não ser só vista, mas entendida' }}
+                {{ $settings['services_subtitle'] ?? (app()->getLocale() === 'en' ? 'We create websites that make your brand not just seen, but understood' : 'Criamos websites que fazem a sua marca não ser só vista, mas entendida') }}
             </p>
         </div>
 
         @php
-            $sliderCards = [
-                [
-                    'title' => 'iMac Interface & Digital Architecture',
-                    'category' => 'Website Development',
-                    'image' => asset('storage/vicz-imac-mockup.png'),
-                ],
-                [
-                    'title' => 'BHLA Arquitetura',
-                    'category' => 'Website Design',
-                    'image' => asset('storage/projects/1783533747011-BHLA-ARQUITETURA.webp'),
-                ],
-                [
-                    'title' => 'Projeto Meta',
-                    'category' => 'Website Strategy',
-                    'image' => asset('storage/projects/1783538518016-SITE-PROJETO-META.webp'),
-                ],
-                [
-                    'title' => 'Nog Arquitetura',
-                    'category' => 'Brand Strategy',
-                    'image' => asset('storage/projects/1783548230799-NOG-ARQUITETURA.webp'),
-                ],
-                [
-                    'title' => 'Hub Arquitetura',
-                    'category' => 'Visual Identity',
-                    'image' => asset('storage/projects/1783454102263-hub.webp'),
-                ],
-                [
-                    'title' => 'Amanda Mazzo',
-                    'category' => 'Digital Identity & Experience',
-                    'image' => asset('storage/projects/1783538884324-Amanda-Mazzo.webp'),
-                ],
-                [
-                    'title' => 'Minimalist Workspace Presentation',
-                    'category' => 'Motion & 3D Systems',
-                    'image' => asset('storage/projects/1783961591648-Minimalist-MacBook-Pro-on-Textured-Boucle-Sofa-PSD-Mockup.webp'),
-                ],
-            ];
+            $sliderCards = [];
+            if (isset($services) && $services->isNotEmpty()) {
+                foreach ($services as $service) {
+                    $img = $service->image;
+                    if (!empty($img)) {
+                        $imageUrl = \Illuminate\Support\Str::startsWith($img, ['http://', 'https://'])
+                            ? $img
+                            : asset('storage/' . ltrim($img, '/'));
+                    } else {
+                        $imageUrl = asset('storage/vicz-imac-mockup.png');
+                    }
+
+                    $sliderCards[] = [
+                        'title' => (string) ($service->title ?? 'Service Mockup'),
+                        'category' => (string) ($service->category ?? ''),
+                        'image' => $imageUrl,
+                    ];
+                }
+            }
+
+            // Fallback mockups in case database has no services at all
+            if (empty($sliderCards)) {
+                $sliderCards = [
+                    ['title' => 'iMac Interface & Digital Architecture', 'category' => 'Website Development', 'image' => asset('storage/vicz-imac-mockup.png')],
+                    ['title' => 'BHLA Arquitetura', 'category' => 'Website Design', 'image' => asset('storage/projects/1783533747011-BHLA-ARQUITETURA.webp')],
+                    ['title' => 'Projeto Meta', 'category' => 'Website Strategy', 'image' => asset('storage/projects/1783538518016-SITE-PROJETO-META.webp')],
+                    ['title' => 'Nog Arquitetura', 'category' => 'Brand Strategy', 'image' => asset('storage/projects/1783548230799-NOG-ARQUITETURA.webp')],
+                    ['title' => 'Hub Arquitetura', 'category' => 'Visual Identity', 'image' => asset('storage/projects/1783454102263-hub.webp')],
+                ];
+            }
         @endphp
 
         <!-- Slanted Infinite Carousel Viewport -->

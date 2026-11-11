@@ -57,6 +57,12 @@ class ContentSeeder extends Seeder
             ['key' => 'manifesto_stat3_number', 'value' => '10+', 'group' => 'manifesto', 'type' => 'text', 'label' => 'Métrica 3 - Número'],
             ['key' => 'manifesto_stat3_label', 'value' => 'anos de excelência', 'group' => 'manifesto', 'type' => 'text', 'label' => 'Métrica 3 - Legenda'],
 
+            // Services Section
+            ['key' => 'services_title', 'value' => 'Uma Experiência de Website Completa', 'group' => 'services', 'type' => 'text', 'label' => 'Título Principal da Seção de Serviços (PT)'],
+            ['key' => 'services_title_en', 'value' => 'A Complete Website Experience', 'group' => 'services', 'type' => 'text', 'label' => 'Headline (EN)'],
+            ['key' => 'services_subtitle', 'value' => 'Criamos websites que fazem a sua marca não ser só vista, mas entendida', 'group' => 'services', 'type' => 'textarea', 'label' => 'Subtítulo da Seção de Serviços (PT)'],
+            ['key' => 'services_subtitle_en', 'value' => 'We create websites that make your brand not just seen, but understood', 'group' => 'services', 'type' => 'textarea', 'label' => 'Auxiliary Subtitle (EN)'],
+
             // Final CTA Section
             ['key' => 'cta_title', 'value' => "VAMOS CRIAR\nUMA EXPERIÊNCIA\nQUE MOVE\nSUA MARCA", 'group' => 'cta', 'type' => 'textarea', 'label' => 'Título do CTA Final (PT)'],
             ['key' => 'cta_title_en', 'value' => "LET'S BUILD\nAN EXPERIENCE\nTHAT ELEVATES\nYOUR BRAND", 'group' => 'cta', 'type' => 'textarea', 'label' => 'Título do CTA Final (EN)'],
@@ -122,7 +128,7 @@ class ContentSeeder extends Seeder
                 'title' => 'Website Development',
                 'category' => 'Engineering & Web',
                 'description' => 'Desenvolvimento de websites modernos, performáticos e escaláveis com arquitetura de software limpa.',
-                'image' => 'services/website-development.png',
+                'image' => 'vicz-imac-mockup.png',
                 'deliverables' => [
                     'Next.js',
                     'TypeScript',
@@ -137,7 +143,7 @@ class ContentSeeder extends Seeder
                 'title' => 'Website Design',
                 'category' => 'Interface & UX/UI',
                 'description' => 'Criação de interfaces digitais sofisticadas pensadas para transmitir o propósito e a essência da sua marca.',
-                'image' => 'services/website-design.png',
+                'image' => 'projects/1783533747011-BHLA-ARQUITETURA.webp',
                 'deliverables' => [
                     'Figma',
                     'UI/UX Design',
@@ -152,7 +158,7 @@ class ContentSeeder extends Seeder
                 'title' => 'Website Strategy',
                 'category' => 'Growth & Positioning',
                 'description' => 'Planejamento estratégico de navegação, conversão e jornada do usuário para transformar visitantes em clientes.',
-                'image' => 'services/website-strategy.png',
+                'image' => 'projects/1783538518016-SITE-PROJETO-META.webp',
                 'deliverables' => [
                     'SEO',
                     'User Journey',
@@ -167,7 +173,7 @@ class ContentSeeder extends Seeder
                 'title' => 'Brand Strategy',
                 'category' => 'Branding & Vision',
                 'description' => 'Posicionamento estratégico e narrativa de marca para destacar sua empresa com autoridade e coerência no mercado.',
-                'image' => 'services/brand-strategy.png',
+                'image' => 'projects/1783548230799-NOG-ARQUITETURA.webp',
                 'deliverables' => [
                     'Brand Narrative',
                     'Tone of Voice',
@@ -182,7 +188,7 @@ class ContentSeeder extends Seeder
                 'title' => 'Visual Identity',
                 'category' => 'Design & Identity',
                 'description' => 'Sistemas visuais completos e memoráveis com logotipo, paleta cromática, tipografia e diretrizes de aplicação.',
-                'image' => 'services/visual-identity.png',
+                'image' => 'projects/1783454102263-hub.webp',
                 'deliverables' => [
                     'Logo Design',
                     'Typography',
@@ -190,6 +196,34 @@ class ContentSeeder extends Seeder
                     'Brand Guidelines',
                 ],
                 'sort_order' => 5,
+                'is_active' => true,
+            ],
+            [
+                'order_num' => '06',
+                'title' => 'Amanda Mazzo',
+                'category' => 'Digital Identity & Experience',
+                'description' => 'Experiência digital interativa de alto padrão para marcas de arquitetura e design.',
+                'image' => 'projects/1783538884324-Amanda-Mazzo.webp',
+                'deliverables' => [
+                    'Creative Direction',
+                    'Editorial UI',
+                    'Interactive Experience',
+                ],
+                'sort_order' => 6,
+                'is_active' => true,
+            ],
+            [
+                'order_num' => '07',
+                'title' => 'Minimalist Workspace Presentation',
+                'category' => 'Motion & 3D Systems',
+                'description' => 'Apresentação imersiva em 3D de alta fidelidade e cenografia digital.',
+                'image' => 'projects/1783961591648-Minimalist-MacBook-Pro-on-Textured-Boucle-Sofa-PSD-Mockup.webp',
+                'deliverables' => [
+                    '3D Motion',
+                    'Mockup Render',
+                    'Spatial Design',
+                ],
+                'sort_order' => 7,
                 'is_active' => true,
             ],
         ];

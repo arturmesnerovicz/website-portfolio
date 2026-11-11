@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Service;
 use App\Models\SiteSetting;
 use App\Models\User;
 use Database\Seeders\ContentSeeder;
@@ -88,5 +89,73 @@ class HomeTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('SEO &amp; Compartilhamento Social (Open Graph)', false);
         $response->assertSee('Imagem Open Graph (og:image)');
+    }
+
+    public function test_admin_can_access_manage_services_section_page(): void
+    {
+        $admin = User::factory()->create();
+
+        $response = $this->actingAs($admin)->get('/admin/manage-services-section');
+
+        $response->assertStatus(200);
+        $response->assertSee('Gerenciar Seção de Serviços &amp; Mockups', false);
+        $response->assertSee('Cards do Carrossel de Mockups');
+    }
+
+    public function test_home_page_renders_services_from_database_in_carousel(): void
+    {
+        $this->seed(ContentSeeder::class);
+
+        Service::query()->create([
+            'order_num' => '99',
+            'title' => 'Custom E-Commerce Architecture',
+            'category' => 'High-End Web',
+            'description' => 'Test description',
+            'image' => 'services/custom-mockup-test.png',
+            'deliverables' => ['Shopify', 'Laravel'],
+            'sort_order' => 99,
+            'is_active' => true,
+        ]);
+
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
+        $response->assertSee('storage/services/custom-mockup-test.png', false);
+        $response->assertSee('Custom E-Commerce Architecture');
+    }
+
+    public function test_home_page_respects_services_is_active_flag(): void
+    {
+        $this->seed(ContentSeeder::class);
+
+        Service::query()->create([
+            'order_num' => '98',
+            'title' => 'Hidden Inactive Service Mockup',
+            'category' => 'Internal',
+            'description' => 'Internal service description',
+            'image' => 'services/hidden-mockup.png',
+            'sort_order' => 98,
+            'is_active' => false,
+        ]);
+
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
+        $response->assertDontSee('storage/services/hidden-mockup.png');
+        $response->assertDontSee('Hidden Inactive Service Mockup');
+    }
+
+    public function test_home_page_renders_custom_services_heading_from_settings(): void
+    {
+        $this->seed(ContentSeeder::class);
+
+        SiteSetting::set('services_title', 'Design Digital que Converte e Impressiona', 'services');
+        SiteSetting::set('services_subtitle', 'Projetos sob medida com excelência e tecnologia de ponta.', 'services');
+
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
+        $response->assertSee('Design Digital que Converte e Impressiona');
+        $response->assertSee('Projetos sob medida com excelência e tecnologia de ponta.');
     }
 }
